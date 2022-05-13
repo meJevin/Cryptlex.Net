@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CryptlexDotNet.DTOs.Licenses
 {
-    public class ListAllData
+    public class GetAllData
     {
         public int? page { get; set; }
         public int? limit { get; set; }

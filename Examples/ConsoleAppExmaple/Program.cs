@@ -36,7 +36,8 @@ namespace ConsoleAppExample
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine("\n\nCritical error!\n\n");
+                Console.WriteLine(ex.Message);
             }
         }
     }

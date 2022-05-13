@@ -14,16 +14,22 @@ namespace CryptlexDotNet.Core.Services
 {
     public interface ILicensesService
     {
-        Task<IEnumerable<License>> ListAll(ListAllData data);
+        Task<IEnumerable<License>> GetAllAsync(GetAllData data);
         Task<License> CreateAsync(CreateData data);
-        //Task<License> GetLicenseAsync();
-        //Task<License> UpdateLicenseAsync();
-        //Task<License> ExtendLicenseAsync();
+        Task<License> GetAsync(string id);
+        Task<License> UpdateAsync(string id, UpdateData data);
+        Task DeleteAsync(string id);
+        Task ExportAllAsync(ExportAllData data);
+        Task<License> RenewAsync(string id);
+        Task<License> ExtendAsync(string id, TimeSpan extendFor);
+        Task<License> ResetMeterAttribute(string id);
+        Task DeleteMeterAttribute(string id);
+        Task DeleteMetadataField(string id);
     }
 
     public class LicensesService : BaseService, ILicensesService
     {
-        public string UriPath => UriHelper.CombinePaths(API.Version, API.Paths.Licenses);
+        protected override string Path => UriHelper.CombinePaths(API.Version, API.Paths.Licenses);
 
         public LicensesService(
             IHttpClientFactory httpClientFactory,
@@ -32,14 +38,14 @@ namespace CryptlexDotNet.Core.Services
         {
         }
 
-        public async Task<IEnumerable<License>> ListAll(ListAllData data)
+        public async Task<IEnumerable<License>> GetAllAsync(GetAllData data)
         {
             using var client = GetCryptlexClient();
 
-            var path = UriPath;
+            var uri = Path;
             var queryStr = data.ToQueryString();
 
-            var res = await client.GetAsync(path.AddQueryString(queryStr));
+            var res = await client.GetAsync(uri.AddQueryString(queryStr));
 
             if (!res.IsSuccessStatusCode)
             {
@@ -47,8 +53,7 @@ namespace CryptlexDotNet.Core.Services
                 throw new CryptlexException($"Could not get licenses from cryptlex. Error message: {error.message}", error);
             }
 
-            var resStr = await res.Content.ReadAsStringAsync();
-            var resObject = JsonSerializer.Deserialize<IEnumerable<License>>(resStr)!;
+            var resObject = JsonSerializer.Deserialize<IEnumerable<License>>(await res.Content.ReadAsStringAsync())!;
 
             return resObject;
         }
@@ -57,22 +62,180 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var path = UriPath;
+            var uri = Path;
 
             var jsonToSend = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
 
-            var res = await client.PostAsync(path, content);
+            var res = await client.PostAsync(uri, content);
 
             if (!res.IsSuccessStatusCode)
             {
                 var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not create license in cryptlex. Error message: {error.message}");
+                throw new CryptlexException($"Could not create license in cryptlex. Error message: {error.message}", error);
             }
 
             var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
 
             return resObject;
+        }
+
+        public async Task<License> GetAsync(string id)
+        {
+            using var client = GetCryptlexClient();
+
+            var uri = UriHelper.CombinePaths(Path, id);
+            var res = await client.GetAsync(uri);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not get license with id {id} from cryptlex. Error message: {error.message}", error);
+            }
+
+            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
+
+            return resObject;
+        }
+
+        public async Task<License> UpdateAsync(string id, UpdateData data)
+        {
+            using var client = GetCryptlexClient();
+
+            var jsonToSend = JsonSerializer.Serialize(data);
+            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
+
+            var uri = UriHelper.CombinePaths(Path, id);
+            var res = await client.PatchAsync(uri, content);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not update license with id {id} in cryptlex. Error message: {error.message}");
+            }
+
+            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
+
+            return resObject;
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            using var client = GetCryptlexClient();
+
+            var uri = UriHelper.CombinePaths(Path, id);
+            var res = await client.DeleteAsync(uri);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not delete license with id {id} in cryptlex. Error message: {error.message}");
+            }
+        }
+
+        public async Task ExportAllAsync(ExportAllData data)
+        {
+            using var client = GetCryptlexClient();
+
+            var uri = UriHelper.CombinePaths(Path, "export");
+            var queryStr = data.ToQueryString();
+
+            var res = await client.GetAsync(uri.AddQueryString(queryStr));
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not export licenses from cryptlex. Error message: {error.message}", error);
+            }
+        }
+
+        public async Task<License> RenewAsync(string id)
+        {
+            using var client = GetCryptlexClient();
+
+            var uri = UriHelper.CombinePaths(Path, id, "renew");
+
+            var res = await client.PostAsync(uri, null);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not renew license with id {id} in cryptlex. Error message: {error.message}", error);
+            }
+
+            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
+
+            return resObject;
+        }
+
+        public async Task<License> ExtendAsync(string id, TimeSpan extendFor)
+        {
+            using var client = GetCryptlexClient();
+
+            var uri = UriHelper.CombinePaths(Path, id, "extend");
+
+            var jsonToSend = JsonSerializer.Serialize(new ExtendData((int)extendFor.TotalSeconds));
+            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
+            var res = await client.PostAsync(uri, content);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not extend license with id {id} in cryptlex. Error message: {error.message}", error);
+            }
+
+            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
+
+            return resObject;
+        }
+
+        public async Task<License> ResetMeterAttribute(string id)
+        {
+            using var client = GetCryptlexClient();
+
+            var uri = UriHelper.CombinePaths(Path, "meter-attributes", id, "reset");
+
+            var res = await client.PostAsync(uri, null);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not reset meter attribute for license with id {id} in cryptlex. Error message: {error.message}", error);
+            }
+
+            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
+
+            return resObject;
+        }
+
+        public async Task DeleteMeterAttribute(string id)
+        {
+            using var client = GetCryptlexClient();
+
+            var uri = UriHelper.CombinePaths(Path, "meter-attributes", id);
+
+            var res = await client.DeleteAsync(uri);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not delete meter attribute for license with id {id} in cryptlex. Error message: {error.message}", error);
+            }
+        }
+
+        public async Task DeleteMetadataField(string id)
+        {
+            using var client = GetCryptlexClient();
+
+            var uri = UriHelper.CombinePaths(Path, "metadata", id);
+
+            var res = await client.DeleteAsync(uri);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not delete metadata field for license with id {id} in cryptlex. Error message: {error.message}", error);
+            }
         }
     }
 }

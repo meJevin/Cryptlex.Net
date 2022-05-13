@@ -6,10 +6,12 @@ using System.Text.Json;
 
 namespace CryptlexDotNet.Core.Services
 {
-    public class BaseService
+    public abstract class BaseService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly CryptlexClientSettings _cryptlexSettings;
+
+        protected abstract string Path { get; }
 
         public BaseService(
             IHttpClientFactory httpClientFactory,
