@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\Accounts\" />
+    <Folder Include="DTOs\Tags\" />
+    <Folder Include="DTOs\Roles\" />
+    <Folder Include="DTOs\Users\" />
+    <Folder Include="DTOs\Webhooks\" />
+    <Folder Include="DTOs\Trials\" />
+    <Folder Include="DTOs\Relases\" />
+    <Folder Include="DTOs\Products\" />
+    <Folder Include="DTOs\Policies\" />
+    <Folder Include="DTOs\PersonalAccessTokens\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+	  
+  </ItemGroup>
+
+</Project>
