@@ -14,17 +14,17 @@ namespace CryptlexDotNet.Core.Services
 {
     public interface ILicensesService
     {
-        #region LICENSES
         Task<IEnumerable<License>> ListAll(ListAllData data);
-        //Task<License> CreateLicenseAsync();
+        Task<License> CreateAsync(CreateData data);
         //Task<License> GetLicenseAsync();
         //Task<License> UpdateLicenseAsync();
         //Task<License> ExtendLicenseAsync();
-        #endregion
     }
 
     public class LicensesService : BaseService, ILicensesService
     {
+        public string UriPath => UriHelper.CombinePaths(API.Version, API.Paths.Licenses);
+
         public LicensesService(
             IHttpClientFactory httpClientFactory,
             IOptions<CryptlexClientSettings> cryptlexSettings) 
@@ -36,10 +36,10 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(API.Version, API.Paths.Licenses);
+            var path = UriPath;
             var queryStr = data.ToQueryString();
 
-            var res = await client.GetAsync(uri.AddQueryString(queryStr));
+            var res = await client.GetAsync(path.AddQueryString(queryStr));
 
             if (!res.IsSuccessStatusCode)
             {
@@ -49,6 +49,28 @@ namespace CryptlexDotNet.Core.Services
 
             var resStr = await res.Content.ReadAsStringAsync();
             var resObject = JsonSerializer.Deserialize<IEnumerable<License>>(resStr)!;
+
+            return resObject;
+        }
+
+        public async Task<License> CreateAsync(CreateData data)
+        {
+            using var client = GetCryptlexClient();
+
+            var path = UriPath;
+
+            var jsonToSend = JsonSerializer.Serialize(data);
+            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
+
+            var res = await client.PostAsync(path, content);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var error = await ReadCryptlexErrorAsync(res.Content);
+                throw new CryptlexException($"Could not create license in cryptlex. Error message: {error.message}");
+            }
+
+            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
 
             return resObject;
         }

@@ -11,6 +11,7 @@ namespace CryptlexDotNet.Util
         public static string Version => "v3";
         public static string Address => "https://api.cryptlex.com/";
         public static string AuthenticationScheme => "Bearer";
+        public static string MediaType => "application/json";
 
         public static class Paths
         {
