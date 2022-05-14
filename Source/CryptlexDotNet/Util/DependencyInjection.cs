@@ -26,6 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // Separate services
             services.AddScoped<ILicensesService, LicensesService>();
+            services.AddScoped<IActivationsService, ActivationsService>();
 
             return services;
         }

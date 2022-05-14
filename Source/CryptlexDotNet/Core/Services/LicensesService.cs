@@ -1,4 +1,4 @@
-﻿using CryptlexDotNet.DTOs.Licenses;
+﻿using CryptlexDotNet.Licenses;
 using CryptlexDotNet.Entities;
 using CryptlexDotNet.Exceptions;
 using CryptlexDotNet.Util;
@@ -14,12 +14,12 @@ namespace CryptlexDotNet.Core.Services
 {
     public interface ILicensesService
     {
-        Task<IEnumerable<License>> GetAllAsync(GetAllData data);
-        Task<License> CreateAsync(CreateData data);
+        Task<IEnumerable<License>> GetAllAsync(GetAllLicensesData data);
+        Task<License> CreateAsync(CreateLicenseData data);
         Task<License> GetAsync(string id);
-        Task<License> UpdateAsync(string id, UpdateData data);
+        Task<License> UpdateAsync(string id, UpdateLicenseData data);
         Task DeleteAsync(string id);
-        Task ExportAllAsync(ExportAllData data);
+        Task ExportAllAsync(ExportAllLicensesData data);
         Task<License> RenewAsync(string id);
         Task<License> ExtendAsync(string id, TimeSpan extendFor);
         Task<License> ResetMeterAttribute(string id);
@@ -38,7 +38,7 @@ namespace CryptlexDotNet.Core.Services
         {
         }
 
-        public async Task<IEnumerable<License>> GetAllAsync(GetAllData data)
+        public async Task<IEnumerable<License>> GetAllAsync(GetAllLicensesData data)
         {
             using var client = GetCryptlexClient();
 
@@ -58,7 +58,7 @@ namespace CryptlexDotNet.Core.Services
             return resObject;
         }
 
-        public async Task<License> CreateAsync(CreateData data)
+        public async Task<License> CreateAsync(CreateLicenseData data)
         {
             using var client = GetCryptlexClient();
 
@@ -98,7 +98,7 @@ namespace CryptlexDotNet.Core.Services
             return resObject;
         }
 
-        public async Task<License> UpdateAsync(string id, UpdateData data)
+        public async Task<License> UpdateAsync(string id, UpdateLicenseData data)
         {
             using var client = GetCryptlexClient();
 
@@ -133,7 +133,7 @@ namespace CryptlexDotNet.Core.Services
             }
         }
 
-        public async Task ExportAllAsync(ExportAllData data)
+        public async Task ExportAllAsync(ExportAllLicensesData data)
         {
             using var client = GetCryptlexClient();
 
@@ -174,7 +174,7 @@ namespace CryptlexDotNet.Core.Services
 
             var uri = UriHelper.CombinePaths(Path, id, "extend");
 
-            var jsonToSend = JsonSerializer.Serialize(new ExtendData((int)extendFor.TotalSeconds));
+            var jsonToSend = JsonSerializer.Serialize(new ExtendLicenseData((int)extendFor.TotalSeconds));
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
             var res = await client.PostAsync(uri, content);
 

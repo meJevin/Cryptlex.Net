@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CryptlexDotNet.DTOs.Licenses
+namespace CryptlexDotNet.Licenses
 {
-    public class GetAllData
+    public class GetAllLicensesData
     {
         public int? page { get; set; }
         public int? limit { get; set; }

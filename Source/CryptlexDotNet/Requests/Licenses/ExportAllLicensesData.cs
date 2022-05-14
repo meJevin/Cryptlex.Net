@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CryptlexDotNet.DTOs.Licenses
+namespace CryptlexDotNet.Licenses
 {
-    public class ExportAllData
+    public class ExportAllLicensesData
     {
         public string? productId { get; set; }
         public string? userId { get; set; }

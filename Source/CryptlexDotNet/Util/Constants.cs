@@ -16,6 +16,7 @@ namespace CryptlexDotNet.Util
         public static class Paths
         {
             public static string Licenses => "licenses";
+            public static string Activations => "activations";
         }
     }
 }

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CryptlexDotNet.DTOs.Licenses
+namespace CryptlexDotNet.Licenses
 {
-    public class UpdateData
+    public class UpdateLicenseData
     {
         public string key { get; set; }
         public bool revoked { get; set; }

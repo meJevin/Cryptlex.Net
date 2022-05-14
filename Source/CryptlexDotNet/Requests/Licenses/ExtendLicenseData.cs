@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CryptlexDotNet.DTOs.Licenses
+namespace CryptlexDotNet.Licenses
 {
-    public class ExtendData
+    public class ExtendLicenseData
     {
         public int extensionLength { get; set; }
 
-        protected ExtendData()
+        protected ExtendLicenseData()
         {
 
         }
 
-        public ExtendData(int extensionLength)
+        public ExtendLicenseData(int extensionLength)
         {
             this.extensionLength = extensionLength;
         }

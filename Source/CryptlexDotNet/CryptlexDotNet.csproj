@@ -7,16 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Accounts\" />
-    <Folder Include="DTOs\Tags\" />
-    <Folder Include="DTOs\Roles\" />
-    <Folder Include="DTOs\Users\" />
-    <Folder Include="DTOs\Webhooks\" />
-    <Folder Include="DTOs\Trials\" />
-    <Folder Include="DTOs\Relases\" />
-    <Folder Include="DTOs\Products\" />
-    <Folder Include="DTOs\Policies\" />
-    <Folder Include="DTOs\PersonalAccessTokens\" />
+    <Folder Include="Requests\Accounts\" />
+    <Folder Include="Requests\Tags\" />
+    <Folder Include="Requests\Roles\" />
+    <Folder Include="Requests\Users\" />
+    <Folder Include="Requests\Webhooks\" />
+    <Folder Include="Requests\Trials\" />
+    <Folder Include="Requests\Relases\" />
+    <Folder Include="Requests\Products\" />
+    <Folder Include="Requests\Policies\" />
+    <Folder Include="Requests\PersonalAccessTokens\" />
   </ItemGroup>
 
   <ItemGroup>

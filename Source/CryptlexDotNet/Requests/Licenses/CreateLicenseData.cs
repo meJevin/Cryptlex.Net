@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CryptlexDotNet.DTOs.Licenses
+namespace CryptlexDotNet.Licenses
 {
-    public class CreateData
+    public class CreateLicenseData
     {
         public string? key { get; set; }                                             
         public bool? revoked { get; set; }
@@ -50,12 +50,12 @@ namespace CryptlexDotNet.DTOs.Licenses
         public string productId { get; set; }
         public string? licensePolicyId { get; set; }
 
-        protected CreateData()
+        protected CreateLicenseData()
         {
 
         }
 
-        public CreateData(string productId)
+        public CreateLicenseData(string productId)
         {
             this.productId = productId;
         }

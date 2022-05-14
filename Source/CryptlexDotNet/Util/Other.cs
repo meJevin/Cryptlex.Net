@@ -17,7 +17,7 @@ namespace CryptlexDotNet.Util
         {
             if (queryStr is null || queryStr.Length == 0) return uri;
 
-            return uri + queryStr;
+            return uri + "?" + queryStr;
         }
     }
 
