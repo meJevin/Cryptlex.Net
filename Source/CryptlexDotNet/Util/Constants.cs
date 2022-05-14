@@ -17,6 +17,7 @@ namespace CryptlexDotNet.Util
         {
             public static string Licenses => "licenses";
             public static string Activations => "activations";
+            public static string Tags => "tags";
         }
     }
 }

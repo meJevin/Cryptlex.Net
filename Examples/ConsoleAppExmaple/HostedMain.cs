@@ -1,5 +1,6 @@
 ﻿using CryptlexDotNet.Core;
-using CryptlexDotNet.DTOs.Licenses;
+using CryptlexDotNet.Licenses;
+using CryptlexDotNet.Activations;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace ConsoleAppExample
         {
             Console.WriteLine("Fetching licenses from cryptlex...\n");
 
-            var licenses = await _cryptlexClient.Licenses.ListAll(new ListAllData() { page = 1 });
+            var licenses = await _cryptlexClient.Licenses.GetAllAsync(new GetAllLicensesData() { page = 1 });
 
             Console.WriteLine($"\nDone! Got {licenses.Count()} licenses from cryptlex: ");
             foreach (var license in licenses) Console.WriteLine(license.id);
