@@ -10,11 +10,6 @@ namespace Cryptlex.Net.Licenses
     {
         public int extensionLength { get; set; }
 
-        protected ExtendLicenseData()
-        {
-
-        }
-
         public ExtendLicenseData(int extensionLength)
         {
             this.extensionLength = extensionLength;

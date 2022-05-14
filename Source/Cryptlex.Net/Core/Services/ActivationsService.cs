@@ -1,4 +1,5 @@
 ﻿using Cryptlex.Net.Activations;
+using Cryptlex.Net.Core.Services.Base;
 using Cryptlex.Net.Entities;
 using Cryptlex.Net.Exceptions;
 using Cryptlex.Net.Responses;
@@ -13,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace Cryptlex.Net.Core.Services
 {
-    public interface IActivationsService
+    public interface IActivationsService :
+        IListable<Activation, GetAllActivationsData>,
+        ICreatable<Activation, CreateActivationData>,
+        IRetrievable<Activation>,
+        IUpdatable<Activation, UpdateActivationData>,
+        IDeletable<Activation>
     {
-        Task<IEnumerable<Activation>> GetAllAsync(GetAllActivationsData data);
-        Task<Activation> CreateAsync(CreateActivationData data);
-        Task<Activation> GetAsync(string id);
-        Task<Activation> UpdateAsync(string id, UpdateActivationData data);
-        Task DeleteAsync(string id);
         Task<OfflineActivationResponse> OfflineActivate(OfflineActivateData data);
         Task OfflineDeactivate(OfflineDeactivateData data);
         Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data);

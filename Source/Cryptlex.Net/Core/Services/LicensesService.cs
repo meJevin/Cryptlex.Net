@@ -9,16 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Cryptlex.Net.Core.Services.Base;
 
 namespace Cryptlex.Net.Core.Services
 {
-    public interface ILicensesService
+    public interface ILicensesService :
+        IListable<License, GetAllLicensesData>,
+        ICreatable<License, CreateLicenseData>,
+        IRetrievable<License>,
+        IUpdatable<License, UpdateLicenseData>,
+        IDeletable<License>
     {
-        Task<IEnumerable<License>> GetAllAsync(GetAllLicensesData data);
-        Task<License> CreateAsync(CreateLicenseData data);
-        Task<License> GetAsync(string id);
-        Task<License> UpdateAsync(string id, UpdateLicenseData data);
-        Task DeleteAsync(string id);
         Task ExportAllAsync(ExportAllLicensesData data);
         Task<License> RenewAsync(string id);
         Task<License> ExtendAsync(string id, TimeSpan extendFor);

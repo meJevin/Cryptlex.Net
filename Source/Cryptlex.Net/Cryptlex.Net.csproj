@@ -20,7 +20,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Requests\Accounts\" />
     <Folder Include="Requests\Roles\" />
     <Folder Include="Requests\Users\" />
     <Folder Include="Requests\Webhooks\" />
@@ -28,7 +27,6 @@
     <Folder Include="Requests\Relases\" />
     <Folder Include="Requests\Products\" />
     <Folder Include="Requests\Policies\" />
-    <Folder Include="Requests\PersonalAccessTokens\" />
   </ItemGroup>
 
   <ItemGroup>

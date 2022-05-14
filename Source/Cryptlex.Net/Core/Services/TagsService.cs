@@ -1,4 +1,5 @@
-﻿using Cryptlex.Net.Entities;
+﻿using Cryptlex.Net.Core.Services.Base;
+using Cryptlex.Net.Entities;
 using Cryptlex.Net.Exceptions;
 using Cryptlex.Net.Tags;
 using Cryptlex.Net.Util;
@@ -12,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace Cryptlex.Net.Core.Services
 {
-    public interface ITagsService
+    public interface ITagsService :
+        IListable<Tag, GetAllTagsData>,
+        ICreatable<Tag, CreateTagData>,
+        IRetrievable<Tag>,
+        IUpdatable<Tag, UpdateTagData>,
+        IDeletable<Tag>
     {
-        Task<IEnumerable<Tag>> GetAllAsync(GetAllTagsData data);
-        Task<Tag> CreateAsync(CreateTagData data);
-        Task<Tag> GetAsync(string id);
-        Task<Tag> UpdateAsync(string id, UpdateTagData data);
-        Task DeleteAsync(string id);
     }
 
     public class TagsService : BaseService<Tag>, ITagsService

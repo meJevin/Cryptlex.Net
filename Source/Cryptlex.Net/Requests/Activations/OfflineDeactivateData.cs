@@ -11,11 +11,6 @@ namespace Cryptlex.Net.Activations
         public string offlineRequest { get; set; }
         public string licenseId { get; set; }
 
-        protected OfflineDeactivateData()
-        {
-
-        }
-
         public OfflineDeactivateData(string offlineRequest, string licenseId)
         {
             this.offlineRequest = offlineRequest;

@@ -26,11 +26,6 @@ namespace Cryptlex.Net.Activations
         public List<ActivationMetadataRequestModel>? metadata { get; set; }
         public List<ActivationMeterAttributeRequestModel>? meterAttributes { get; set; }
 
-        protected CreateActivationData()
-        {
-
-        }
-
         public CreateActivationData(
             string os, string fingerprint, 
             string hostname, string appVersion,

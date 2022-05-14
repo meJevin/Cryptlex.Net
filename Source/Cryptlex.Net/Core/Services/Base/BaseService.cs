@@ -84,15 +84,22 @@ namespace Cryptlex.Net.Core.Services
             return resObject;
         }
 
-        protected virtual async Task<T> GenericUpdateAsync<Req>(string id, Req data)
+        protected virtual async Task<T> GenericUpdateAsync<Req>(
+            string id, Req data, bool usePutHttpMethod = false, 
+            string? putFieldName = null)
         {
             using var client = GetCryptlexClient();
 
             var jsonToSend = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
 
-            var uri = Utils.CombinePaths(BasePath, id);
-            var res = await client.PatchAsync(uri, content);
+            var uri = (usePutHttpMethod && !string.IsNullOrEmpty(putFieldName)) ? 
+                Utils.CombinePaths(BasePath, id, putFieldName) : 
+                Utils.CombinePaths(BasePath, id);
+
+            var res = usePutHttpMethod ? 
+                await client.PatchAsync(uri, content) : 
+                await client.PutAsync(uri, content);
 
             if (!res.IsSuccessStatusCode)
             {

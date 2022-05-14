@@ -51,11 +51,6 @@ namespace Cryptlex.Net.Licenses
         public string productId { get; set; }
         public string? licensePolicyId { get; set; }
 
-        protected CreateLicenseData()
-        {
-
-        }
-
         public CreateLicenseData(string productId)
         {
             this.productId = productId;
