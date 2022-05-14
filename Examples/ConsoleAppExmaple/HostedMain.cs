@@ -11,21 +11,6 @@ using Cryptlex.Net.Tags;
 
 namespace ConsoleAppExample
 {
-    public class TestClass
-    {
-        private readonly ICryptlexClient _cryptlexClient;
-
-        public TestClass(ICryptlexClient cryptlexClient)
-        {
-            _cryptlexClient = cryptlexClient;
-        }
-
-        public async Task SomeMethod()
-        {
-            await _cryptlexClient.Activations.GetAllAsync(new GetAllActivationsData() { page = 2 });
-        }
-    }
-
     public class HostedMain : IHostedService
     {
         private readonly ICryptlexClient _cryptlexClient;

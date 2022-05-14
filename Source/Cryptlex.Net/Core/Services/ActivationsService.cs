@@ -25,7 +25,7 @@ namespace Cryptlex.Net.Core.Services
         Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data);
     }
 
-    public class ActivationsService : BaseService, IActivationsService
+    public class ActivationsService : BaseService<Activation>, IActivationsService
     {
         protected override string BasePath => Utils.CombinePaths(API.Version, API.Paths.Activations);
 
@@ -45,97 +45,27 @@ namespace Cryptlex.Net.Core.Services
 
         public async Task<IEnumerable<Activation>> GetAllAsync(GetAllActivationsData data)
         {
-            using var client = GetCryptlexClient();
-
-            var uri = BasePath;
-            var queryStr = data.ToQueryString();
-
-            var res = await client.GetAsync(uri.AppendQueryString(queryStr));
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not get activations from cryptlex. Error message: {error.message}", error);
-            }
-
-            var resObject = JsonSerializer.Deserialize<IEnumerable<Activation>>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return await base.GenericGetAllAsync(data);
         }
 
         public async Task<Activation> CreateAsync(CreateActivationData data)
         {
-            using var client = GetCryptlexClient();
-
-            var uri = BasePath;
-
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-
-            var res = await client.PostAsync(uri, content);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not create activation in cryptlex. Error message: {error.message}", error);
-            }
-
-            var resObject = JsonSerializer.Deserialize<Activation>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return await base.GenericCreateAsync(data);
         }
 
         public async Task<Activation> GetAsync(string id)
         {
-            using var client = GetCryptlexClient();
-
-            var uri = Utils.CombinePaths(BasePath, id);
-            var res = await client.GetAsync(uri);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not get license with id {id} from cryptlex. Error message: {error.message}", error);
-            }
-
-            var resObject = JsonSerializer.Deserialize<Activation>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return await base.GenericGetAsync(id);
         }
 
         public async Task<Activation> UpdateAsync(string id, UpdateActivationData data)
         {
-            using var client = GetCryptlexClient();
-
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-
-            var uri = Utils.CombinePaths(BasePath, id);
-            var res = await client.PatchAsync(uri, content);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not update activation with id {id} in cryptlex. Error message: {error.message}");
-            }
-
-            var resObject = JsonSerializer.Deserialize<Activation>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return await base.GenericUpdateAsync(id, data);
         }
 
         public async Task DeleteAsync(string id)
         {
-            using var client = GetCryptlexClient();
-
-            var uri = Utils.CombinePaths(BasePath, id);
-            var res = await client.DeleteAsync(uri);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not delete activation with id {id} in cryptlex. Error message: {error.message}");
-            }
+            await base.GenericDeleteAsync(id);
         }
 
         public async Task<OfflineActivationResponse> OfflineActivate(OfflineActivateData data)

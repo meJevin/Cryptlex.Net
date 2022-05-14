@@ -27,7 +27,7 @@ namespace Cryptlex.Net.Core.Services
         Task DeleteMetadataField(string id);
     }
 
-    public class LicensesService : BaseService, ILicensesService
+    public class LicensesService : BaseService<License>, ILicensesService
     {
         protected override string BasePath => Utils.CombinePaths(API.Version, API.Paths.Licenses);
 
@@ -50,97 +50,27 @@ namespace Cryptlex.Net.Core.Services
 
         public async Task<IEnumerable<License>> GetAllAsync(GetAllLicensesData data)
         {
-            using var client = GetCryptlexClient();
-
-            var uri = BasePath;
-            var queryStr = data.ToQueryString();
-
-            var res = await client.GetAsync(uri.AppendQueryString(queryStr));
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not get licenses from cryptlex. Error message: {error.message}", error);
-            }
-
-            var resObject = JsonSerializer.Deserialize<IEnumerable<License>>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return await base.GenericGetAllAsync(data);
         }
 
         public async Task<License> CreateAsync(CreateLicenseData data)
         {
-            using var client = GetCryptlexClient();
-
-            var uri = BasePath;
-
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-
-            var res = await client.PostAsync(uri, content);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not create license in cryptlex. Error message: {error.message}", error);
-            }
-
-            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return await base.GenericCreateAsync(data);
         }
 
         public async Task<License> GetAsync(string id)
         {
-            using var client = GetCryptlexClient();
-
-            var uri = Utils.CombinePaths(BasePath, id);
-            var res = await client.GetAsync(uri);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not get license with id {id} from cryptlex. Error message: {error.message}", error);
-            }
-
-            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return await base.GenericGetAsync(id);
         }
 
         public async Task<License> UpdateAsync(string id, UpdateLicenseData data)
         {
-            using var client = GetCryptlexClient();
-
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-
-            var uri = Utils.CombinePaths(BasePath, id);
-            var res = await client.PatchAsync(uri, content);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not update license with id {id} in cryptlex. Error message: {error.message}");
-            }
-
-            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return await base.GenericUpdateAsync(id, data);
         }
 
         public async Task DeleteAsync(string id)
         {
-            using var client = GetCryptlexClient();
-
-            var uri = Utils.CombinePaths(BasePath, id);
-            var res = await client.DeleteAsync(uri);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not delete license with id {id} in cryptlex. Error message: {error.message}");
-            }
+            await base.GenericDeleteAsync(id);
         }
 
         public async Task ExportAllAsync(ExportAllLicensesData data)
