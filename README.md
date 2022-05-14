@@ -10,7 +10,7 @@ This library is still under development.
 
 Checklist below shows types of interactions this library can perform with cryptlex web API:
 
-- [ ] User Management
+- [X] User Management
 - [X] Account Management
 - [X] Access Tokens
 - [X] Policies
