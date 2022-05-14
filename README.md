@@ -13,7 +13,7 @@ Checklist below shows types of interactions this library can perform with cryptl
 - [ ] User Management
 - [X] Account Management
 - [X] Access Tokens
-- [ ] Policies
+- [X] Policies
 - [ ] Products
 - [ ] Release Management
 - [X] **License Management**
