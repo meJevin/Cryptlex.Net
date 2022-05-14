@@ -29,7 +29,17 @@ namespace CryptlexDotNet.Core.Services
 
     public class LicensesService : BaseService, ILicensesService
     {
-        protected override string Path => UriHelper.CombinePaths(API.Version, API.Paths.Licenses);
+        protected override string BasePath => Utils.CombinePaths(API.Version, API.Paths.Licenses);
+
+        public static class Actions
+        {
+            public static string Export = "export";
+            public static string Renew = "renew";
+            public static string Extend = "extend";
+            public static string MeterAttributes = "meter-attributes";
+            public static string Reset = "reset";
+            public static string Metadata = "metadata";
+        }
 
         public LicensesService(
             IHttpClientFactory httpClientFactory,
@@ -42,10 +52,10 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = Path;
+            var uri = BasePath;
             var queryStr = data.ToQueryString();
 
-            var res = await client.GetAsync(uri.AddQueryString(queryStr));
+            var res = await client.GetAsync(uri.AppendQueryString(queryStr));
 
             if (!res.IsSuccessStatusCode)
             {
@@ -62,7 +72,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = Path;
+            var uri = BasePath;
 
             var jsonToSend = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
@@ -84,7 +94,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, id);
+            var uri = Utils.CombinePaths(BasePath, id);
             var res = await client.GetAsync(uri);
 
             if (!res.IsSuccessStatusCode)
@@ -105,7 +115,7 @@ namespace CryptlexDotNet.Core.Services
             var jsonToSend = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
 
-            var uri = UriHelper.CombinePaths(Path, id);
+            var uri = Utils.CombinePaths(BasePath, id);
             var res = await client.PatchAsync(uri, content);
 
             if (!res.IsSuccessStatusCode)
@@ -123,7 +133,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, id);
+            var uri = Utils.CombinePaths(BasePath, id);
             var res = await client.DeleteAsync(uri);
 
             if (!res.IsSuccessStatusCode)
@@ -137,10 +147,10 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, "export");
+            var uri = Utils.CombinePaths(BasePath, Actions.Export);
             var queryStr = data.ToQueryString();
 
-            var res = await client.GetAsync(uri.AddQueryString(queryStr));
+            var res = await client.GetAsync(uri.AppendQueryString(queryStr));
 
             if (!res.IsSuccessStatusCode)
             {
@@ -153,7 +163,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, id, "renew");
+            var uri = Utils.CombinePaths(BasePath, id, Actions.Renew);
 
             var res = await client.PostAsync(uri, null);
 
@@ -172,7 +182,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, id, "extend");
+            var uri = Utils.CombinePaths(BasePath, id, Actions.Extend);
 
             var jsonToSend = JsonSerializer.Serialize(new ExtendLicenseData((int)extendFor.TotalSeconds));
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
@@ -193,7 +203,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, "meter-attributes", id, "reset");
+            var uri = Utils.CombinePaths(BasePath, Actions.MeterAttributes, id, Actions.Reset);
 
             var res = await client.PostAsync(uri, null);
 
@@ -212,7 +222,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, "meter-attributes", id);
+            var uri = Utils.CombinePaths(BasePath, Actions.MeterAttributes, id);
 
             var res = await client.DeleteAsync(uri);
 
@@ -227,7 +237,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, "metadata", id);
+            var uri = Utils.CombinePaths(BasePath, Actions.Metadata, id);
 
             var res = await client.DeleteAsync(uri);
 

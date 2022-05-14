@@ -11,7 +11,7 @@ namespace CryptlexDotNet.Core.Services
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly CryptlexClientSettings _cryptlexSettings;
 
-        protected abstract string Path { get; }
+        protected abstract string BasePath { get; }
 
         public BaseService(
             IHttpClientFactory httpClientFactory,

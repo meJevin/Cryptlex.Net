@@ -1,4 +1,5 @@
 ﻿using CryptlexDotNet.Entities;
+using CryptlexDotNet.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,8 @@ namespace CryptlexDotNet.Activations
         public string? email { get; set; }
         public string? password { get; set; }
         public int? leaseDuration { get; set; }
-        public List<ActivationMetadata>? metadata { get; set; }
-        public List<ActivationMeterAttribute>? meterAttributes { get; set; }
+        public List<ActivationMetadataRequestModel>? metadata { get; set; }
+        public List<ActivationMeterAttributeRequestModel>? meterAttributes { get; set; }
 
         protected CreateActivationData()
         {

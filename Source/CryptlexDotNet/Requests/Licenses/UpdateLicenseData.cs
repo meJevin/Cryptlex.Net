@@ -1,4 +1,5 @@
 ﻿using CryptlexDotNet.Entities;
+using CryptlexDotNet.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace CryptlexDotNet.Licenses
         public List<string> additionalUserIds { get; set; }
         public string productVersionId { get; set; }
         public List<string> tags { get; set; }
-        public List<Metadata> metadata { get; set; }
-        public List<MeterAttribute> meterAttributes { get; set; }
+        public List<LicenseMetadataRequestModel>? metadata { get; set; }
+        public List<LicenseMeterAttributeRequestModel>? meterAttributes { get; set; }
     }
 }

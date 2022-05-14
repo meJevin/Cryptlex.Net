@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CryptlexDotNet.Activations
 {
-    public class IncrementActivationMeterAttributeData
+    public class IncrementActivationUsageData
     {
         public long increment { get; set; }
         public string activationId { get; set; }
 
-        public IncrementActivationMeterAttributeData(long increment, string activationId)
+        public IncrementActivationUsageData(long increment, string activationId)
         {
             this.increment = increment;
             this.activationId = activationId;

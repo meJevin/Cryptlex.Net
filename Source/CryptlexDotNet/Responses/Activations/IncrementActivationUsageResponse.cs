@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CryptlexDotNet.Responses
 {
-    public class IncrementActivationMeterAttributeResponse
+    public class IncrementActivationUsageResponse
     {
         public string? name { get; set; }
         public int uses { get; set; }

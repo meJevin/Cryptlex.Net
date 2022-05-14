@@ -22,13 +22,19 @@ namespace CryptlexDotNet.Core.Services
         Task DeleteAsync(string id);
         Task<OfflineActivationResponse> OfflineActivate(OfflineActivateData data);
         Task OfflineDeactivate(OfflineDeactivateData data);
-        Task<IncrementActivationMeterAttributeResponse> IncrementMeterAttribute(
-            string id, IncrementActivationMeterAttributeData data);
+        Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data);
     }
 
     public class ActivationsService : BaseService, IActivationsService
     {
-        protected override string Path => UriHelper.CombinePaths(API.Version, API.Paths.Activations);
+        protected override string BasePath => Utils.CombinePaths(API.Version, API.Paths.Activations);
+
+        public static class Actions
+        {
+            public static string OfflineActivate = "offline-activate";
+            public static string OfflineDeactivate = "offline-deactivate";
+            public static string MeterAttributes = "meter-attributes";
+        }
 
         public ActivationsService(
             IHttpClientFactory httpClientFactory,
@@ -41,10 +47,10 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = Path;
+            var uri = BasePath;
             var queryStr = data.ToQueryString();
 
-            var res = await client.GetAsync(uri.AddQueryString(queryStr));
+            var res = await client.GetAsync(uri.AppendQueryString(queryStr));
 
             if (!res.IsSuccessStatusCode)
             {
@@ -61,7 +67,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = Path;
+            var uri = BasePath;
 
             var jsonToSend = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
@@ -83,7 +89,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, id);
+            var uri = Utils.CombinePaths(BasePath, id);
             var res = await client.GetAsync(uri);
 
             if (!res.IsSuccessStatusCode)
@@ -104,7 +110,7 @@ namespace CryptlexDotNet.Core.Services
             var jsonToSend = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
 
-            var uri = UriHelper.CombinePaths(Path, id);
+            var uri = Utils.CombinePaths(BasePath, id);
             var res = await client.PatchAsync(uri, content);
 
             if (!res.IsSuccessStatusCode)
@@ -122,7 +128,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, id);
+            var uri = Utils.CombinePaths(BasePath, id);
             var res = await client.DeleteAsync(uri);
 
             if (!res.IsSuccessStatusCode)
@@ -136,7 +142,7 @@ namespace CryptlexDotNet.Core.Services
         {
             using var client = GetCryptlexClient();
 
-            var uri = UriHelper.CombinePaths(Path, "offline-activate");
+            var uri = Utils.CombinePaths(BasePath, Actions.OfflineActivate);
 
             var jsonToSend = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
@@ -157,8 +163,8 @@ namespace CryptlexDotNet.Core.Services
         public async Task OfflineDeactivate(OfflineDeactivateData data)
         {
             using var client = GetCryptlexClient();
-
-            var uri = UriHelper.CombinePaths(Path, "offline-deactivate");
+            
+            var uri = Utils.CombinePaths(BasePath, Actions.OfflineDeactivate);
 
             var jsonToSend = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
@@ -172,12 +178,11 @@ namespace CryptlexDotNet.Core.Services
             }
         }
 
-        public async Task<IncrementActivationMeterAttributeResponse> IncrementMeterAttribute(
-            string id, IncrementActivationMeterAttributeData data)
+        public async Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data)
         {
             using var client = GetCryptlexClient();
 
-            var uri = Path;
+            var uri = Utils.CombinePaths(BasePath, Actions.MeterAttributes, id);
 
             var jsonToSend = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
@@ -190,8 +195,7 @@ namespace CryptlexDotNet.Core.Services
                 throw new CryptlexException($"Could not increment meter attribute for activation with id {id} in cryptlex. Error message: {error.message}", error);
             }
 
-            var resObject = JsonSerializer.Deserialize<IncrementActivationMeterAttributeResponse>(
-                await res.Content.ReadAsStringAsync())!;
+            var resObject = JsonSerializer.Deserialize<IncrementActivationUsageResponse>(await res.Content.ReadAsStringAsync())!;
 
             return resObject;
         }

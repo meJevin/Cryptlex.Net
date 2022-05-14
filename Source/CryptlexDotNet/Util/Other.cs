@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CryptlexDotNet.Util
 {
-    public static class UriHelper
+    public static class Utils
     {
-        public static string CombinePaths(params string[] parts)
+        public static string CombinePaths(params string[] paths)
         {
-            return string.Join("/", parts);
+            return string.Join("/", paths);
         }
 
-        public static string AddQueryString(this string uri, string queryStr)
+        public static string AppendQueryString(this string uri, string queryStr)
         {
             if (queryStr is null || queryStr.Length == 0) return uri;
 
@@ -21,7 +22,7 @@ namespace CryptlexDotNet.Util
         }
     }
 
-    public static class StringExtensions
+    public static class ObjectExtensions
     {
         public static string ToQueryString(this object obj, bool ignoreNull = true)
         {
