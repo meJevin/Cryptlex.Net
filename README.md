@@ -6,6 +6,22 @@
 
 Cryptlex web API .NET Library written in .NET 6.0
 
+## Work in progress
+
+This library is still under development.
+
+Checklist below shows types of interactions this library can perform with cryptlex web API:
+
+- [ ] User Management
+- [ ] Account Management
+- [ ] Access Tokens
+- [ ] Policies
+- [ ] Products
+- [ ] Release Management
+- [X] **License Management**
+- [ ] Trials
+- [ ] Webhooks
+
 ## Installation
 
 Using the [.NET Core command-line interface (CLI) tools][dotnet-core-cli-tools]:
