@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptlex.Net", "Source\Cryp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptlex.Net.Tests", "Tests\Cryptlex.Net.Tests\Cryptlex.Net.Tests.csproj", "{95DB021F-E68A-48B4-A96F-4E82AEF86330}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppNoGenericHostExample", "Examples\ConsoleAppNoGenericHostExample\ConsoleAppNoGenericHostExample.csproj", "{9ACFDEFD-37D6-41CE-97AD-4A1C8E1CCC44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{95DB021F-E68A-48B4-A96F-4E82AEF86330}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95DB021F-E68A-48B4-A96F-4E82AEF86330}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95DB021F-E68A-48B4-A96F-4E82AEF86330}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ACFDEFD-37D6-41CE-97AD-4A1C8E1CCC44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ACFDEFD-37D6-41CE-97AD-4A1C8E1CCC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ACFDEFD-37D6-41CE-97AD-4A1C8E1CCC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ACFDEFD-37D6-41CE-97AD-4A1C8E1CCC44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{9FDCA29A-4D56-4515-9F23-0CB3CF32421C} = {10FE1DAF-FE58-411E-AD91-1580FBD094F8}
 		{709602C4-752F-40E7-A420-68178619CF0D} = {F5A40F68-1194-4F07-AEBA-60BB99E1E387}
 		{95DB021F-E68A-48B4-A96F-4E82AEF86330} = {3806F1AE-93E7-4CD7-A0D4-6DC9146DC0D6}
+		{9ACFDEFD-37D6-41CE-97AD-4A1C8E1CCC44} = {10FE1DAF-FE58-411E-AD91-1580FBD094F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {14AFAFA9-B1AC-4A84-B578-C42CD3D2A276}
