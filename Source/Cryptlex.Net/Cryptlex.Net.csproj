@@ -26,7 +26,6 @@
     <Folder Include="Requests\Trials\" />
     <Folder Include="Requests\Relases\" />
     <Folder Include="Requests\Products\" />
-    <Folder Include="Requests\Policies\" />
   </ItemGroup>
 
   <ItemGroup>

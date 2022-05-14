@@ -24,11 +24,15 @@ public static class CryptlexClientFactory
 
         var accounts = new AccountsService(httpClientFactory, options);
         var accessTokens = new AccessTokensService(httpClientFactory, options);
+        var licensePolicies = new LicensePoliciesService(httpClientFactory, options);
+        var trialPolicies = new TrialPoliciesService(httpClientFactory, options);
         var licenses = new LicensesService(httpClientFactory, options);
         var activations = new ActivationsService(httpClientFactory, options);
         var tags = new TagsService(httpClientFactory, options);
 
-        var client = new CryptlexClient(accounts, accessTokens, licenses, activations, tags);
+        var client = new CryptlexClient(
+            accounts, accessTokens, licensePolicies,
+            trialPolicies, licenses, activations, tags);
 
         return client;
     }

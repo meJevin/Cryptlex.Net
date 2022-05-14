@@ -25,6 +25,11 @@ namespace Cryptlex.Net.Util
             // Access tokens
             public static string PersonalAccessTokens => "personal-access-tokens";
 
+            // Policies
+            public static string LicensePolicies => "license-policies";
+            public static string TrialPolicies => "trial-policies";
+
+
             // License management
             public static string Licenses => "licenses";
             public static string Activations => "activations";

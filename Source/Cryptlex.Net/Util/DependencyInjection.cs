@@ -27,6 +27,8 @@ namespace Microsoft.Extensions.DependencyInjection
             // Separate services
             services.AddScoped<IAccountsService, AccountsService>();
             services.AddScoped<IAccessTokensService, AccessTokensService>();
+            services.AddScoped<ILicensePoliciesService, LicensePoliciesService>();
+            services.AddScoped<ITrialPoliciesService, TrialPoliciesService>();
             services.AddScoped<ILicensesService, LicensesService>();
             services.AddScoped<IActivationsService, ActivationsService>();
             services.AddScoped<ITagsService, TagsService>();

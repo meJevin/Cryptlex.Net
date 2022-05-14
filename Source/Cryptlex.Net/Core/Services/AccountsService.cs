@@ -10,63 +10,6 @@ using Cryptlex.Net.Responses.Accounts;
 
 namespace Cryptlex.Net.Core.Services
 {
-    public class AccountLoginData
-    {
-        public string? companyId { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string? twoFactorCode { get; set; }
-        public string? twoFactorRecoveryCode { get; set; }
-
-        public AccountLoginData(string email, string password)
-        {
-            this.email = email;
-            this.password = password;
-        }
-    }
-
-    public class AccountLoginGoogleData
-    {
-        public string? companyId { get; set; }
-        public string email { get; set; }
-        public string idToken { get; set; }
-
-        public AccountLoginGoogleData(string email, string idToken)
-        {
-            this.email = email;
-            this.idToken = idToken;
-        }
-    }
-
-    public class AccountResetPasswordData
-    {
-        public string? companyId { get; set; }
-        public string email { get; set; }
-
-        public AccountResetPasswordData(string email)
-        {
-            this.email = email;
-        }
-    }
-    public class UpdateAccountStatusData
-    {
-        public string status { get; set; }
-
-        public UpdateAccountStatusData(string status)
-        {
-            this.status = status;
-        }
-    }
-    public class UpdateAccountPlanData
-    {
-        public string planId { get; set; }
-
-        public UpdateAccountPlanData(string planId)
-        {
-            this.planId = planId;
-        }
-    }
-
     public interface IAccountsService :
         ICreatable<Account, CreateAccountData>,
         IRetrievable<Account>,
