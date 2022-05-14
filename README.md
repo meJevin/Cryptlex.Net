@@ -1,7 +1,6 @@
 # Cryptlex.Net
 
-[![NuGet](https://img.shields.io/nuget/v/stripe.net.svg)](https://www.nuget.org/packages/Cryptlex.Net/)
-[![Coverage Status](https://coveralls.io/repos/github/meJevin/CryptlexDotNet/badge.svg?branch=master)](https://coveralls.io/github/meJevin/CryptlexDotNet?branch=main)
+[![NuGet](https://img.shields.io/nuget/v/Cryptlex.Net.svg)](https://www.nuget.org/packages/Cryptlex.Net/)
 
 Cryptlex web API .NET Library written in .NET 6.0
 
