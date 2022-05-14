@@ -1,4 +1,4 @@
-﻿namespace Cryptlex.Net.Responses
+﻿namespace Cryptlex.Net.Users
 {
     public class PasswordResetTokenResponse
     {

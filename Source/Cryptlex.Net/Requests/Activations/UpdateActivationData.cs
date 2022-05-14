@@ -1,5 +1,4 @@
 ﻿using Cryptlex.Net.Entities;
-using Cryptlex.Net.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

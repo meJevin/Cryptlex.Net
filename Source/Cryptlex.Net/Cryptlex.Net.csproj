@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Requests\Webhooks\" />
-    <Folder Include="Requests\Trials\" />
+    <Folder Include="Requests\TrialActivations\" />
     <Folder Include="Requests\Relases\" />
     <Folder Include="Requests\Products\" />
   </ItemGroup>

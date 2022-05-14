@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using System.Text;
 using System.Text.Json;
 using Cryptlex.Net.Exceptions;
-using Cryptlex.Net.Responses.Accounts;
 
 namespace Cryptlex.Net.Core.Services
 {

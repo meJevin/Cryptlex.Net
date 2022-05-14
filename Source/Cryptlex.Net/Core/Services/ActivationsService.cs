@@ -2,7 +2,6 @@
 using Cryptlex.Net.Core.Services.Base;
 using Cryptlex.Net.Entities;
 using Cryptlex.Net.Exceptions;
-using Cryptlex.Net.Responses;
 using Cryptlex.Net.Util;
 using Microsoft.Extensions.Options;
 using System;

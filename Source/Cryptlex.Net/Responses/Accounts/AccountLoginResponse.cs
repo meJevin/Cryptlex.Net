@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cryptlex.Net.Responses.Accounts
+namespace Cryptlex.Net.Accounts
 {
     public class AccountLoginResponse
     {

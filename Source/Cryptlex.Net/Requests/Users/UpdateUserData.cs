@@ -1,6 +1,4 @@
-﻿using Cryptlex.Net.RequestModels;
-
-namespace Cryptlex.Net.Users
+﻿namespace Cryptlex.Net.Users
 {
     public class UpdateUserData
     {

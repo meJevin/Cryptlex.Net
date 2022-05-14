@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cryptlex.Net.Requests.Users.Current
+namespace Cryptlex.Net.Users.Current
 {
     public class GetAllCurrentUserLicensesData
     {

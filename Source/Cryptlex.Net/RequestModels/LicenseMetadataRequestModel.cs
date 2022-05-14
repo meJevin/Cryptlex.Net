@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cryptlex.Net.RequestModels
+namespace Cryptlex.Net.Licenses
 {
     public class LicenseMetadataRequestModel
     {
