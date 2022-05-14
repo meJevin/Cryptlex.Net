@@ -1,8 +1,7 @@
 # Cryptlex.Net
 
-[![NuGet](https://img.shields.io/nuget/v/stripe.net.svg)](https://www.nuget.org/packages/Stripe.net/)
-[![Build Status](https://ci.appveyor.com/api/projects/status/rg0pg5tlr1a6f8tf/branch/master?svg=true)](https://ci.appveyor.com/project/stripe/stripe-dotnet)
-[![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-dotnet/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-dotnet?branch=master)
+[![NuGet](https://img.shields.io/nuget/v/stripe.net.svg)](https://www.nuget.org/packages/Cryptlex.Net/)
+[![Coverage Status](https://coveralls.io/repos/github/meJevin/CryptlexDotNet/badge.svg?branch=master)](https://coveralls.io/github/meJevin/CryptlexDotNet?branch=main)
 
 Cryptlex web API .NET Library written in .NET 6.0
 
