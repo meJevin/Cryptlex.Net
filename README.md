@@ -95,7 +95,7 @@ public class TestClass
 }
 ```
 
-[usage-examples]: https://github.com/meJevin/CryptlexDotNet/tree/main/Examples/
+[usage-examples]: https://github.com/meJevin/Cryptlex.Net/tree/main/Examples/
 [dotnet-core-cli-tools]: https://docs.microsoft.com/en-us/dotnet/core/tools/
 [dotnet-format]: https://github.com/dotnet/format
 [nuget-cli]: https://docs.microsoft.com/en-us/nuget/tools/nuget-exe-cli-reference

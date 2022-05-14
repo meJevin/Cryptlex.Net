@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{F5A40F68-1194-4F07-AEBA-60BB99E1E387}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3806F1AE-93E7-4CD7-A0D4-6DC9146DC0D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{10FE1DAF-FE58-411E-AD91-1580FBD094F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppExample", "Examples\ConsoleAppExmaple\ConsoleAppExample.csproj", "{9FDCA29A-4D56-4515-9F23-0CB3CF32421C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptlex.Net", "Source\Cryptlex.Net\Cryptlex.Net.csproj", "{709602C4-752F-40E7-A420-68178619CF0D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptlex.Net.Tests", "Tests\Cryptlex.Net.Tests\Cryptlex.Net.Tests.csproj", "{95DB021F-E68A-48B4-A96F-4E82AEF86330}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FDCA29A-4D56-4515-9F23-0CB3CF32421C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FDCA29A-4D56-4515-9F23-0CB3CF32421C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FDCA29A-4D56-4515-9F23-0CB3CF32421C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FDCA29A-4D56-4515-9F23-0CB3CF32421C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{709602C4-752F-40E7-A420-68178619CF0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{709602C4-752F-40E7-A420-68178619CF0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{709602C4-752F-40E7-A420-68178619CF0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{709602C4-752F-40E7-A420-68178619CF0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95DB021F-E68A-48B4-A96F-4E82AEF86330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95DB021F-E68A-48B4-A96F-4E82AEF86330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95DB021F-E68A-48B4-A96F-4E82AEF86330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95DB021F-E68A-48B4-A96F-4E82AEF86330}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9FDCA29A-4D56-4515-9F23-0CB3CF32421C} = {10FE1DAF-FE58-411E-AD91-1580FBD094F8}
+		{709602C4-752F-40E7-A420-68178619CF0D} = {F5A40F68-1194-4F07-AEBA-60BB99E1E387}
+		{95DB021F-E68A-48B4-A96F-4E82AEF86330} = {3806F1AE-93E7-4CD7-A0D4-6DC9146DC0D6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14AFAFA9-B1AC-4A84-B578-C42CD3D2A276}
+	EndGlobalSection
+EndGlobal
