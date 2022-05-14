@@ -17,6 +17,7 @@ namespace Cryptlex.Net.Util
         {
             // User management
             public static string Users => "users";
+            public static string Me => "me";
             public static string Roles => "roles";
 
             // Account management

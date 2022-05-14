@@ -25,6 +25,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICryptlexClient, CryptlexClient>();
 
             // Separate services
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IRolesService, RolesService>();
             services.AddScoped<IAccountsService, AccountsService>();
             services.AddScoped<IAccessTokensService, AccessTokensService>();
             services.AddScoped<ILicensePoliciesService, LicensePoliciesService>();

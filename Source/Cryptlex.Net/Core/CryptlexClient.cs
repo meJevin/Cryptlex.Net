@@ -4,6 +4,8 @@ namespace Cryptlex.Net.Core
 {
     public interface ICryptlexClient
     {
+        IUsersService UserService { get; }
+        IRolesService RoleService { get; }
         IAccountsService Accounts { get; }
         IAccessTokensService AccessTokens { get; }
         ILicensePoliciesService LicensePolicies { get; }
@@ -15,6 +17,8 @@ namespace Cryptlex.Net.Core
 
     public class CryptlexClient : ICryptlexClient
     {
+        public IUsersService UserService { get; init; }
+        public IRolesService RoleService { get; init; }
         public IAccountsService Accounts { get; init; }
         public IAccessTokensService AccessTokens { get; init; }
         public ILicensePoliciesService LicensePolicies { get; init; }
@@ -24,6 +28,8 @@ namespace Cryptlex.Net.Core
         public ITagsService Tags { get; init; }
 
         public CryptlexClient(
+            IUsersService userService,
+            IRolesService roleService,
             IAccountsService accounts, 
             IAccessTokensService accessTokens,
             ILicensePoliciesService licensePolicies,
@@ -32,6 +38,8 @@ namespace Cryptlex.Net.Core
             IActivationsService activations,
             ITagsService tags)
         {
+            UserService = userService;
+            RoleService = roleService;
             Accounts = accounts;
             AccessTokens = accessTokens;
             LicensePolicies = licensePolicies;

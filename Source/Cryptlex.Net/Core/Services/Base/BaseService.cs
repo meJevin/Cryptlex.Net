@@ -24,11 +24,17 @@ namespace Cryptlex.Net.Core.Services
         }
 
         #region CRUD
-        protected virtual async Task<IEnumerable<T>> GenericGetAllAsync<Req>(Req data) where Req : class
+        protected virtual async Task<IEnumerable<T>> GenericGetAllAsync<Req>(Req data, string customUri = null!) where Req : class
+        {
+            return await GenericGetAllAsync<T, Req>(data);
+        }
+
+        protected virtual async Task<IEnumerable<ReturnType>> GenericGetAllAsync<ReturnType, Req>(Req data, string customUri = null!) 
+            where Req : class where ReturnType : class
         {
             using var client = GetCryptlexClient();
 
-            var uri = BasePath;
+            var uri = customUri is null ? BasePath : customUri;
             var queryStr = data.ToQueryString();
 
             var res = await client.GetAsync(uri.AppendQueryString(queryStr));
@@ -39,7 +45,7 @@ namespace Cryptlex.Net.Core.Services
                 throw new CryptlexException($"GetAll operation failed for path {uri}. Error message: {error.message}", error);
             }
 
-            var resObject = JsonSerializer.Deserialize<IEnumerable<T>>(await res.Content.ReadAsStringAsync())!;
+            var resObject = JsonSerializer.Deserialize<IEnumerable<ReturnType>>(await res.Content.ReadAsStringAsync())!;
 
             return resObject;
         }
@@ -104,7 +110,7 @@ namespace Cryptlex.Net.Core.Services
             if (!res.IsSuccessStatusCode)
             {
                 var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Update failed for path {uri}. Error message: {error.message}");
+                throw new CryptlexException($"Update failed for path {uri}. Error message: {error.message}", error);
             }
 
             var resObject = JsonSerializer.Deserialize<T>(await res.Content.ReadAsStringAsync())!;
@@ -122,7 +128,7 @@ namespace Cryptlex.Net.Core.Services
             if (!res.IsSuccessStatusCode)
             {
                 var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Delete failed for path {uri}. Error message: {error.message}");
+                throw new CryptlexException($"Delete failed for path {uri}. Error message: {error.message}", error);
             }
         }
         #endregion
