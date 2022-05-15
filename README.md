@@ -2,23 +2,7 @@
 
 [![NuGet](https://img.shields.io/nuget/v/Cryptlex.Net.svg)](https://www.nuget.org/packages/Cryptlex.Net/)
 
-Cryptlex web API .NET Library written in .NET 6.0
-
-## Work in progress
-
-This library is still under development.
-
-Checklist below shows types of interactions this library can perform with cryptlex web API:
-
-- [X] User Management
-- [X] Account Management
-- [X] Access Tokens
-- [X] Policies
-- [ ] Products
-- [ ] Release Management
-- [X] **License Management**
-- [ ] Trials
-- [ ] Webhooks
+C# library for the Cryptlex Web API 
 
 ## Installation
 
