@@ -72,7 +72,7 @@ public class TestClass
 
     public async Task SomeMethod()
     {
-	    var data = new ListActivationsData() { page = 2 };
+	var data = new ListActivationsData() { page = 2 };
 		
         await _cryptlexClient.Activations.ListAsync(data);
     }
