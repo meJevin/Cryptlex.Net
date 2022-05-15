@@ -13,11 +13,6 @@ namespace Cryptlex.Net.Licenses
         public bool? visible { get; set; }
         public bool? floating { get; set; }
 
-        protected LicenseMeterAttributeRequestModel()
-        {
-
-        }
-
         public LicenseMeterAttributeRequestModel(string name, int allowedUses)
         {
             this.name = name;

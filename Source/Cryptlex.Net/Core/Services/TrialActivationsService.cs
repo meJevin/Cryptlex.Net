@@ -83,7 +83,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not extend trial activations with id {id}.");
 
-            var resultData = await result.ContentToAsync<TrialActivation>();
+            var resultData = await result.ExtractDataAsync<TrialActivation>();
 
             return resultData;
         }
@@ -96,7 +96,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not create an offline trial activation for product with id {data.productId}");
 
-            var resultData = await result.ContentToAsync<OfflineActivateResponse>();
+            var resultData = await result.ExtractDataAsync<OfflineActivateResponse>();
 
             return resultData;
         }

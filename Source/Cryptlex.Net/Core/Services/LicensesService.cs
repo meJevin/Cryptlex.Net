@@ -93,7 +93,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not renew license with id {id}.");
 
-            var resultData = await result.ContentToAsync<License>();
+            var resultData = await result.ExtractDataAsync<License>();
 
             return resultData;
         }
@@ -106,7 +106,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not extend license with id {id}.");
 
-            var resultData = await result.ContentToAsync<License>();
+            var resultData = await result.ExtractDataAsync<License>();
 
             return resultData;
         }
@@ -121,7 +121,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not reset meter attribute for license with id {id}.");
 
-            var resultData = await result.ContentToAsync<License>();
+            var resultData = await result.ExtractDataAsync<License>();
 
             return resultData;
         }

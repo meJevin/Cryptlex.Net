@@ -72,7 +72,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed("Could not list all webhook events.");
 
-            var resultData = await result.ContentToAsync<IEnumerable<Event>>();
+            var resultData = await result.ExtractDataAsync<IEnumerable<Event>>();
 
             return resultData;
         }

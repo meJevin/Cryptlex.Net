@@ -1,11 +1,5 @@
 ﻿using Cryptlex.Net.Core;
 using Cryptlex.Net.Core.Services;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

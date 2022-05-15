@@ -10,6 +10,5 @@ namespace Cryptlex.Net.Entities
     {
         public string message { get; set; }
         public string code { get; set; }
-        public string reasonPhrase { get; set; }
     }
 }

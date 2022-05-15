@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptlex.Net", "Source\Cryp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptlex.Net.Tests", "Tests\Cryptlex.Net.Tests\Cryptlex.Net.Tests.csproj", "{95DB021F-E68A-48B4-A96F-4E82AEF86330}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppNoGenericHostExample", "Examples\ConsoleAppNoGenericHostExample\ConsoleAppNoGenericHostExample.csproj", "{9ACFDEFD-37D6-41CE-97AD-4A1C8E1CCC44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppNoGenericHostExample", "Examples\ConsoleAppNoGenericHostExample\ConsoleAppNoGenericHostExample.csproj", "{9ACFDEFD-37D6-41CE-97AD-4A1C8E1CCC44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
