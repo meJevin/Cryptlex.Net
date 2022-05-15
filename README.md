@@ -2,7 +2,7 @@
 
 [![NuGet](https://img.shields.io/nuget/v/Cryptlex.Net.svg)](https://www.nuget.org/packages/Cryptlex.Net/)
 
-C# library for the Cryptlex Web API 
+C# library for the Cryptlex Web API
 
 ## Installation
 
