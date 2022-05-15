@@ -20,13 +20,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Requests\Webhooks\" />
-    <Folder Include="Requests\TrialActivations\" />
-    <Folder Include="Requests\Relases\" />
-    <Folder Include="Requests\Products\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

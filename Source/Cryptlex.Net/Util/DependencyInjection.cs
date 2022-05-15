@@ -28,13 +28,28 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IRolesService, RolesService>();
+
             services.AddScoped<IAccountsService, AccountsService>();
+
             services.AddScoped<IAccessTokensService, AccessTokensService>();
+
             services.AddScoped<ILicensePoliciesService, LicensePoliciesService>();
             services.AddScoped<ITrialPoliciesService, TrialPoliciesService>();
+
+            services.AddScoped<IProductsService, ProductsService>();
+            services.AddScoped<IFeatureFlagsService, FeatureFlagsService>();
+            services.AddScoped<IProductVersionsService, ProductVersionsService>();
+
+            services.AddScoped<IReleasesService, ReleasesService>();
+            services.AddScoped<IReleaseFilesService, ReleaseFilesService>();
+
             services.AddScoped<ILicensesService, LicensesService>();
             services.AddScoped<IActivationsService, ActivationsService>();
             services.AddScoped<ITagsService, TagsService>();
+
+            services.AddScoped<ITrialActivationsService, TrialActivationsService>();
+
+            services.AddScoped<IWebhooksService, WebhooksService>();
 
             return services;
         }

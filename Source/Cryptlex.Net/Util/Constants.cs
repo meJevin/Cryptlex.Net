@@ -30,11 +30,26 @@ namespace Cryptlex.Net.Util
             public static string LicensePolicies => "license-policies";
             public static string TrialPolicies => "trial-policies";
 
+            // Products
+            public static string Products => "products";
+            public static string FeatureFlags => "feature-flags";
+            public static string ProductVersions => "product-versions";
+
+            // Release management
+            public static string Releases => "releases";
+            public static string ReleaseFiles => "release-files";
 
             // License management
             public static string Licenses => "licenses";
             public static string Activations => "activations";
             public static string Tags => "tags";
+
+            // Trials
+            public static string TrialActivations => "trial-activations";
+
+            // Webhooks
+            public static string Webhooks => "webhooks";
+
         }
     }
 }
