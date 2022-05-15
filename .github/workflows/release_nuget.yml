@@ -22,7 +22,7 @@ jobs:
       run: dotnet restore
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore --configuration Release
       
     - name: Pack nugets
       run: dotnet pack --output ./nupkgs --no-build --no-restore --configuration Release ./Source/Cryptlex.Net/Cryptlex.Net.csproj
