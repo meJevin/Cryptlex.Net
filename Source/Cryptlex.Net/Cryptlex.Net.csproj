@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Cryptlex.Net</PackageId>
-    <Version>0.0.1</Version>
+    <Version>0.1.0</Version>
     <Authors>Michael Naifield</Authors>
     <Company />
     <Product>Cryptlex.Net</Product>
@@ -14,7 +14,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/meJevin/CryptlexDotNet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>cryptlex</PackageTags>
+    <PackageTags>cryptlex;license-management;rest-api;library</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
