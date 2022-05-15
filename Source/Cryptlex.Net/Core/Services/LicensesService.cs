@@ -49,29 +49,29 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
-        public async Task<IEnumerable<License>> GetAllAsync(GetAllLicensesData data)
+        public async Task<IEnumerable<License>> ListAsync(GetAllLicensesData data)
         {
-            return await base.GenericGetAllAsync(data);
+            return await base.ListEntitiesAsync(data);
         }
 
         public async Task<License> CreateAsync(CreateLicenseData data)
         {
-            return await base.GenericCreateAsync(data);
+            return await base.CreateEntityAsync(data);
         }
 
         public async Task<License> GetAsync(string id)
         {
-            return await base.GenericGetAsync(id);
+            return await base.GetEntityAsync(id);
         }
 
         public async Task<License> UpdateAsync(string id, UpdateLicenseData data)
         {
-            return await base.GenericUpdateAsync(id, data);
+            return await base.UpdateEntityAsync(id, data);
         }
 
         public async Task DeleteAsync(string id)
         {
-            await base.GenericDeleteAsync(id);
+            await base.DeleteEntityAsync(id);
         }
 
         public async Task ExportAllAsync(ExportAllLicensesData data)
@@ -79,55 +79,36 @@ namespace Cryptlex.Net.Core.Services
             using var client = GetCryptlexClient();
 
             var uri = Utils.CombinePaths(BasePath, Actions.Export);
-            var queryStr = data.ToQueryString();
 
-            var res = await client.GetAsync(uri.AppendQueryString(queryStr));
+            var result = await RequestAsync(uri, HttpMethod.Get, data);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not export licenses from cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not export all licenses.");
         }
 
         public async Task<License> RenewAsync(string id)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, id, Actions.Renew);
 
-            var res = await client.PostAsync(uri, null);
+            var result = await RequestAsync(uri, HttpMethod.Post, null);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not renew license with id {id} in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not renew license with id {id}.");
 
-            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
+            var resultData = await result.ContentToAsync<License>();
 
-            return resObject;
+            return resultData;
         }
 
         public async Task<License> ExtendAsync(string id, TimeSpan extendFor)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, id, Actions.Extend);
 
-            var jsonToSend = JsonSerializer.Serialize(new ExtendLicenseData((int)extendFor.TotalSeconds));
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-            var res = await client.PostAsync(uri, content);
+            var result = await RequestAsync(uri, HttpMethod.Post, null);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not extend license with id {id} in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not extend license with id {id}.");
 
-            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
+            var resultData = await result.ContentToAsync<License>();
 
-            return resObject;
+            return resultData;
         }
 
         public async Task<License> ResetMeterAttribute(string id)
@@ -136,47 +117,31 @@ namespace Cryptlex.Net.Core.Services
 
             var uri = Utils.CombinePaths(BasePath, Actions.MeterAttributes, id, Actions.Reset);
 
-            var res = await client.PostAsync(uri, null);
+            var result = await RequestAsync(uri, HttpMethod.Post, null);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not reset meter attribute for license with id {id} in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not reset meter attribute for license with id {id}.");
 
-            var resObject = JsonSerializer.Deserialize<License>(await res.Content.ReadAsStringAsync())!;
+            var resultData = await result.ContentToAsync<License>();
 
-            return resObject;
+            return resultData;
         }
 
         public async Task DeleteMeterAttribute(string id)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.MeterAttributes, id);
 
-            var res = await client.DeleteAsync(uri);
+            var result = await RequestAsync(uri, HttpMethod.Delete, null);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not delete meter attribute for license with id {id} in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not delete meter attribute for license with id {id}.");
         }
 
         public async Task DeleteMetadataField(string id)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.Metadata, id);
 
-            var res = await client.DeleteAsync(uri);
+            var result = await RequestAsync(uri, HttpMethod.Delete, null);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not delete metadata field for license with id {id} in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not delete metadata for license with id {id}.");
         }
     }
 }

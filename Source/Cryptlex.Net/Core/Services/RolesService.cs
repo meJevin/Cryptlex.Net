@@ -39,36 +39,42 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
-        public async Task<IEnumerable<Role>> GetAllAsync(GetAllRolesData data)
+        public async Task<IEnumerable<Role>> ListAsync(GetAllRolesData data)
         {
-            return await base.GenericGetAllAsync(data);
+            return await base.ListEntitiesAsync(data);
         }
 
         public async Task<IEnumerable<string>> GetAllClaims(GetAllRoleClaimsData data)
         {
-            var uri = Utils.CombinePaths(BasePath, Actions.Claims);
+            var uri = BasePath;
 
-            return await base.GenericGetAllAsync<string, GetAllRoleClaimsData>(data, uri);
+            var result = await RequestAsync(uri, HttpMethod.Get, data);
+
+            result.ThrowIfFailed($"Could not get all claims.");
+
+            var resultData = await result.ContentToAsync<IEnumerable<string>>();
+
+            return resultData;
         }
 
         public async Task<Role> CreateAsync(CreateRoleData data)
         {
-            return await base.GenericCreateAsync(data);
+            return await base.CreateEntityAsync(data);
         }
 
         public async Task<Role> GetAsync(string id)
         {
-            return await base.GenericGetAsync(id);
+            return await base.GetEntityAsync(id);
         }
 
         public async Task<Role> UpdateAsync(string id, UpdateRoleData data)
         {
-            return await base.GenericUpdateAsync(id, data);
+            return await base.UpdateEntityAsync(id, data);
         }
 
         public async Task DeleteAsync(string id)
         {
-            await base.GenericDeleteAsync(id);
+            await base.DeleteEntityAsync(id);
         }
     }
 }

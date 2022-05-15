@@ -33,29 +33,29 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
-        public async Task<IEnumerable<TrialPolicy>> GetAllAsync(GetAllTrialPoliciesData data)
+        public async Task<IEnumerable<TrialPolicy>> ListAsync(GetAllTrialPoliciesData data)
         {
-            return await base.GenericGetAllAsync(data);
+            return await base.ListEntitiesAsync(data);
         }
 
         public async Task<TrialPolicy> CreateAsync(CreateTrialPolicyData data)
         {
-            return await base.GenericCreateAsync(data);
+            return await base.CreateEntityAsync(data);
         }
 
         public async Task<TrialPolicy> GetAsync(string id)
         {
-            return await base.GenericGetAsync(id);
+            return await base.GetEntityAsync(id);
         }
 
         public async Task<TrialPolicy> UpdateAsync(string id, UpdateTrialPolicyData data)
         {
-            return await base.GenericUpdateAsync(id, data);
+            return await base.UpdateEntityAsync(id, data);
         }
 
         public async Task DeleteAsync(string id)
         {
-            await base.GenericDeleteAsync(id);
+            await base.DeleteEntityAsync(id);
         }
     }
 }

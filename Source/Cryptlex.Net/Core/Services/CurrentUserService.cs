@@ -48,80 +48,66 @@ namespace Cryptlex.Net.Core.Services
 
         public async Task<User> GetAsync()
         {
-            return await GetAsync<User>(BasePath);
+            return await GetFromSelfAsync<User>(BasePath);
         }
 
         public async Task<User> UpdateAsync(UpdateCurrentUserData data)
         {
-            using var client = GetCryptlexClient();
-
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-
             var uri = BasePath;
 
-            var res = await client.PatchAsync(uri, content);
+            var result = await RequestAsync(uri, HttpMethod.Patch, data);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not update current user in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not update current user.");
 
-            var resObject = JsonSerializer.Deserialize<User>(await res.Content.ReadAsStringAsync())!;
+            var resultData = await result.ContentToAsync<User>();
 
-            return resObject;
+            return resultData;
         }
         
         public async Task<License> GetLicenseAsync(string id)
         {
-            return await GetAsync<License>(Utils.CombinePaths(BasePath, Actions.License, id));
+            var uri = Utils.CombinePaths(BasePath, Actions.License, id);
+
+            return await GetFromSelfAsync<License>(uri);
         }
 
         public async Task<IEnumerable<License>> GetAllLicensesAsync(GetAllCurrentUserLicensesData data)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Licenses);
-            uri.AppendQueryString(data.ToQueryString());
 
-            return await GetAsync<IEnumerable<License>>(uri);
+            return await GetFromSelfAsync<IEnumerable<License>>(uri, data);
         }
 
         public async Task<Activation> GetActivationAsync(string id)
         {
-            return await GetAsync<Activation>(Utils.CombinePaths(BasePath, Actions.Activation, id));
+            var uri = Utils.CombinePaths(BasePath, Actions.Activation, id);
+
+            return await GetFromSelfAsync<Activation>(uri);
         }
 
         public async Task<IEnumerable<Activation>> GetAllActivateionsAsync(GetAllCurrentUserActivationsData data)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Activations);
-            uri.AppendQueryString(data.ToQueryString());
 
-            return await GetAsync<IEnumerable<Activation>>(uri);
+            return await GetFromSelfAsync<IEnumerable<Activation>>(uri, data);
         }
 
         public async Task<IEnumerable<Release>> GetAllReleasesAsync(GetAllCurrentUserReleasesData data)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Releases);
-            uri.AppendQueryString(data.ToQueryString());
 
-            return await GetAsync<IEnumerable<Release>>(uri);
+            return await GetFromSelfAsync<IEnumerable<Release>>(uri, data);
         }
 
-        protected virtual async Task<T> GetAsync<T>(string uri)
+        protected virtual async Task<T> GetFromSelfAsync<T>(string uri, object? data = null) where T : class
         {
-            using var client = GetCryptlexClient();
+            var result = await RequestAsync(uri, HttpMethod.Get, data);
 
-            var res = await client.GetAsync(uri);
+            result.ThrowIfFailed($"Get from self for {uri} failed.");
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Get failed for path {uri}. Error message: {error.message}", error);
-            }
+            var resultData = await result.ContentToAsync<T>();
 
-            var resObject = JsonSerializer.Deserialize<T>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return resultData;
         }
     }
 }

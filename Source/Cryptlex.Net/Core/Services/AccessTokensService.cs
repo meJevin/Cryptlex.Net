@@ -28,29 +28,29 @@ namespace Cryptlex.Net.Core.Services
 
         }
 
-        public async Task<IEnumerable<PersonalAccessToken>> GetAllAsync(GetAllPersonalAccessTokensData data)
+        public async Task<IEnumerable<PersonalAccessToken>> ListAsync(GetAllPersonalAccessTokensData data)
         {
-            return await base.GenericGetAllAsync(data);
+            return await base.ListEntitiesAsync(data);
         }
 
         public async Task<PersonalAccessToken> CreateAsync(CreatePersonalAccessTokenData data)
         {
-            return await base.GenericCreateAsync(data);
+            return await base.CreateEntityAsync(data);
         }
 
         public async Task<PersonalAccessToken> GetAsync(string id)
         {
-            return await base.GenericGetAsync(id);
+            return await base.GetEntityAsync(id);
         }
 
         public async Task<PersonalAccessToken> UpdateAsync(string id, UpdatePersonalAccessTokenData data)
         {
-            return await base.GenericGetAsync(id);
+            return await base.UpdateEntityAsync(id, data);
         }
 
         public async Task DeleteAsync(string id)
         {
-            await base.GenericDeleteAsync(id);
+            await base.DeleteEntityAsync(id);
         }
     }
 }

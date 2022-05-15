@@ -13,18 +13,18 @@ namespace Cryptlex.Net.Exceptions
 
         public bool HasCryptlexError => CryptlexError is not null;
         
-        public CryptlexException(Error error = null!) : base()
+        public CryptlexException(Error? error = null!) : base()
         {
             CryptlexError = error;
         }
 
-        public CryptlexException(string? message, Error error = null!)
+        public CryptlexException(string? message, Error? error = null!)
             : base(message)
         {
             CryptlexError = error;
         }
 
-        public CryptlexException(string? message, Exception? innerException, Error error = null!)
+        public CryptlexException(string? message, Exception? innerException, Error? error = null!)
             : base(message, innerException)
         {
             CryptlexError = error;

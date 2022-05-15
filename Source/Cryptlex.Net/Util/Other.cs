@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cryptlex.Net.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,14 @@ namespace Cryptlex.Net.Util
                                        .GetProperties()
                                        .Where(p => ignoreNull && p.GetValue(obj, null) != null)
                                        .Select(p => $"{Uri.EscapeDataString(p.Name)}={Uri.EscapeDataString(p.GetValue(obj)!.ToString()!)}"));
+        }
+    }
+
+    public static class HttpContentExtensions
+    {
+        public static async Task<Error?> ReadCryptlexErrorAsync(this HttpContent content)
+        {
+            return JsonSerializer.Deserialize<Error>(await content.ReadAsStringAsync());
         }
     }
 }

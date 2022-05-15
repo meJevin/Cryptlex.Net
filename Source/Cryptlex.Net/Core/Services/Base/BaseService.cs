@@ -8,6 +8,88 @@ using System.Text.Json;
 
 namespace Cryptlex.Net.Core.Services
 {
+    public class RequestResult
+    {
+        public HttpResponseMessage ResponseMessage { get; private set; }
+        public Error? CryptlexError { get; private set; }
+        public string? ReasonPhrase { get; private set; }
+
+        public bool IsSuccessStatusCode => ResponseMessage is not null && ResponseMessage.IsSuccessStatusCode;
+
+        private RequestResult(HttpResponseMessage responseMessage)
+        {
+            ResponseMessage = responseMessage;
+        }
+
+        public async Task<T> ContentToAsync<T>() where T : class?
+        {
+            var stringContent = await ResponseMessage.Content.ReadAsStringAsync();
+
+            if (stringContent is null) return null;
+
+            return JsonSerializer.Deserialize<T>(stringContent)!;
+        }
+
+        public override string ToString()
+        {
+            if (IsSuccessStatusCode) return String.Empty;
+
+            var errors = new List<string>();
+
+            errors.Add($"Failed with code {ResponseMessage.StatusCode}");
+
+            if (CryptlexError is not null)
+            {
+                errors.Add($"Cryptlex error: {CryptlexError.message}");
+            }
+
+            if (ReasonPhrase is not null)
+            {
+                errors.Add($"Reason phrase: {ReasonPhrase}");
+            }
+
+            return String.Join(". ", errors);
+        }
+
+        public void ThrowIfFailed(string? errorStartMsg)
+        {
+            if (IsSuccessStatusCode) return;
+
+            if (CryptlexError is not null)
+            {
+                throw new CryptlexException(errorStartMsg + " " + ToString());
+            }
+
+            if (ReasonPhrase is not null)
+            {
+                throw new HttpRequestException(errorStartMsg + " " + ToString());
+            }
+        }
+
+        public static async Task<RequestResult> FromHttpResponseAsync(HttpResponseMessage message)
+        {
+            var result = new RequestResult(message);
+
+            if (!message.IsSuccessStatusCode)
+            {
+                result.CryptlexError = await message.Content.ReadCryptlexErrorAsync();
+                result.ReasonPhrase = message.ReasonPhrase;
+            }
+
+            return result;
+        }
+    }
+
+    public class EntityUpdatePutOptions
+    {
+        public string PutUri { get; set; }
+
+        public EntityUpdatePutOptions(string customUri)
+        {
+            PutUri = customUri;
+        }
+    }
+
     public abstract class BaseService<T> where T : class
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -23,117 +105,139 @@ namespace Cryptlex.Net.Core.Services
             _cryptlexSettings = cryptlexSettings.Value;
         }
 
-        #region CRUD
-        protected virtual async Task<IEnumerable<T>> GenericGetAllAsync<Req>(Req data, string customUri = null!) where Req : class
-        {
-            return await GenericGetAllAsync<T, Req>(data);
-        }
-
-        protected virtual async Task<IEnumerable<ReturnType>> GenericGetAllAsync<ReturnType, Req>(Req data, string customUri = null!) 
-            where Req : class where ReturnType : class
+        #region HTTP REQUESTS
+        private async Task<RequestResult> QueryStringRequest(string uri, object? data = null!)
         {
             using var client = GetCryptlexClient();
 
-            var uri = customUri is null ? BasePath : customUri;
-            var queryStr = data.ToQueryString();
-
-            var res = await client.GetAsync(uri.AppendQueryString(queryStr));
-
-            if (!res.IsSuccessStatusCode)
+            if (data is not null)
             {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"GetAll operation failed for path {uri}. Error message: {error.message}", error);
+                Utils.AppendQueryString(uri, data.ToQueryString());
             }
 
-            var resObject = JsonSerializer.Deserialize<IEnumerable<ReturnType>>(await res.Content.ReadAsStringAsync())!;
+            var httpRes = await client.GetAsync(uri);
 
-            return resObject;
+            var requestRes = await RequestResult.FromHttpResponseAsync(httpRes);
+
+            return requestRes;
         }
-
-        protected virtual async Task<T> GenericCreateAsync<Req>(Req data)
+        private async Task<RequestResult> RequestBodyRequest(string uri, HttpMethod method, object? data = null!)
         {
             using var client = GetCryptlexClient();
 
-            var uri = BasePath;
+            StringContent? content = null!;
 
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-
-            var res = await client.PostAsync(uri, content);
-
-            if (!res.IsSuccessStatusCode)
+            if (data is not null)
             {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Create failed for path {uri}. Error message: {error.message}", error);
+                var jsonToSend = JsonSerializer.Serialize(data);
+                content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
             }
 
-            var resObject = JsonSerializer.Deserialize<T>(await res.Content.ReadAsStringAsync())!;
+            HttpResponseMessage? httpRes = null!;
 
-            return resObject;
+            if (method == HttpMethod.Post)
+            {
+                httpRes = await client.PostAsync(uri, content);
+            }
+            else if (method == HttpMethod.Put)
+            {
+                httpRes = await client.PutAsync(uri, content);
+            }
+            else if (method == HttpMethod.Patch)
+            {
+                httpRes = await client.PatchAsync(uri, content);
+            }
+            else if (method == HttpMethod.Delete)
+            {
+                httpRes = await client.DeleteAsync(uri);
+            }
+            else
+            {
+                throw new ArgumentException($"Method {method} not supported!");
+            }
+
+            var requestRes = await RequestResult.FromHttpResponseAsync(httpRes);
+
+            return requestRes;
         }
 
-        protected virtual async Task<T> GenericGetAsync(string id)
+        protected virtual async Task<RequestResult> RequestAsync(string uri, HttpMethod method, object? data = null!)
         {
-            using var client = GetCryptlexClient();
-
-            var uri = Utils.CombinePaths(BasePath, id);
-            var res = await client.GetAsync(uri);
-
-            if (!res.IsSuccessStatusCode)
+            if (method == HttpMethod.Get)
             {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Get failed for path {uri}. Error message: {error.message}", error);
+                return await QueryStringRequest(uri, data);
             }
 
-            var resObject = JsonSerializer.Deserialize<T>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
-        }
-
-        protected virtual async Task<T> GenericUpdateAsync<Req>(
-            string id, Req data, bool usePutHttpMethod = false, 
-            string? putFieldName = null)
-        {
-            using var client = GetCryptlexClient();
-
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-
-            var uri = (usePutHttpMethod && !string.IsNullOrEmpty(putFieldName)) ? 
-                Utils.CombinePaths(BasePath, id, putFieldName) : 
-                Utils.CombinePaths(BasePath, id);
-
-            var res = usePutHttpMethod ? 
-                await client.PatchAsync(uri, content) : 
-                await client.PutAsync(uri, content);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Update failed for path {uri}. Error message: {error.message}", error);
-            }
-
-            var resObject = JsonSerializer.Deserialize<T>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
-        }
-
-        protected virtual async Task GenericDeleteAsync(string id)
-        {
-            using var client = GetCryptlexClient();
-
-            var uri = Utils.CombinePaths(BasePath, id);
-            var res = await client.DeleteAsync(uri);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Delete failed for path {uri}. Error message: {error.message}", error);
-            }
+            return await RequestBodyRequest(uri, method, data);
         }
         #endregion
 
-        #region HELPERS
+        #region CRUD
+        protected virtual async Task<IEnumerable<T>> ListEntitiesAsync(object? data = null!)
+        {
+            var uri = BasePath;
+
+            var result = await RequestAsync(uri, HttpMethod.Get, data);
+
+            result.ThrowIfFailed($"List for {uri} failed.");
+
+            var resultData = await result.ContentToAsync<IEnumerable<T>>();
+
+            return resultData;
+        }
+
+        protected virtual async Task<T> CreateEntityAsync(object data)
+        {
+            var uri = BasePath;
+
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
+
+            result.ThrowIfFailed($"Create for ${uri} failed.");
+
+            var resultData = await result.ContentToAsync<T>();
+
+            return resultData;
+        }
+
+        protected virtual async Task<T> GetEntityAsync(string id)
+        {
+            var uri = Utils.CombinePaths(BasePath, id);
+
+            var result = await RequestAsync(uri, HttpMethod.Get, null);
+
+            result.ThrowIfFailed($"Get for {uri} failed.");
+
+            var resultData = await result.ContentToAsync<T>();
+
+            return resultData;
+        }
+
+        protected virtual async Task<T> UpdateEntityAsync(string id, object? data = null!, 
+            EntityUpdatePutOptions? putOptions = null!)
+        {
+            var usePut = putOptions is not null;
+
+            var uri = usePut ? putOptions!.PutUri : Utils.CombinePaths(BasePath, id);
+
+            var result = await RequestAsync(uri, usePut ? HttpMethod.Put : HttpMethod.Patch, data);
+
+            result.ThrowIfFailed($"Update for {uri} failed.");
+
+            var resultData = await result.ContentToAsync<T>();
+
+            return resultData;
+        }
+
+        protected virtual async Task DeleteEntityAsync(string id)
+        {
+            var uri = Utils.CombinePaths(BasePath, id);
+
+            var result = await RequestAsync(uri, HttpMethod.Delete, null);
+
+            result.ThrowIfFailed($"Delete for {uri} failed.");
+        }
+        #endregion
+
         protected virtual HttpClient GetCryptlexClient()
         {
             var client = _httpClientFactory.CreateClient();
@@ -144,18 +248,5 @@ namespace Cryptlex.Net.Core.Services
 
             return client;
         }
-
-        protected virtual async Task<Error> ReadCryptlexErrorAsync(HttpContent content)
-        {
-            try
-            {
-                return JsonSerializer.Deserialize<Error>(await content.ReadAsStringAsync())!;
-            }
-            catch
-            {
-                return new Error() { message = "N/A" };
-            }
-        }
-        #endregion
     }
 }

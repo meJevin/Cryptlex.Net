@@ -44,86 +44,70 @@ namespace Cryptlex.Net.Core.Services
 
         public async Task<Account> CreateAsync(CreateAccountData data)
         {
-            return await base.GenericCreateAsync(data);
+            return await base.CreateEntityAsync(data);
         }
 
         public async Task<Account> GetAsync(string id)
         {
-            return await base.GenericGetAsync(id);
+            return await base.GetEntityAsync(id);
         }
 
         public async Task<Account> UpdateAsync(string id, UpdateAccountData data)
         {
-            return await base.GenericGetAsync(id);
+            return await base.UpdateEntityAsync(id, data);
         }
 
         public async Task<AccountLoginResponse> Login(AccountLoginData data)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.Login);
 
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-            var res = await client.PostAsync(uri, content);
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not login into account with email {data.email}. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not login into account with email {data.email}.");
 
-            var resObject = JsonSerializer.Deserialize<AccountLoginResponse>(await res.Content.ReadAsStringAsync())!;
+            var resultData = await result.ContentToAsync<AccountLoginResponse>();
 
-            return resObject;
+            return resultData;
         }
 
         public async Task<AccountLoginGoogleResponse> LoginGoogle(AccountLoginGoogleData data)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.LoginGoogle);
 
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-            var res = await client.PostAsync(uri, content);
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not login into account with email {data.email}. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not login into account with email {data.email}.");
 
-            var resObject = JsonSerializer.Deserialize<AccountLoginGoogleResponse>(await res.Content.ReadAsStringAsync())!;
+            var resultData = await result.ContentToAsync<AccountLoginGoogleResponse>();
 
-            return resObject;
+            return resultData;
         }
 
         public async Task ResetPassowrd(AccountResetPasswordData data)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.ResetPasswordRequest);
 
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-            var res = await client.PostAsync(uri, content);
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not reset password for account with email {data.email}. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not reset password for account with email {data.email}.");
         }
 
         public async Task<Account> UpdateStatus(string id, UpdateAccountStatusData data)
         {
-            return await base.GenericUpdateAsync(id, data, true, Actions.Status);
+            var uri = Utils.CombinePaths(BasePath, id, Actions.Status);
+
+            var putoptions = new EntityUpdatePutOptions(uri);
+
+            return await base.UpdateEntityAsync(id, data, putoptions);
         }
 
         public async Task<Account> UpdatePlan(string id, UpdateAccountPlanData data)
         {
-            return await base.GenericUpdateAsync(id, data, true, Actions.Plan);
+            var uri = Utils.CombinePaths(BasePath, id, Actions.Plan);
+
+            var putoptions = new EntityUpdatePutOptions(uri);
+
+            return await base.UpdateEntityAsync(id, data, putoptions);
         }
     }
 }

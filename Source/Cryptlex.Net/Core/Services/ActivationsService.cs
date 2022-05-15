@@ -43,91 +43,64 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
-        public async Task<IEnumerable<Activation>> GetAllAsync(GetAllActivationsData data)
+        public async Task<IEnumerable<Activation>> ListAsync(GetAllActivationsData data)
         {
-            return await base.GenericGetAllAsync(data);
+            return await base.ListEntitiesAsync(data);
         }
 
         public async Task<Activation> CreateAsync(CreateActivationData data)
         {
-            return await base.GenericCreateAsync(data);
+            return await base.CreateEntityAsync(data);
         }
 
         public async Task<Activation> GetAsync(string id)
         {
-            return await base.GenericGetAsync(id);
+            return await base.GetEntityAsync(id);
         }
 
         public async Task<Activation> UpdateAsync(string id, UpdateActivationData data)
         {
-            return await base.GenericUpdateAsync(id, data);
+            return await base.UpdateEntityAsync(id, data);
         }
 
         public async Task DeleteAsync(string id)
         {
-            await base.GenericDeleteAsync(id);
+            await base.DeleteEntityAsync(id);
         }
 
         public async Task<OfflineActivationResponse> OfflineActivate(OfflineActivateData data)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.OfflineActivate);
 
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            var res = await client.PostAsync(uri, content);
+            result.ThrowIfFailed($"Could not perform offline activation for {data.licenseId}.");
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not create offline activation in cryptlex. Error message: {error.message}", error);
-            }
+            var resultData = await result.ContentToAsync<OfflineActivationResponse>();
 
-            var resObject = JsonSerializer.Deserialize<OfflineActivationResponse>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return resultData;
         }
 
         public async Task OfflineDeactivate(OfflineDeactivateData data)
         {
-            using var client = GetCryptlexClient();
-            
             var uri = Utils.CombinePaths(BasePath, Actions.OfflineDeactivate);
 
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            var res = await client.PostAsync(uri, content);
-
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not delete an activation offline in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not perform offline deactivation for {data.licenseId}.");
         }
 
         public async Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.MeterAttributes, id);
 
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            var res = await client.PostAsync(uri, content);
+            result.ThrowIfFailed($"Could not increment usage for {id}.");
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not increment meter attribute for activation with id {id} in cryptlex. Error message: {error.message}", error);
-            }
+            var resultData = await result.ContentToAsync<IncrementActivationUsageResponse>();
 
-            var resObject = JsonSerializer.Deserialize<IncrementActivationUsageResponse>(await res.Content.ReadAsStringAsync())!;
-
-            return resObject;
+            return resultData;
         }
     }
 }

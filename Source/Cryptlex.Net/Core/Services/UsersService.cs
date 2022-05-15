@@ -50,97 +50,69 @@ namespace Cryptlex.Net.Core.Services
             Current = currentUserService;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync(GetAllUsersData data)
+        public async Task<IEnumerable<User>> ListAsync(GetAllUsersData data)
         {
-            return await base.GenericGetAllAsync(data);
+            return await base.ListEntitiesAsync(data);
         }
 
         public async Task<User> CreateAsync(CreateUserData data)
         {
-            return await base.GenericCreateAsync(data);
+            return await base.CreateEntityAsync(data);
         }
 
         public async Task<User> GetAsync(string id)
         {
-            return await base.GenericGetAsync(id);
+            return await base.GetEntityAsync(id);
         }
 
         public async Task<User> UpdateAsync(string id, UpdateUserData data)
         {
-            return await base.GenericUpdateAsync(id, data);
+            return await base.UpdateEntityAsync(id, data);
         }
 
         public async Task DeleteAsync(string id)
         {
-            await base.GenericDeleteAsync(id);
+            await base.DeleteEntityAsync(id);
         }
 
         public async Task ExportAllAsync()
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.Export);
 
-            var res = await client.GetAsync(uri);
+            var result = await RequestAsync(uri, HttpMethod.Get, null);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not export users from cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not export all users.");
         }
 
         public async Task UpdatePassword(string id, UpdateUserPasswordData data)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, id, Actions.UpdatePassword);
 
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-            var res = await client.PostAsync(uri, content);
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not update password for user with id {id} in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not update password for user with id {id}.");
         }
 
         public async Task<PasswordResetTokenResponse> GetPasswordResetToken(string id)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, id, Actions.GetPasswordResetToken);
 
-            var res = await client.PostAsync(uri, null);
+            var result = await RequestAsync(uri, HttpMethod.Post, null);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not get password reset token for user with id {id} in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not get password reset token for user with id {id}.");
 
-            var resObject = JsonSerializer.Deserialize<PasswordResetTokenResponse>(await res.Content.ReadAsStringAsync())!;
+            var resultData = await result.ContentToAsync<PasswordResetTokenResponse>();
 
-            return resObject;
+            return resultData;
         }
 
         public async Task ResetPassword(string id, ResetUserPasswordData data)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, id, Actions.ResetPassword);
 
-            var jsonToSend = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonToSend, Encoding.UTF8, API.MediaType);
-            var res = await client.PostAsync(uri, content);
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            if (!res.IsSuccessStatusCode)
-            {
-                var error = await ReadCryptlexErrorAsync(res.Content);
-                throw new CryptlexException($"Could not reset password for user with id {id} in cryptlex. Error message: {error.message}", error);
-            }
+            result.ThrowIfFailed($"Could not reset password for user with id {id}.");
         }
     }
 }
