@@ -74,7 +74,7 @@ public class TestClass
     {
 	var data = new GetAllActivationsData() { page = 2 };
 		
-        await _cryptlexClient.Activations.GetAllAsync(data);
+        await _cryptlexClient.Activations.ListAsync(data);
     }
 }
 ```
