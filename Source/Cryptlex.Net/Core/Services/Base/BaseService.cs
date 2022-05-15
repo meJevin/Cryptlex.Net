@@ -1,6 +1,4 @@
-﻿using Cryptlex.Net.Entities;
-using Cryptlex.Net.Exceptions;
-using Cryptlex.Net.Util;
+﻿using Cryptlex.Net.Util;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text;
@@ -8,88 +6,6 @@ using System.Text.Json;
 
 namespace Cryptlex.Net.Core.Services
 {
-    public class RequestResult
-    {
-        public HttpResponseMessage ResponseMessage { get; private set; }
-        public Error? CryptlexError { get; private set; }
-        public string? ReasonPhrase { get; private set; }
-
-        public bool IsSuccessStatusCode => ResponseMessage is not null && ResponseMessage.IsSuccessStatusCode;
-
-        private RequestResult(HttpResponseMessage responseMessage)
-        {
-            ResponseMessage = responseMessage;
-        }
-
-        public async Task<T> ContentToAsync<T>() where T : class?
-        {
-            var stringContent = await ResponseMessage.Content.ReadAsStringAsync();
-
-            if (stringContent is null) return null;
-
-            return JsonSerializer.Deserialize<T>(stringContent)!;
-        }
-
-        public override string ToString()
-        {
-            if (IsSuccessStatusCode) return String.Empty;
-
-            var errors = new List<string>();
-
-            errors.Add($"Failed with code {ResponseMessage.StatusCode}");
-
-            if (CryptlexError is not null)
-            {
-                errors.Add($"Cryptlex error: {CryptlexError.message}");
-            }
-
-            if (ReasonPhrase is not null)
-            {
-                errors.Add($"Reason phrase: {ReasonPhrase}");
-            }
-
-            return String.Join(". ", errors);
-        }
-
-        public void ThrowIfFailed(string? errorStartMsg)
-        {
-            if (IsSuccessStatusCode) return;
-
-            if (CryptlexError is not null)
-            {
-                throw new CryptlexException(errorStartMsg + " " + ToString());
-            }
-
-            if (ReasonPhrase is not null)
-            {
-                throw new HttpRequestException(errorStartMsg + " " + ToString());
-            }
-        }
-
-        public static async Task<RequestResult> FromHttpResponseAsync(HttpResponseMessage message)
-        {
-            var result = new RequestResult(message);
-
-            if (!message.IsSuccessStatusCode)
-            {
-                result.CryptlexError = await message.Content.ReadCryptlexErrorAsync();
-                result.ReasonPhrase = message.ReasonPhrase;
-            }
-
-            return result;
-        }
-    }
-
-    public class EntityUpdatePutOptions
-    {
-        public string PutUri { get; set; }
-
-        public EntityUpdatePutOptions(string customUri)
-        {
-            PutUri = customUri;
-        }
-    }
-
     public abstract class BaseService<T> where T : class
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -181,7 +97,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"List for {uri} failed.");
 
-            var resultData = await result.ContentToAsync<IEnumerable<T>>();
+            var resultData = await result.ExtractDataAsync<IEnumerable<T>>();
 
             return resultData;
         }
@@ -194,7 +110,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Create for ${uri} failed.");
 
-            var resultData = await result.ContentToAsync<T>();
+            var resultData = await result.ExtractDataAsync<T>();
 
             return resultData;
         }
@@ -207,23 +123,26 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Get for {uri} failed.");
 
-            var resultData = await result.ContentToAsync<T>();
+            var resultData = await result.ExtractDataAsync<T>();
 
             return resultData;
         }
 
-        protected virtual async Task<T> UpdateEntityAsync(string id, object? data = null!, 
-            EntityUpdatePutOptions? putOptions = null!)
+        protected virtual async Task<T> UpdateEntityAsync(string id, object? data = null!)
         {
-            var usePut = putOptions is not null;
+            return await UpdateEntityAsync<T>(id, data);
+        }
 
-            var uri = usePut ? putOptions!.PutUri : Utils.CombinePaths(BasePath, id);
+        // Yup, in some cases Cryptlex returns something other than the entity after update ¯\_(ツ)_/¯
+        protected virtual async Task<TResponse> UpdateEntityAsync<TResponse>(string id, object? data = null!)
+        {
+            var uri = Utils.CombinePaths(BasePath, id);
 
-            var result = await RequestAsync(uri, usePut ? HttpMethod.Put : HttpMethod.Patch, data);
+            var result = await RequestAsync(uri, HttpMethod.Patch, data);
 
             result.ThrowIfFailed($"Update for {uri} failed.");
 
-            var resultData = await result.ContentToAsync<T>();
+            var resultData = await result.ExtractDataAsync<TResponse>();
 
             return resultData;
         }

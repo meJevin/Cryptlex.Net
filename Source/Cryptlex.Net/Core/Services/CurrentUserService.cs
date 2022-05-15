@@ -59,7 +59,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not update current user.");
 
-            var resultData = await result.ContentToAsync<User>();
+            var resultData = await result.ExtractDataAsync<User>();
 
             return resultData;
         }
@@ -105,7 +105,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Get from self for {uri} failed.");
 
-            var resultData = await result.ContentToAsync<T>();
+            var resultData = await result.ExtractDataAsync<T>();
 
             return resultData;
         }

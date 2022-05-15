@@ -1,40 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageId>Cryptlex.Net</PackageId>
+		<Version>0.2.1</Version>
+		<Authors>Michael Naifield</Authors>
+		<Company />
+		<Product>Cryptlex.Net</Product>
+		<Description>C# library for the Cryptlex Web API</Description>
+		<PackageProjectUrl>https://github.com/meJevin/CryptlexDotNet</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/meJevin/CryptlexDotNet</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>cryptlex;license-management;rest-api;library</PackageTags>
+		<NeutralLanguage>en</NeutralLanguage>
+		<PackageIcon>icon.png</PackageIcon>
+		<NoWarn>IDE1006</NoWarn>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <PackageId>Cryptlex.Net</PackageId>
-    <Version>0.2.1</Version>
-    <Authors>Michael Naifield</Authors>
-    <Company />
-    <Product>Cryptlex.Net</Product>
-    <Description>C# library for the Cryptlex Web API</Description>
-    <PackageProjectUrl>https://github.com/meJevin/CryptlexDotNet</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/meJevin/CryptlexDotNet</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>cryptlex;license-management;rest-api;library</PackageTags>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
-  </PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\icon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-	  
-  </ItemGroup>
-
+	</ItemGroup>
 </Project>

@@ -7,7 +7,14 @@ namespace Cryptlex.Net.Util
     {
         public static async Task<Error?> ReadCryptlexErrorAsync(this HttpContent content)
         {
-            return JsonSerializer.Deserialize<Error>(await content.ReadAsStringAsync());
+            try
+            {
+                return JsonSerializer.Deserialize<Error>(await content.ReadAsStringAsync());
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

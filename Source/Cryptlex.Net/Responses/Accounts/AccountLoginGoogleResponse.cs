@@ -8,6 +8,6 @@ namespace Cryptlex.Net.Accounts
 {
     public class AccountLoginGoogleResponse
     {
-        string? accessToken { get; set; }
+        public string? accessToken { get; set; }
     }
 }

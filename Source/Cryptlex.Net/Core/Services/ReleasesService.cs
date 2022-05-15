@@ -76,7 +76,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not check for update.");
 
-            var resultData = await result.ContentToAsync<Release>();
+            var resultData = await result.ExtractDataAsync<Release>();
 
             return resultData;
         }
@@ -89,7 +89,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not get latest release for product wth id {data.productId}.");
 
-            var resultData = await result.ContentToAsync<Release>();
+            var resultData = await result.ExtractDataAsync<Release>();
 
             return resultData;
         }
@@ -102,7 +102,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not publish release with id {id}");
 
-            var resultData = await result.ContentToAsync<Release>();
+            var resultData = await result.ExtractDataAsync<Release>();
 
             return resultData;
         }

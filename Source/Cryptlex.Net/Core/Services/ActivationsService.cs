@@ -17,7 +17,7 @@ namespace Cryptlex.Net.Core.Services
         IListable<Activation, ListActivationsData>,
         ICreatable<Activation, CreateActivationData>,
         IRetrievable<Activation>,
-        IUpdatable<Activation, UpdateActivationData>,
+        IUpdatable<UpdateActivationResponse, UpdateActivationData>,
         IDeletable<Activation>
     {
         Task<OfflineActivationResponse> OfflineActivate(OfflineActivateData data);
@@ -58,9 +58,9 @@ namespace Cryptlex.Net.Core.Services
             return await base.GetEntityAsync(id);
         }
 
-        public async Task<Activation> UpdateAsync(string id, UpdateActivationData data)
+        public async Task<UpdateActivationResponse> UpdateAsync(string id, UpdateActivationData data)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync<UpdateActivationResponse>(id, data);
         }
 
         public async Task DeleteAsync(string id)
@@ -76,7 +76,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not perform offline activation for {data.licenseId}.");
 
-            var resultData = await result.ContentToAsync<OfflineActivationResponse>();
+            var resultData = await result.ExtractDataAsync<OfflineActivationResponse>();
 
             return resultData;
         }
@@ -98,7 +98,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not increment usage for {id}.");
 
-            var resultData = await result.ContentToAsync<IncrementActivationUsageResponse>();
+            var resultData = await result.ExtractDataAsync<IncrementActivationUsageResponse>();
 
             return resultData;
         }

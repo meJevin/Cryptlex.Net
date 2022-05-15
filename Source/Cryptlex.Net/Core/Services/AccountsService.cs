@@ -65,7 +65,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not login into account with email {data.email}.");
 
-            var resultData = await result.ContentToAsync<AccountLoginResponse>();
+            var resultData = await result.ExtractDataAsync<AccountLoginResponse>();
 
             return resultData;
         }
@@ -78,7 +78,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not login into account with email {data.email}.");
 
-            var resultData = await result.ContentToAsync<AccountLoginGoogleResponse>();
+            var resultData = await result.ExtractDataAsync<AccountLoginGoogleResponse>();
 
             return resultData;
         }
@@ -96,18 +96,26 @@ namespace Cryptlex.Net.Core.Services
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.Status);
 
-            var putoptions = new EntityUpdatePutOptions(uri);
+            var result = await RequestAsync(uri, HttpMethod.Put, data);
 
-            return await base.UpdateEntityAsync(id, data, putoptions);
+            result.ThrowIfFailed($"Could not update status for acount with id {id}");
+
+            var resultData = await result.ExtractDataAsync<Account>();
+
+            return resultData;
         }
 
         public async Task<Account> UpdatePlan(string id, UpdateAccountPlanData data)
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.Plan);
 
-            var putoptions = new EntityUpdatePutOptions(uri);
+            var result = await RequestAsync(uri, HttpMethod.Put, data);
 
-            return await base.UpdateEntityAsync(id, data, putoptions);
+            result.ThrowIfFailed($"Could not update plan for acount with id {id}");
+
+            var resultData = await result.ExtractDataAsync<Account>();
+
+            return resultData;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not get all claims.");
 
-            var resultData = await result.ContentToAsync<IEnumerable<string>>();
+            var resultData = await result.ExtractDataAsync<IEnumerable<string>>();
 
             return resultData;
         }

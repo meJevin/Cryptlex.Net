@@ -101,7 +101,7 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Could not get password reset token for user with id {id}.");
 
-            var resultData = await result.ContentToAsync<PasswordResetTokenResponse>();
+            var resultData = await result.ExtractDataAsync<PasswordResetTokenResponse>();
 
             return resultData;
         }

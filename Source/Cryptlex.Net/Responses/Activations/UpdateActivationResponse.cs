@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cryptlex.Net.Core
+namespace Cryptlex.Net.Activations
 {
-    public class CryptlexClientSettings
+    public class UpdateActivationResponse
     {
-        public string? AccessToken { get; set; }
+        public string? activationToken { get; set; }
     }
 }
