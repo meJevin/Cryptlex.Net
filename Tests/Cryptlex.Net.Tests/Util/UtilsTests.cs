@@ -28,10 +28,13 @@ namespace Cryptlex.Net.Tests.Util
         [InlineData("uri", null)]
         public void AppendQueryString_Produces_Correct_Results(string uri, string queryStr)
         {
+            // Arrange
             var expected = uri + (string.IsNullOrEmpty(queryStr) ? "" : "?" + queryStr);
 
+            // Act
             var actual = Utils.AppendQueryString(uri, queryStr);
 
+            // Assert
             Assert.Equal(expected, actual);
         }
     }
