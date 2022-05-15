@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface IReleasesService :
-           IListable<Release, GetAllReleasesData>,
+           IListable<Release, ListReleasesData>,
            ICreatable<Release, CreateReleaseData>,
            IRetrievable<Release>,
            IUpdatable<Release, UpdateReleaseData>,
@@ -58,7 +58,7 @@ namespace Cryptlex.Net.Core.Services
             return await base.GetEntityAsync(id);
         }
 
-        public async Task<IEnumerable<Release>> ListAsync(GetAllReleasesData data)
+        public async Task<IEnumerable<Release>> ListAsync(ListReleasesData data)
         {
             return await base.ListEntitiesAsync(data);
         }

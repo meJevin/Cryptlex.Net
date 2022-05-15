@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface IRolesService :
-        IListable<Role, GetAllRolesData>,
+        IListable<Role, ListRolesData>,
         ICreatable<Role, CreateRoleData>,
         IRetrievable<Role>,
         IUpdatable<Role, UpdateRoleData>,
         IDeletable<Role>
     {
-        Task<IEnumerable<string>> GetAllClaims(GetAllRoleClaimsData data);
+        Task<IEnumerable<string>> ListClaims(ListRoleClaimsData data);
     }
 
     public class RolesService : BaseService<Role>, IRolesService
@@ -39,12 +39,12 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
-        public async Task<IEnumerable<Role>> ListAsync(GetAllRolesData data)
+        public async Task<IEnumerable<Role>> ListAsync(ListRolesData data)
         {
             return await base.ListEntitiesAsync(data);
         }
 
-        public async Task<IEnumerable<string>> GetAllClaims(GetAllRoleClaimsData data)
+        public async Task<IEnumerable<string>> ListClaims(ListRoleClaimsData data)
         {
             var uri = BasePath;
 

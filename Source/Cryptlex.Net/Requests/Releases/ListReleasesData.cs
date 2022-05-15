@@ -1,6 +1,6 @@
 ﻿namespace Cryptlex.Net.Releases
 {
-    public class GetAllReleasesData
+    public class ListReleasesData
     {
         public int? page { get; set; }
         public int? limit { get; set; }

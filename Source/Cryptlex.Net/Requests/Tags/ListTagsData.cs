@@ -1,6 +1,6 @@
-﻿namespace Cryptlex.Net.LicensePolicies 
+﻿namespace Cryptlex.Net.Tags
 {
-    public class GetAllLicensePoliciesData
+    public class ListTagsData
     {
         public int? page { get; set; }
         public int? limit { get; set; }

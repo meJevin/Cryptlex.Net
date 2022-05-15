@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface ITrialActivationsService :
-        IListable<TrialActivation, GetAllTrialActivationsData>,
+        IListable<TrialActivation, ListTrialActivationsData>,
         ICreatable<TrialActivation, CreateTrialActivationData>,
         IRetrievable<TrialActivation>,
         IDeletable<TrialActivation>
@@ -57,7 +57,7 @@ namespace Cryptlex.Net.Core.Services
             return await base.GetEntityAsync(id);
         }
 
-        public async Task<IEnumerable<TrialActivation>> ListAsync(GetAllTrialActivationsData data)
+        public async Task<IEnumerable<TrialActivation>> ListAsync(ListTrialActivationsData data)
         {
             return await base.ListEntitiesAsync(data);
         }

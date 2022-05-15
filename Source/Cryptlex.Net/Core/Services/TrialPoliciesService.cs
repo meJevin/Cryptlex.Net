@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface ITrialPoliciesService :
-        IListable<TrialPolicy, GetAllTrialPoliciesData>,
+        IListable<TrialPolicy, ListTrialPoliciesData>,
         ICreatable<TrialPolicy, CreateTrialPolicyData>,
         IRetrievable<TrialPolicy>,
         IUpdatable<TrialPolicy, UpdateTrialPolicyData>,
@@ -33,7 +33,7 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
-        public async Task<IEnumerable<TrialPolicy>> ListAsync(GetAllTrialPoliciesData data)
+        public async Task<IEnumerable<TrialPolicy>> ListAsync(ListTrialPoliciesData data)
         {
             return await base.ListEntitiesAsync(data);
         }

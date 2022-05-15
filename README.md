@@ -72,9 +72,9 @@ public class TestClass
 
     public async Task SomeMethod()
     {
-	var data = new GetAllActivationsData() { page = 2 };
+	    var data = new ListActivationsData() { page = 2 };
 		
-        await _cryptlexClient.Activations.GetAllAsync(data);
+        await _cryptlexClient.Activations.ListAsync(data);
     }
 }
 ```

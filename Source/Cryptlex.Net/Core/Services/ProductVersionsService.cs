@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface IProductVersionsService :
-        IListable<ProductVersion, GetAllProductVersionsData>,
+        IListable<ProductVersion, ListProductVersionsData>,
         ICreatable<ProductVersion, CreateProductVersionData>,
         IRetrievable<ProductVersion>,
         IUpdatable<ProductVersion, UpdateProductVersionData>,
@@ -48,7 +48,7 @@ namespace Cryptlex.Net.Core.Services
             return await base.GetEntityAsync(id);
         }
 
-        public async Task<IEnumerable<ProductVersion>> ListAsync(GetAllProductVersionsData data)
+        public async Task<IEnumerable<ProductVersion>> ListAsync(ListProductVersionsData data)
         {
             return await base.ListEntitiesAsync(data);
         }

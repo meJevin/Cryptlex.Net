@@ -14,7 +14,7 @@ using Cryptlex.Net.Core.Services.Base;
 namespace Cryptlex.Net.Core.Services
 {
     public interface ILicensesService :
-        IListable<License, GetAllLicensesData>,
+        IListable<License, ListLicensesData>,
         ICreatable<License, CreateLicenseData>,
         IRetrievable<License>,
         IUpdatable<License, UpdateLicenseData>,
@@ -49,7 +49,7 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
-        public async Task<IEnumerable<License>> ListAsync(GetAllLicensesData data)
+        public async Task<IEnumerable<License>> ListAsync(ListLicensesData data)
         {
             return await base.ListEntitiesAsync(data);
         }

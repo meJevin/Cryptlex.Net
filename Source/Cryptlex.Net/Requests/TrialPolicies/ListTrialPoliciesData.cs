@@ -1,12 +1,10 @@
-﻿namespace Cryptlex.Net.ReleaseFiles
+﻿namespace Cryptlex.Net.TrialPolicies
 {
-    public class GetAllReleaseFilesData
+    public class ListTrialPoliciesData
     {
         public int? page { get; set; }
         public int? limit { get; set; }
         public string? sort { get; set; }
-        public string? releaseId { get; set; }
-        public string? name { get; set; }
         public string? query { get; set; }
     }
 }

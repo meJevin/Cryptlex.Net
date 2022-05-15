@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cryptlex.Net.Roles
 {
-    public class GetAllRoleClaimsData
+    public class ListRoleClaimsData
     {
     }
 }

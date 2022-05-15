@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface IFeatureFlagsService :
-        IListable<FeatureFlag, GetAllFeatureFlagsData>,
+        IListable<FeatureFlag, ListFeatureFlagsData>,
         ICreatable<FeatureFlag, CreateFeatureFlagData>,
         IRetrievable<FeatureFlag>,
         IUpdatable<FeatureFlag, UpdateFeatureFlagData>,
@@ -48,7 +48,7 @@ namespace Cryptlex.Net.Core.Services
             return await base.GetEntityAsync(id);
         }
 
-        public async Task<IEnumerable<FeatureFlag>> ListAsync(GetAllFeatureFlagsData data)
+        public async Task<IEnumerable<FeatureFlag>> ListAsync(ListFeatureFlagsData data)
         {
             return await base.ListEntitiesAsync(data);
         }

@@ -1,6 +1,6 @@
 ﻿namespace Cryptlex.Net.Users
 {
-    public class GetAllUsersData
+    public class ListUsersData
     {
         public int? page { get; set; }
         public int? limit { get; set; }

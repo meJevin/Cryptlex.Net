@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 namespace Cryptlex.Net.Core.Services
 {
     public interface IAccessTokensService :
-        IListable<PersonalAccessToken, GetAllPersonalAccessTokensData>,
+        IListable<PersonalAccessToken, ListPersonalAccessTokensData>,
         ICreatable<PersonalAccessToken, CreatePersonalAccessTokenData>,
         IRetrievable<PersonalAccessToken>,
         IUpdatable<PersonalAccessToken, UpdatePersonalAccessTokenData>,
@@ -28,7 +28,7 @@ namespace Cryptlex.Net.Core.Services
 
         }
 
-        public async Task<IEnumerable<PersonalAccessToken>> ListAsync(GetAllPersonalAccessTokensData data)
+        public async Task<IEnumerable<PersonalAccessToken>> ListAsync(ListPersonalAccessTokensData data)
         {
             return await base.ListEntitiesAsync(data);
         }

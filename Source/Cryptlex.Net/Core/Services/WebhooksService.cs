@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface IWebhooksService :
-        IListable<Webhook, GetAllWebhooksData>,
+        IListable<Webhook, ListWebhooksData>,
         ICreatable<Webhook, CreateWebhookData>,
         IRetrievable<Webhook>,
         IUpdatable<Webhook, UpdateWebhookData>,
@@ -54,7 +54,7 @@ namespace Cryptlex.Net.Core.Services
             return await base.GetEntityAsync(id);
         }
 
-        public async Task<IEnumerable<Webhook>> ListAsync(GetAllWebhooksData data)
+        public async Task<IEnumerable<Webhook>> ListAsync(ListWebhooksData data)
         {
             return await base.ListEntitiesAsync(data);
         }

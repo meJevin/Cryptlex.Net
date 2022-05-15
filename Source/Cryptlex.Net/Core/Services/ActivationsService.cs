@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface IActivationsService :
-        IListable<Activation, GetAllActivationsData>,
+        IListable<Activation, ListActivationsData>,
         ICreatable<Activation, CreateActivationData>,
         IRetrievable<Activation>,
         IUpdatable<Activation, UpdateActivationData>,
@@ -43,7 +43,7 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
-        public async Task<IEnumerable<Activation>> ListAsync(GetAllActivationsData data)
+        public async Task<IEnumerable<Activation>> ListAsync(ListActivationsData data)
         {
             return await base.ListEntitiesAsync(data);
         }

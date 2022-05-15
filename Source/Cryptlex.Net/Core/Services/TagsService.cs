@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface ITagsService :
-        IListable<Tag, GetAllTagsData>,
+        IListable<Tag, ListTagsData>,
         ICreatable<Tag, CreateTagData>,
         IRetrievable<Tag>,
         IUpdatable<Tag, UpdateTagData>,
@@ -33,7 +33,7 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
-        public async Task<IEnumerable<Tag>> ListAsync(GetAllTagsData data)
+        public async Task<IEnumerable<Tag>> ListAsync(ListTagsData data)
         {
             return await base.ListEntitiesAsync(data);
         }

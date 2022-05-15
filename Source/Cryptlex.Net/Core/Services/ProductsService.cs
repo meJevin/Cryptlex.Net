@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface IProductsService :
-        IListable<Product, GetAllProductsData>,
+        IListable<Product, ListProductsData>,
         ICreatable<Product, CreateProductData>,
         IRetrievable<Product>,
         IUpdatable<Product, UpdateProductData>,
@@ -45,7 +45,7 @@ namespace Cryptlex.Net.Core.Services
             return await result.ResponseMessage.Content.ReadAsStreamAsync();
         }
 
-        public async Task<IEnumerable<Product>> ListAsync(GetAllProductsData data)
+        public async Task<IEnumerable<Product>> ListAsync(ListProductsData data)
         {
             return await base.ListEntitiesAsync(data);
         }

@@ -19,10 +19,10 @@ namespace Cryptlex.Net.Core.Services
         Task<User> GetAsync();
         Task<User> UpdateAsync(UpdateCurrentUserData data);
         Task<License> GetLicenseAsync(string id);
-        Task<IEnumerable<License>> GetAllLicensesAsync(GetAllCurrentUserLicensesData data);
+        Task<IEnumerable<License>> ListLicensesAsync(ListCurrentUserLicensesData data);
         Task<Activation> GetActivationAsync(string id);
-        Task<IEnumerable<Activation>> GetAllActivateionsAsync(GetAllCurrentUserActivationsData data);
-        Task<IEnumerable<Release>> GetAllReleasesAsync(GetAllCurrentUserReleasesData data);
+        Task<IEnumerable<Activation>> ListActivateionsAsync(ListCurrentUserActivationsData data);
+        Task<IEnumerable<Release>> ListReleasesAsync(ListCurrentUserReleasesData data);
     }
 
 
@@ -71,7 +71,7 @@ namespace Cryptlex.Net.Core.Services
             return await GetFromSelfAsync<License>(uri);
         }
 
-        public async Task<IEnumerable<License>> GetAllLicensesAsync(GetAllCurrentUserLicensesData data)
+        public async Task<IEnumerable<License>> ListLicensesAsync(ListCurrentUserLicensesData data)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Licenses);
 
@@ -85,14 +85,14 @@ namespace Cryptlex.Net.Core.Services
             return await GetFromSelfAsync<Activation>(uri);
         }
 
-        public async Task<IEnumerable<Activation>> GetAllActivateionsAsync(GetAllCurrentUserActivationsData data)
+        public async Task<IEnumerable<Activation>> ListActivateionsAsync(ListCurrentUserActivationsData data)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Activations);
 
             return await GetFromSelfAsync<IEnumerable<Activation>>(uri, data);
         }
 
-        public async Task<IEnumerable<Release>> GetAllReleasesAsync(GetAllCurrentUserReleasesData data)
+        public async Task<IEnumerable<Release>> ListReleasesAsync(ListCurrentUserReleasesData data)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Releases);
 

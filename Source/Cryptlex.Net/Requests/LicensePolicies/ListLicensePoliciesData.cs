@@ -1,6 +1,6 @@
-﻿namespace Cryptlex.Net.Webhooks
+﻿namespace Cryptlex.Net.LicensePolicies 
 {
-    public class GetAllWebhooksData
+    public class ListLicensePoliciesData
     {
         public int? page { get; set; }
         public int? limit { get; set; }

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Cryptlex.Net.Core.Services
 {
     public interface IUsersService :
-        IListable<User, GetAllUsersData>,
+        IListable<User, ListUsersData>,
         ICreatable<User, CreateUserData>,
         IRetrievable<User>,
         IUpdatable<User, UpdateUserData>,
@@ -50,7 +50,7 @@ namespace Cryptlex.Net.Core.Services
             Current = currentUserService;
         }
 
-        public async Task<IEnumerable<User>> ListAsync(GetAllUsersData data)
+        public async Task<IEnumerable<User>> ListAsync(ListUsersData data)
         {
             return await base.ListEntitiesAsync(data);
         }

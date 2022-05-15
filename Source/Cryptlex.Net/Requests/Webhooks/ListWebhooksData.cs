@@ -1,6 +1,6 @@
-﻿namespace Cryptlex.Net.Tags
+﻿namespace Cryptlex.Net.Webhooks
 {
-    public class GetAllTagsData
+    public class ListWebhooksData
     {
         public int? page { get; set; }
         public int? limit { get; set; }
