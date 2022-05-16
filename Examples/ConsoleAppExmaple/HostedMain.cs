@@ -44,7 +44,7 @@ namespace ConsoleAppExample
 
         public async Task Playground()
         {
-            var users = await _cryptlexClient.UserService.Current.ListActivateionsAsync(new ListCurrentUserActivationsData() { page = 1 });
+            var users = await _cryptlexClient.Users.Current.ListActivateionsAsync(new ListCurrentUserActivationsData() { page = 1 });
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
