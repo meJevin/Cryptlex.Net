@@ -9,9 +9,9 @@
 		<Company />
 		<Product>Cryptlex.Net</Product>
 		<Description>C# library for the Cryptlex Web API</Description>
-		<PackageProjectUrl>https://github.com/meJevin/CryptlexDotNet</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/meJevin/Cryptlex.Net</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/meJevin/CryptlexDotNet</RepositoryUrl>
+		<RepositoryUrl>https://github.com/meJevin/Cryptlex.Net</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>cryptlex;license-management;rest-api;library</PackageTags>
 		<NeutralLanguage>en</NeutralLanguage>
