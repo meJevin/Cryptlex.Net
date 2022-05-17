@@ -1,6 +1,4 @@
-﻿using Cryptlex.Net.Util;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace ConsoleAppExample
@@ -9,14 +7,12 @@ namespace ConsoleAppExample
     {
         public static async Task Main(string[] args)
         {
-            var token = "YOUR TOKEN HERE";
-
             try
             {
                 var builder = Host.CreateDefaultBuilder(args)
                     .ConfigureServices((hostContext, services) =>
                     {
-                        services.AddCryptlexClient(a => a.AccessToken = token);
+                        services.AddCryptlexClient(options => options.AccessToken = "YOUR_TOKEN");
 
                         services.AddSingleton<HostedMain>();
                         services.AddHostedService(provider => provider.GetService<HostedMain>());

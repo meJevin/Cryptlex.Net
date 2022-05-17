@@ -2,7 +2,7 @@
 using Cryptlex.Net.Core.Services;
 using Microsoft.Extensions.Options;
 
-public class MyHttpClientFactory : IHttpClientFactory
+public class HttpClientFactory : IHttpClientFactory
 {
     public HttpClient CreateClient(string name)
     {
@@ -11,15 +11,16 @@ public class MyHttpClientFactory : IHttpClientFactory
     }
 }
 
+/// <summary>
+/// When you're not using a DI container, you can instantiate CryptlexClient by hand, as shown in this factory
+/// </summary>
 public static class CryptlexClientFactory
 {
-    public static ICryptlexClient Create()
+    public static ICryptlexClient Create(CryptlexClientSettings settings)
     {
-        var token = "YOUR TOKEN";
+        var cryptlexClientSettings = settings;
 
-        var cryptlexClientSettings = new CryptlexClientSettings() { AccessToken = token };
-
-        var httpClientFactory = new MyHttpClientFactory();
+        var httpClientFactory = new HttpClientFactory();
         var options = Options.Create(cryptlexClientSettings);
 
         var currentUser = new CurrentUserService(httpClientFactory, options);

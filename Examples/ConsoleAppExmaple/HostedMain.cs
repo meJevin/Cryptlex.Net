@@ -1,16 +1,6 @@
 ﻿using Cryptlex.Net.Core;
 using Cryptlex.Net.Licenses;
-using Cryptlex.Net.Activations;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cryptlex.Net.Tags;
-using Cryptlex.Net.PersonalAccessTokens;
-using Cryptlex.Net.Users;
-using Cryptlex.Net.Users.Current;
 
 namespace ConsoleAppExample
 {
