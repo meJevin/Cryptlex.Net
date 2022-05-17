@@ -52,7 +52,7 @@ Here you will be able to specify the access token you obtained earlier.
 
 ```c#
 var token = "SOME TOKEN"
-services.AddCryptlexClient(a => a.AccessToken = token);
+services.AddCryptlexClient(options => options.AccessToken = token);
 ```
 
 ### Usage
@@ -63,11 +63,11 @@ cryptlex entities you may be able to interact with.
 Here's an example of how you may do so:
 
 ```c#
-public class TestClass
+public class SomeClass
 {
     private readonly ICryptlexClient _cryptlexClient;
 
-    public TestClass(ICryptlexClient cryptlexClient)
+    public SomeClass(ICryptlexClient cryptlexClient)
     {
         _cryptlexClient = cryptlexClient;
     }
