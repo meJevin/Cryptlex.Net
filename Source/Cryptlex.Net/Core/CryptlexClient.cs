@@ -4,21 +4,36 @@ namespace Cryptlex.Net.Core
 {
     public interface ICryptlexClient
     {
-        IUsersService UserService { get; }
-        IRolesService RoleService { get; }
+        IUsersService Users { get; }
+        IRolesService Roles { get; }
+
         IAccountsService Accounts { get; }
+
         IAccessTokensService AccessTokens { get; }
+
         ILicensePoliciesService LicensePolicies { get; }
         ITrialPoliciesService TrialPolicies { get; }
+
+        IProductsService Products { get; }
+        IFeatureFlagsService FeatureFlags { get; }
+        IProductVersionsService ProductVersions { get; }
+
+        IReleasesService Releases { get; }
+        IReleaseFilesService ReleaseFiles { get; }
+
         ILicensesService Licenses { get; }
         IActivationsService Activations { get; }
         ITagsService Tags { get; }
+
+        ITrialActivationsService TrialActivations { get; }
+
+        IWebhooksService Webhooks { get; }
     }
 
     public class CryptlexClient : ICryptlexClient
     {
-        public IUsersService UserService { get; init; }
-        public IRolesService RoleService { get; init; }
+        public IUsersService Users { get; init; }
+        public IRolesService Roles { get; init; }
 
         public IAccountsService Accounts { get; init; }
 
@@ -60,8 +75,8 @@ namespace Cryptlex.Net.Core
             ITrialActivationsService trialActivations,
             IWebhooksService webhooksService)
         {
-            UserService = userService;
-            RoleService = roleService;
+            Users = userService;
+            Roles = roleService;
             Accounts = accounts;
             AccessTokens = accessTokens;
             LicensePolicies = licensePolicies;

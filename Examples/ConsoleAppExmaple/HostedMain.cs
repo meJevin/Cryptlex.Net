@@ -1,16 +1,6 @@
 ﻿using Cryptlex.Net.Core;
 using Cryptlex.Net.Licenses;
-using Cryptlex.Net.Activations;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cryptlex.Net.Tags;
-using Cryptlex.Net.PersonalAccessTokens;
-using Cryptlex.Net.Users;
-using Cryptlex.Net.Users.Current;
 
 namespace ConsoleAppExample
 {
@@ -27,8 +17,6 @@ namespace ConsoleAppExample
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await Playground();
-
             Console.WriteLine("Fetching licenses from cryptlex...\n");
 
             var licenses = await _cryptlexClient.Licenses.ListAsync(new ListLicensesData() { page = 1 });
@@ -40,11 +28,6 @@ namespace ConsoleAppExample
             Console.ReadKey();
 
             _appLifetime.StopApplication();
-        }
-
-        public async Task Playground()
-        {
-            var users = await _cryptlexClient.UserService.Current.ListActivateionsAsync(new ListCurrentUserActivationsData() { page = 1 });
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)

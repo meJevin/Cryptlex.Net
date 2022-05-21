@@ -11,7 +11,7 @@ namespace Cryptlex.Net.Core.Services
         public Error? CryptlexError { get; private set; }
         public string? ReasonPhrase { get; private set; }
 
-        public bool IsSuccessStatusCode => ResponseMessage is not null && ResponseMessage.IsSuccessStatusCode;
+        public bool IsSuccessStatusCode => ResponseMessage.IsSuccessStatusCode;
 
         private RequestResult(HttpResponseMessage responseMessage)
         {
@@ -36,7 +36,7 @@ namespace Cryptlex.Net.Core.Services
 
             var errors = new List<string>
             {
-                $"Failed with code {ResponseMessage.StatusCode}"
+                $"Failed with code {ResponseMessage.StatusCode}."
             };
 
             if (CryptlexError is not null)
@@ -46,10 +46,10 @@ namespace Cryptlex.Net.Core.Services
 
             if (ReasonPhrase is not null)
             {
-                errors.Add($"Reason phrase: {ReasonPhrase}");
+                errors.Add($"Reason phrase: {ReasonPhrase}.");
             }
 
-            return String.Join(". ", errors);
+            return String.Join("\n", errors);
         }
 
         public void ThrowIfFailed(string? errorStartMsg)
@@ -58,12 +58,12 @@ namespace Cryptlex.Net.Core.Services
 
             if (CryptlexError is not null)
             {
-                throw new CryptlexException(errorStartMsg + " " + ToString());
+                throw new CryptlexException(errorStartMsg + "\n" + ToString(), CryptlexError);
             }
 
             if (ReasonPhrase is not null)
             {
-                throw new HttpRequestException(errorStartMsg + " " + ToString());
+                throw new HttpRequestException(errorStartMsg + "\n" + ToString());
             }
         }
 
