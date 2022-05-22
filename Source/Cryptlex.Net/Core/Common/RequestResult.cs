@@ -4,7 +4,7 @@ using Cryptlex.Net.Util;
 using System.Net;
 using System.Text.Json;
 
-namespace Cryptlex.Net.Core.Services
+namespace Cryptlex.Net.Core
 {
     public class RequestResult
     {

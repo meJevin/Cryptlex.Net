@@ -2,6 +2,6 @@
 {
     public interface IRetrievable<T>
     {
-        Task<T> GetAsync(string id);
+        Task<T> GetAsync(string id, RequestOptions? requestOptions = null);
     }
 }

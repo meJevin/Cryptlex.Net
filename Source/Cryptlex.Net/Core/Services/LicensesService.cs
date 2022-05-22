@@ -20,12 +20,12 @@ namespace Cryptlex.Net.Core.Services
         IUpdatable<License, UpdateLicenseData>,
         IDeletable<License>
     {
-        Task<Stream> ExportAllAsync(ExportAllLicensesData data);
-        Task<License> RenewAsync(string id);
-        Task<License> ExtendAsync(string id, TimeSpan extendFor);
-        Task<License> ResetMeterAttribute(string id);
-        Task DeleteMeterAttribute(string id);
-        Task DeleteMetadataField(string id);
+        Task<Stream> ExportAllAsync(ExportAllLicensesData data, RequestOptions? requestOptions = null);
+        Task<License> RenewAsync(string id, RequestOptions? requestOptions = null);
+        Task<License> ExtendAsync(string id, TimeSpan extendFor, RequestOptions? requestOptions = null);
+        Task<License> ResetMeterAttribute(string id, RequestOptions? requestOptions = null);
+        Task DeleteMeterAttribute(string id, RequestOptions? requestOptions = null);
+        Task DeleteMetadataField(string id, RequestOptions? requestOptions = null);
     }
 
     public class LicensesService : BaseService<License>, ILicensesService
@@ -44,54 +44,52 @@ namespace Cryptlex.Net.Core.Services
 
         public LicensesService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings) 
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory) 
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<IEnumerable<License>> ListAsync(ListLicensesData data)
+        public async Task<IEnumerable<License>> ListAsync(ListLicensesData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<License> CreateAsync(CreateLicenseData data)
+        public async Task<License> CreateAsync(CreateLicenseData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task<License> GetAsync(string id)
+        public async Task<License> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<License> UpdateAsync(string id, UpdateLicenseData data)
+        public async Task<License> UpdateAsync(string id, UpdateLicenseData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
 
-        public async Task<Stream> ExportAllAsync(ExportAllLicensesData data)
+        public async Task<Stream> ExportAllAsync(ExportAllLicensesData data, RequestOptions? requestOptions = null)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.Export);
 
-            var result = await RequestAsync(uri, HttpMethod.Get, data);
+            var result = await RequestAsync(uri, HttpMethod.Get, data, requestOptions);
 
             result.ThrowIfFailed($"Could not export all licenses.");
 
             return await result.ResponseMessage.Content.ReadAsStreamAsync();
         }
 
-        public async Task<License> RenewAsync(string id)
+        public async Task<License> RenewAsync(string id, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.Renew);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, null);
+            var result = await RequestAsync(uri, HttpMethod.Post, requestOptions: requestOptions);
 
             result.ThrowIfFailed($"Could not renew license with id {id}.");
 
@@ -100,11 +98,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<License> ExtendAsync(string id, TimeSpan extendFor)
+        public async Task<License> ExtendAsync(string id, TimeSpan extendFor, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.Extend);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, null);
+            var result = await RequestAsync(uri, HttpMethod.Post, new ExtendLicenseData((int)extendFor.TotalSeconds), requestOptions);
 
             result.ThrowIfFailed($"Could not extend license with id {id}.");
 
@@ -113,13 +111,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<License> ResetMeterAttribute(string id)
+        public async Task<License> ResetMeterAttribute(string id, RequestOptions? requestOptions = null)
         {
-            using var client = GetCryptlexClient();
-
             var uri = Utils.CombinePaths(BasePath, Actions.MeterAttributes, id, Actions.Reset);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, null);
+            var result = await RequestAsync(uri, HttpMethod.Post, requestOptions: requestOptions);
 
             result.ThrowIfFailed($"Could not reset meter attribute for license with id {id}.");
 
@@ -128,20 +124,20 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task DeleteMeterAttribute(string id)
+        public async Task DeleteMeterAttribute(string id, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.MeterAttributes, id);
 
-            var result = await RequestAsync(uri, HttpMethod.Delete, null);
+            var result = await RequestAsync(uri, HttpMethod.Delete, requestOptions: requestOptions);
 
             result.ThrowIfFailed($"Could not delete meter attribute for license with id {id}.");
         }
 
-        public async Task DeleteMetadataField(string id)
+        public async Task DeleteMetadataField(string id, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Metadata, id);
 
-            var result = await RequestAsync(uri, HttpMethod.Delete, null);
+            var result = await RequestAsync(uri, HttpMethod.Delete, requestOptions: requestOptions);
 
             result.ThrowIfFailed($"Could not delete metadata for license with id {id}.");
         }

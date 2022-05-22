@@ -27,29 +27,29 @@ namespace Cryptlex.Net.Core.Services
 
         public ReleaseFilesService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<ReleaseFile> CreateAsync(CreateReleaseFileData data)
+        public async Task<ReleaseFile> CreateAsync(CreateReleaseFileData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
 
-        public async Task<ReleaseFile> GetAsync(string id)
+        public async Task<ReleaseFile> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<IEnumerable<ReleaseFile>> ListAsync(ListReleaseFilesData data)
+        public async Task<IEnumerable<ReleaseFile>> ListAsync(ListReleaseFilesData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
     }
 }

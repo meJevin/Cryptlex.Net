@@ -28,34 +28,34 @@ namespace Cryptlex.Net.Core.Services
 
         public EmailTemplatesService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<IEnumerable<EmailTemplate>> ListAsync(ListEmailTemplatesData data)
+        public async Task<IEnumerable<EmailTemplate>> ListAsync(ListEmailTemplatesData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<EmailTemplate> CreateAsync(CreateEmailTemplateData data)
+        public async Task<EmailTemplate> CreateAsync(CreateEmailTemplateData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task<EmailTemplate> GetAsync(string id)
+        public async Task<EmailTemplate> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<EmailTemplate> UpdateAsync(string id, UpdateEmailTemplateData data)
+        public async Task<EmailTemplate> UpdateAsync(string id, UpdateEmailTemplateData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
     }
 }

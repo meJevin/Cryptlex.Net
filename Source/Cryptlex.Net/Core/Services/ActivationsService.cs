@@ -20,9 +20,9 @@ namespace Cryptlex.Net.Core.Services
         IUpdatable<UpdateActivationResponse, UpdateActivationData>,
         IDeletable<Activation>
     {
-        Task<OfflineActivationResponse> OfflineActivate(OfflineActivateData data);
-        Task OfflineDeactivate(OfflineDeactivateData data);
-        Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data);
+        Task<OfflineActivationResponse> OfflineActivate(OfflineActivateData data, RequestOptions? requestOptions = null);
+        Task OfflineDeactivate(OfflineDeactivateData data, RequestOptions? requestOptions = null);
+        Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data, RequestOptions? requestOptions = null);
     }
 
     public class ActivationsService : BaseService<Activation>, IActivationsService
@@ -38,41 +38,41 @@ namespace Cryptlex.Net.Core.Services
 
         public ActivationsService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<IEnumerable<Activation>> ListAsync(ListActivationsData data)
+        public async Task<IEnumerable<Activation>> ListAsync(ListActivationsData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<Activation> CreateAsync(CreateActivationData data)
+        public async Task<Activation> CreateAsync(CreateActivationData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task<Activation> GetAsync(string id)
+        public async Task<Activation> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<UpdateActivationResponse> UpdateAsync(string id, UpdateActivationData data)
+        public async Task<UpdateActivationResponse> UpdateAsync(string id, UpdateActivationData data, RequestOptions? requestOptions = null)
         {
             return await base.UpdateEntityAsync<UpdateActivationResponse>(id, data);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
 
-        public async Task<OfflineActivationResponse> OfflineActivate(OfflineActivateData data)
+        public async Task<OfflineActivationResponse> OfflineActivate(OfflineActivateData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.OfflineActivate);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not perform offline activation for {data.licenseId}.");
 
@@ -81,20 +81,20 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task OfflineDeactivate(OfflineDeactivateData data)
+        public async Task OfflineDeactivate(OfflineDeactivateData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.OfflineDeactivate);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not perform offline deactivation for {data.licenseId}.");
         }
 
-        public async Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data)
+        public async Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.MeterAttributes, id);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not increment usage for {id}.");
 

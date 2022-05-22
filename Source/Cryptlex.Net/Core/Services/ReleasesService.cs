@@ -20,9 +20,9 @@ namespace Cryptlex.Net.Core.Services
            IUpdatable<Release, UpdateReleaseData>,
            IDeletable<Release>
     {
-        Task<Release> CheckForUpdate(CheckForUpdateReleaseData data);
-        Task<Release> GetLatestRelease(GetLatestReleaseData data);
-        Task<Release> Publish(string id);
+        Task<Release> CheckForUpdate(CheckForUpdateReleaseData data, RequestOptions? requestOptions = null);
+        Task<Release> GetLatestRelease(GetLatestReleaseData data, RequestOptions? requestOptions = null);
+        Task<Release> Publish(string id, RequestOptions? requestOptions = null);
     }
 
     public class ReleasesService : BaseService<Release>, IReleasesService
@@ -38,41 +38,41 @@ namespace Cryptlex.Net.Core.Services
 
         public ReleasesService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<Release> CreateAsync(CreateReleaseData data)
+        public async Task<Release> CreateAsync(CreateReleaseData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
 
-        public async Task<Release> GetAsync(string id)
+        public async Task<Release> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<IEnumerable<Release>> ListAsync(ListReleasesData data)
+        public async Task<IEnumerable<Release>> ListAsync(ListReleasesData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<Release> UpdateAsync(string id, UpdateReleaseData data)
+        public async Task<Release> UpdateAsync(string id, UpdateReleaseData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task<Release> CheckForUpdate(CheckForUpdateReleaseData data)
+        public async Task<Release> CheckForUpdate(CheckForUpdateReleaseData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.CheckForUpdate);
 
-            var result = await RequestAsync(uri, HttpMethod.Get, data);
+            var result = await RequestAsync(uri, HttpMethod.Get, data, requestOptions);
 
             result.ThrowIfFailed($"Could not check for update.");
 
@@ -81,11 +81,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<Release> GetLatestRelease(GetLatestReleaseData data)
+        public async Task<Release> GetLatestRelease(GetLatestReleaseData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.GetLatestRelease);
 
-            var result = await RequestAsync(uri, HttpMethod.Get, data);
+            var result = await RequestAsync(uri, HttpMethod.Get, data, requestOptions);
 
             result.ThrowIfFailed($"Could not get latest release for product wth id {data.productId}.");
 
@@ -94,11 +94,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<Release> Publish(string id)
+        public async Task<Release> Publish(string id, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.Publish);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, null);
+            var result = await RequestAsync(uri, HttpMethod.Post, requestOptions: requestOptions);
 
             result.ThrowIfFailed($"Could not publish release with id {id}");
 

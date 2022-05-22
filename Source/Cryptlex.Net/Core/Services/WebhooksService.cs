@@ -20,7 +20,7 @@ namespace Cryptlex.Net.Core.Services
         IUpdatable<Webhook, UpdateWebhookData>,
         IDeletable<Webhook>
     {
-        Task<IEnumerable<Event>> ListEvents();
+        Task<IEnumerable<Event>> ListEvents(RequestOptions? requestOptions = null);
     }
 
     public class WebhooksService : BaseService<Webhook>, IWebhooksService
@@ -34,41 +34,41 @@ namespace Cryptlex.Net.Core.Services
 
         public WebhooksService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<Webhook> CreateAsync(CreateWebhookData data)
+        public async Task<Webhook> CreateAsync(CreateWebhookData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
 
-        public async Task<Webhook> GetAsync(string id)
+        public async Task<Webhook> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<IEnumerable<Webhook>> ListAsync(ListWebhooksData data)
+        public async Task<IEnumerable<Webhook>> ListAsync(ListWebhooksData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<Webhook> UpdateAsync(string id, UpdateWebhookData data)
+        public async Task<Webhook> UpdateAsync(string id, UpdateWebhookData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task<IEnumerable<Event>> ListEvents()
+        public async Task<IEnumerable<Event>> ListEvents(RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.ListEvents);
 
-            var result = await RequestAsync(uri, HttpMethod.Get, null);
+            var result = await RequestAsync(uri, HttpMethod.Get, requestOptions: requestOptions);
 
             result.ThrowIfFailed("Could not list all webhook events.");
 

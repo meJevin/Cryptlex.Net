@@ -8,6 +8,6 @@ namespace Cryptlex.Net.Core.Services.Base
 {
     public interface IDeletable<T>
     {
-        Task DeleteAsync(string id);
+        Task DeleteAsync(string id, RequestOptions? requestOptions = null);
     }
 }

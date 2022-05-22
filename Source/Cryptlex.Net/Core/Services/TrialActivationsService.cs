@@ -19,9 +19,9 @@ namespace Cryptlex.Net.Core.Services
         IRetrievable<TrialActivation>,
         IDeletable<TrialActivation>
     {
-        Task<Stream> ExportAll(ExportTrialActivationsData data);
-        Task<TrialActivation> Extend(string id, ExtendTrialActivationData data);
-        Task<OfflineActivateResponse> OfflineActivate(OfflineActivateData data);
+        Task<Stream> ExportAll(ExportTrialActivationsData data, RequestOptions? requestOptions = null);
+        Task<TrialActivation> Extend(string id, ExtendTrialActivationData data, RequestOptions? requestOptions = null);
+        Task<OfflineActivateResponse> OfflineActivate(OfflineActivateData data, RequestOptions? requestOptions = null);
     }
 
     public class TrialActivationsService : BaseService<TrialActivation>, ITrialActivationsService
@@ -37,36 +37,36 @@ namespace Cryptlex.Net.Core.Services
 
         public TrialActivationsService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<TrialActivation> CreateAsync(CreateTrialActivationData data)
+        public async Task<TrialActivation> CreateAsync(CreateTrialActivationData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
 
-        public async Task<TrialActivation> GetAsync(string id)
+        public async Task<TrialActivation> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<IEnumerable<TrialActivation>> ListAsync(ListTrialActivationsData data)
+        public async Task<IEnumerable<TrialActivation>> ListAsync(ListTrialActivationsData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<Stream> ExportAll(ExportTrialActivationsData data)
+        public async Task<Stream> ExportAll(ExportTrialActivationsData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Export);
 
-            var result = await RequestAsync(uri, HttpMethod.Get, data);
+            var result = await RequestAsync(uri, HttpMethod.Get, data, requestOptions);
 
             result.ThrowIfFailed("Could not export all trial activations.");
 
@@ -75,11 +75,11 @@ namespace Cryptlex.Net.Core.Services
             return stream;
         }
 
-        public async Task<TrialActivation> Extend(string id, ExtendTrialActivationData data)
+        public async Task<TrialActivation> Extend(string id, ExtendTrialActivationData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Export);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not extend trial activations with id {id}.");
 
@@ -88,11 +88,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<OfflineActivateResponse> OfflineActivate(OfflineActivateData data)
+        public async Task<OfflineActivateResponse> OfflineActivate(OfflineActivateData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Export);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not create an offline trial activation for product with id {data.productId}");
 

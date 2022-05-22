@@ -16,15 +16,15 @@ namespace Cryptlex.Net.Core.Services
 {
     public interface ICurrentUserService
     {
-        Task<User> GetAsync();
-        Task<User> UpdateAsync(UpdateCurrentUserData data);
-        Task<License> GetLicenseAsync(string id);
-        Task<IEnumerable<License>> ListLicensesAsync(ListCurrentUserLicensesData data);
-        Task<Activation> GetActivationAsync(string id);
-        Task<IEnumerable<Activation>> ListActivateionsAsync(ListCurrentUserActivationsData data);
-        Task<IEnumerable<Release>> ListReleasesAsync(ListCurrentUserReleasesData data);
-        Task<TwoFactorAuthenticationSecretResponse> GetTwoFactorAuthenticationSecretAsync();
-        Task<TwoFactorAuthenticationRecoveryCodeResponse> GetTwoFactorAuthenticationRecoveryCodeAsync();
+        Task<User> GetAsync(RequestOptions? requestOptions = null);
+        Task<User> UpdateAsync(UpdateCurrentUserData data, RequestOptions? requestOptions = null);
+        Task<License> GetLicenseAsync(string id, RequestOptions? requestOptions = null);
+        Task<IEnumerable<License>> ListLicensesAsync(ListCurrentUserLicensesData data, RequestOptions? requestOptions = null);
+        Task<Activation> GetActivationAsync(string id, RequestOptions? requestOptions = null);
+        Task<IEnumerable<Activation>> ListActivateionsAsync(ListCurrentUserActivationsData data, RequestOptions? requestOptions = null);
+        Task<IEnumerable<Release>> ListReleasesAsync(ListCurrentUserReleasesData data, RequestOptions? requestOptions = null);
+        Task<TwoFactorAuthenticationSecretResponse> GetTwoFactorAuthenticationSecretAsync(RequestOptions? requestOptions = null);
+        Task<TwoFactorAuthenticationRecoveryCodeResponse> GetTwoFactorAuthenticationRecoveryCodeAsync(RequestOptions? requestOptions = null);
     }
 
 
@@ -45,21 +45,21 @@ namespace Cryptlex.Net.Core.Services
 
         public CurrentUserService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<User> GetAsync()
+        public async Task<User> GetAsync(RequestOptions? requestOptions = null)
         {
             return await GetFromSelfAsync<User>(BasePath);
         }
 
-        public async Task<User> UpdateAsync(UpdateCurrentUserData data)
+        public async Task<User> UpdateAsync(UpdateCurrentUserData data, RequestOptions? requestOptions = null)
         {
             var uri = BasePath;
 
-            var result = await RequestAsync(uri, HttpMethod.Patch, data);
+            var result = await RequestAsync(uri, HttpMethod.Patch, data, requestOptions);
 
             result.ThrowIfFailed($"Could not update current user.");
 
@@ -68,44 +68,44 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
         
-        public async Task<License> GetLicenseAsync(string id)
+        public async Task<License> GetLicenseAsync(string id, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.License, id);
 
             return await GetFromSelfAsync<License>(uri);
         }
 
-        public async Task<IEnumerable<License>> ListLicensesAsync(ListCurrentUserLicensesData data)
+        public async Task<IEnumerable<License>> ListLicensesAsync(ListCurrentUserLicensesData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Licenses);
 
             return await GetFromSelfAsync<IEnumerable<License>>(uri, data);
         }
 
-        public async Task<Activation> GetActivationAsync(string id)
+        public async Task<Activation> GetActivationAsync(string id, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Activation, id);
 
             return await GetFromSelfAsync<Activation>(uri);
         }
 
-        public async Task<IEnumerable<Activation>> ListActivateionsAsync(ListCurrentUserActivationsData data)
+        public async Task<IEnumerable<Activation>> ListActivateionsAsync(ListCurrentUserActivationsData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Activations);
 
             return await GetFromSelfAsync<IEnumerable<Activation>>(uri, data);
         }
 
-        public async Task<IEnumerable<Release>> ListReleasesAsync(ListCurrentUserReleasesData data)
+        public async Task<IEnumerable<Release>> ListReleasesAsync(ListCurrentUserReleasesData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Releases);
 
             return await GetFromSelfAsync<IEnumerable<Release>>(uri, data);
         }
 
-        protected virtual async Task<T> GetFromSelfAsync<T>(string uri, object? data = null) where T : class
+        protected virtual async Task<T> GetFromSelfAsync<T>(string uri, object? data = null, RequestOptions? requestOptions = null) where T : class
         {
-            var result = await RequestAsync(uri, HttpMethod.Get, data);
+            var result = await RequestAsync(uri, HttpMethod.Get, data, requestOptions);
 
             result.ThrowIfFailed($"Get from self for {uri} failed.");
 
@@ -114,11 +114,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<TwoFactorAuthenticationSecretResponse> GetTwoFactorAuthenticationSecretAsync()
+        public async Task<TwoFactorAuthenticationSecretResponse> GetTwoFactorAuthenticationSecretAsync(RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.GenerateTwoFactorAuthenticationSecret);
 
-            var result = await RequestAsync(uri, HttpMethod.Post);
+            var result = await RequestAsync(uri, HttpMethod.Post, requestOptions: requestOptions);
 
             result.ThrowIfFailed("Could not generate 2FA secret.");
 
@@ -127,11 +127,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<TwoFactorAuthenticationRecoveryCodeResponse> GetTwoFactorAuthenticationRecoveryCodeAsync()
+        public async Task<TwoFactorAuthenticationRecoveryCodeResponse> GetTwoFactorAuthenticationRecoveryCodeAsync(RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.GenerateTwoFactorAuthenticationRecoveryCode);
 
-            var result = await RequestAsync(uri, HttpMethod.Post);
+            var result = await RequestAsync(uri, HttpMethod.Post, requestOptions: requestOptions);
 
             result.ThrowIfFailed("Could not generate 2FA recovery codes.");
 

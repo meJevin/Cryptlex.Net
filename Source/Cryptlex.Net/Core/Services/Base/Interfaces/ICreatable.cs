@@ -2,6 +2,6 @@
 {
     public interface ICreatable<T, TCreateData>
     {
-        Task<T> CreateAsync(TCreateData data);
+        Task<T> CreateAsync(TCreateData data, RequestOptions? requestOptions = null);
     }
 }

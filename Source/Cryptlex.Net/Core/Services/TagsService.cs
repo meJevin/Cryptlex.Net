@@ -28,34 +28,34 @@ namespace Cryptlex.Net.Core.Services
 
         public TagsService(
             IHttpClientFactory httpClientFactory, 
-            IOptions<CryptlexClientSettings> cryptlexSettings) 
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory) 
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<IEnumerable<Tag>> ListAsync(ListTagsData data)
+        public async Task<IEnumerable<Tag>> ListAsync(ListTagsData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<Tag> CreateAsync(CreateTagData data)
+        public async Task<Tag> CreateAsync(CreateTagData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task<Tag> GetAsync(string id)
+        public async Task<Tag> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<Tag> UpdateAsync(string id, UpdateTagData data)
+        public async Task<Tag> UpdateAsync(string id, UpdateTagData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
     }
 }

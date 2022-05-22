@@ -2,6 +2,6 @@
 {
     public interface IListable<T, TListData>
     {
-        Task<IEnumerable<T>> ListAsync(TListData data);
+        Task<IEnumerable<T>> ListAsync(TListData data, RequestOptions? requestOptions = null);
     }
 }

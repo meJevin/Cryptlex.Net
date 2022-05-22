@@ -13,7 +13,7 @@ namespace Cryptlex.Net.Tests.Util
         public void ToQueryString_Ignores_Null_Fields()
         {
             // Arrange
-            var obj = new { field1 = "value1", something = (string)null! };
+            var obj = new { field1 = "value1", something = (string)null };
 
             var expected = "field1=value1";
 
@@ -28,7 +28,7 @@ namespace Cryptlex.Net.Tests.Util
         public void ToQueryString_Preserves_Null_Fields()
         {
             // Arrange
-            var obj = new { field1 = "value1", something = (string)null! };
+            var obj = new { field1 = "value1", something = (string)null };
 
             var expected = "field1=value1&something=null";
 

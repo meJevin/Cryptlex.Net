@@ -20,7 +20,7 @@ namespace Cryptlex.Net.Core.Services
         IUpdatable<Product, UpdateProductData>,
         IDeletable<Product>
     {
-        Task<Stream> DownloadDAT(string id);
+        Task<Stream> DownloadDAT(string id, RequestOptions? requestOptions = null);
     }
 
     public class ProductsService : BaseService<Product>, IProductsService
@@ -29,45 +29,45 @@ namespace Cryptlex.Net.Core.Services
 
         public ProductsService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<Stream> DownloadDAT(string id)
+        public async Task<Stream> DownloadDAT(string id, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, id, "product.dat");
 
-            var result = await RequestAsync(uri, HttpMethod.Get, null);
+            var result = await RequestAsync(uri, HttpMethod.Get, requestOptions: requestOptions);
 
             result.ThrowIfFailed($"Could not download product.dat file for product with id {id}");
 
             return await result.ResponseMessage.Content.ReadAsStreamAsync();
         }
 
-        public async Task<IEnumerable<Product>> ListAsync(ListProductsData data)
+        public async Task<IEnumerable<Product>> ListAsync(ListProductsData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<Product> CreateAsync(CreateProductData data)
+        public async Task<Product> CreateAsync(CreateProductData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task<Product> GetAsync(string id)
+        public async Task<Product> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<Product> UpdateAsync(string id, UpdateProductData data)
+        public async Task<Product> UpdateAsync(string id, UpdateProductData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Cryptlex.Net.Core.Services
         IUpdatable<Role, UpdateRoleData>,
         IDeletable<Role>
     {
-        Task<IEnumerable<string>> ListClaims(ListRoleClaimsData data);
+        Task<IEnumerable<string>> ListClaims(ListRoleClaimsData data, RequestOptions? requestOptions = null);
     }
 
     public class RolesService : BaseService<Role>, IRolesService
@@ -34,21 +34,21 @@ namespace Cryptlex.Net.Core.Services
 
         public RolesService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<IEnumerable<Role>> ListAsync(ListRolesData data)
+        public async Task<IEnumerable<Role>> ListAsync(ListRolesData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<IEnumerable<string>> ListClaims(ListRoleClaimsData data)
+        public async Task<IEnumerable<string>> ListClaims(ListRoleClaimsData data, RequestOptions? requestOptions = null)
         {
             var uri = BasePath;
 
-            var result = await RequestAsync(uri, HttpMethod.Get, data);
+            var result = await RequestAsync(uri, HttpMethod.Get, data, requestOptions);
 
             result.ThrowIfFailed($"Could not get all claims.");
 
@@ -57,24 +57,24 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<Role> CreateAsync(CreateRoleData data)
+        public async Task<Role> CreateAsync(CreateRoleData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task<Role> GetAsync(string id)
+        public async Task<Role> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<Role> UpdateAsync(string id, UpdateRoleData data)
+        public async Task<Role> UpdateAsync(string id, UpdateRoleData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
     }
 }

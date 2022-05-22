@@ -2,6 +2,6 @@
 {
     public interface IUpdatable<T, TUpdateData>
     {
-        Task<T> UpdateAsync(string id, TUpdateData data);
+        Task<T> UpdateAsync(string id, TUpdateData data, RequestOptions? requestOptions = null);
     }
 }

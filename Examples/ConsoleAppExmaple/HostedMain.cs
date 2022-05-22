@@ -1,4 +1,5 @@
-﻿using Cryptlex.Net.Core;
+﻿using Cryptlex.Net.Accounts;
+using Cryptlex.Net.Core;
 using Cryptlex.Net.Licenses;
 using Microsoft.Extensions.Hosting;
 

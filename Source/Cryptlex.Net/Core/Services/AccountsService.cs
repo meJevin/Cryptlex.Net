@@ -15,14 +15,14 @@ namespace Cryptlex.Net.Core.Services
         IRetrievable<Account>,
         IUpdatable<Account, UpdateAccountData>
     {
-        Task<AccountLoginResponse> Login(AccountLoginData data);
-        Task<AccountLoginGoogleResponse> LoginGoogle(AccountLoginGoogleData data);
-        Task<bool> CheckSSOEnabled(string companyId);
-        Task<Uri> InitiateSSOLogin(string companyId, string returnUrl);
-        Task<Uri> GetSSOReturnUrl(string companyId);
-        Task ResetPassowrd(AccountResetPasswordData data);
-        Task<Account> UpdateStatus(string id, UpdateAccountStatusData data);
-        Task<Account> UpdatePlan(string id, UpdateAccountPlanData data);
+        Task<AccountLoginResponse> Login(AccountLoginData data, RequestOptions? requestOptions = null);
+        Task<AccountLoginGoogleResponse> LoginGoogle(AccountLoginGoogleData data, RequestOptions? requestOptions = null);
+        Task<bool> CheckSSOEnabled(string companyId, RequestOptions? requestOptions = null);
+        Task<Uri> InitiateSSOLogin(string companyId, string returnUrl, RequestOptions? requestOptions = null);
+        Task<Uri> GetSSOReturnUrl(string companyId, RequestOptions? requestOptions = null);
+        Task ResetPassowrd(AccountResetPasswordData data, RequestOptions? requestOptions = null);
+        Task<Account> UpdateStatus(string id, UpdateAccountStatusData data, RequestOptions? requestOptions = null);
+        Task<Account> UpdatePlan(string id, UpdateAccountPlanData data, RequestOptions? requestOptions = null);
     }
 
     public class AccountsService : BaseService<Account>, IAccountsService
@@ -43,32 +43,32 @@ namespace Cryptlex.Net.Core.Services
 
         public AccountsService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
+            : base(httpClientFactory, tokenFactory)
         {
 
         }
 
-        public async Task<Account> CreateAsync(CreateAccountData data)
+        public async Task<Account> CreateAsync(CreateAccountData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task<Account> GetAsync(string id)
+        public async Task<Account> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<Account> UpdateAsync(string id, UpdateAccountData data)
+        public async Task<Account> UpdateAsync(string id, UpdateAccountData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task<AccountLoginResponse> Login(AccountLoginData data)
+        public async Task<AccountLoginResponse> Login(AccountLoginData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Login);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not login into account with email {data.email}.");
 
@@ -77,11 +77,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<AccountLoginGoogleResponse> LoginGoogle(AccountLoginGoogleData data)
+        public async Task<AccountLoginGoogleResponse> LoginGoogle(AccountLoginGoogleData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.LoginGoogle);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not login into account with email {data.email}.");
 
@@ -90,22 +90,22 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<bool> CheckSSOEnabled(string companyId)
+        public async Task<bool> CheckSSOEnabled(string companyId, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.CheckSSOEnabled);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, new AccountCheckSSOEnabledData(companyId));
+            var result = await RequestAsync(uri, HttpMethod.Post, new AccountCheckSSOEnabledData(companyId), requestOptions);
 
             result.ThrowIfFailed($"Could not check if SSO is enabled for company id {companyId}.");
 
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<Uri> InitiateSSOLogin(string companyId, string returnUrl)
+        public async Task<Uri> InitiateSSOLogin(string companyId, string returnUrl, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.InitiateSSOLogin, companyId);
 
-            var result = await RequestAsync(uri, HttpMethod.Get, new AccountInitiateSSOLoginData(returnUrl));
+            var result = await RequestAsync(uri, HttpMethod.Get, new AccountInitiateSSOLoginData(returnUrl), requestOptions);
 
             result.ThrowIfFailed($"Could not initiate SSO login for company id {companyId} with return URL {returnUrl}.", (code) => code == HttpStatusCode.Redirect);
 
@@ -114,11 +114,11 @@ namespace Cryptlex.Net.Core.Services
             return redirectUri;
         }
 
-        public async Task<Uri> GetSSOReturnUrl(string companyId)
+        public async Task<Uri> GetSSOReturnUrl(string companyId, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.GetSSOReturnUrl).Replace("{companyId}", companyId);
 
-            var result = await RequestAsync(uri, HttpMethod.Get, null);
+            var result = await RequestAsync(uri, HttpMethod.Get, requestOptions: requestOptions);
 
             result.ThrowIfFailed($"Could not get SSO return URL for company id {companyId}.", (code) => code == HttpStatusCode.Redirect);
 
@@ -127,20 +127,20 @@ namespace Cryptlex.Net.Core.Services
             return redirectUri;
         }
 
-        public async Task ResetPassowrd(AccountResetPasswordData data)
+        public async Task ResetPassowrd(AccountResetPasswordData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.ResetPasswordRequest);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not reset password for account with email {data.email}.");
         }
 
-        public async Task<Account> UpdateStatus(string id, UpdateAccountStatusData data)
+        public async Task<Account> UpdateStatus(string id, UpdateAccountStatusData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.Status);
 
-            var result = await RequestAsync(uri, HttpMethod.Put, data);
+            var result = await RequestAsync(uri, HttpMethod.Put, data, requestOptions);
 
             result.ThrowIfFailed($"Could not update status for acount with id {id}");
 
@@ -149,11 +149,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<Account> UpdatePlan(string id, UpdateAccountPlanData data)
+        public async Task<Account> UpdatePlan(string id, UpdateAccountPlanData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.Plan);
 
-            var result = await RequestAsync(uri, HttpMethod.Put, data);
+            var result = await RequestAsync(uri, HttpMethod.Put, data, requestOptions);
 
             result.ThrowIfFailed($"Could not update plan for acount with id {id}");
 

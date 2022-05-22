@@ -20,10 +20,10 @@ namespace Cryptlex.Net.Core.Services
         IUpdatable<User, UpdateUserData>,
         IDeletable<User>
     {
-        Task ExportAllAsync();
-        Task UpdatePassword(string id, UpdateUserPasswordData data);
-        Task<PasswordResetTokenResponse> GetPasswordResetToken(string id);
-        Task ResetPassword(string id, ResetUserPasswordData data);
+        Task ExportAllAsync(RequestOptions? requestOptions = null);
+        Task UpdatePassword(string id, UpdateUserPasswordData data, RequestOptions? requestOptions = null);
+        Task<PasswordResetTokenResponse> GetPasswordResetToken(string id, RequestOptions? requestOptions = null);
+        Task ResetPassword(string id, ResetUserPasswordData data, RequestOptions? requestOptions = null);
         ICurrentUserService Current { get; }
     }
 
@@ -43,61 +43,61 @@ namespace Cryptlex.Net.Core.Services
 
         public UsersService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings,
+            ICryptlexAccessTokenFactory tokenFactory,
             ICurrentUserService currentUserService)
-            : base(httpClientFactory, cryptlexSettings)
+            : base(httpClientFactory, tokenFactory)
         {
             Current = currentUserService;
         }
 
-        public async Task<IEnumerable<User>> ListAsync(ListUsersData data)
+        public async Task<IEnumerable<User>> ListAsync(ListUsersData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<User> CreateAsync(CreateUserData data)
+        public async Task<User> CreateAsync(CreateUserData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task<User> GetAsync(string id)
+        public async Task<User> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<User> UpdateAsync(string id, UpdateUserData data)
+        public async Task<User> UpdateAsync(string id, UpdateUserData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
 
-        public async Task ExportAllAsync()
+        public async Task ExportAllAsync(RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Export);
 
-            var result = await RequestAsync(uri, HttpMethod.Get, null);
+            var result = await RequestAsync(uri, HttpMethod.Get, requestOptions: requestOptions);
 
             result.ThrowIfFailed($"Could not export all users.");
         }
 
-        public async Task UpdatePassword(string id, UpdateUserPasswordData data)
+        public async Task UpdatePassword(string id, UpdateUserPasswordData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.UpdatePassword);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not update password for user with id {id}.");
         }
 
-        public async Task<PasswordResetTokenResponse> GetPasswordResetToken(string id)
+        public async Task<PasswordResetTokenResponse> GetPasswordResetToken(string id, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.GetPasswordResetToken);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, null);
+            var result = await RequestAsync(uri, HttpMethod.Post, requestOptions: requestOptions);
 
             result.ThrowIfFailed($"Could not get password reset token for user with id {id}.");
 
@@ -106,11 +106,11 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task ResetPassword(string id, ResetUserPasswordData data)
+        public async Task ResetPassword(string id, ResetUserPasswordData data, RequestOptions? requestOptions = null)
         {
             var uri = Utils.CombinePaths(BasePath, id, Actions.ResetPassword);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
+            var result = await RequestAsync(uri, HttpMethod.Post, data, requestOptions);
 
             result.ThrowIfFailed($"Could not reset password for user with id {id}.");
         }

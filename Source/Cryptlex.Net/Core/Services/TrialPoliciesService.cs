@@ -28,34 +28,34 @@ namespace Cryptlex.Net.Core.Services
 
         public TrialPoliciesService(
             IHttpClientFactory httpClientFactory, 
-            IOptions<CryptlexClientSettings> cryptlexSettings) 
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory) 
+            : base(httpClientFactory, tokenFactory)
         {
         }
 
-        public async Task<IEnumerable<TrialPolicy>> ListAsync(ListTrialPoliciesData data)
+        public async Task<IEnumerable<TrialPolicy>> ListAsync(ListTrialPoliciesData data, RequestOptions? requestOptions = null)
         {
-            return await base.ListEntitiesAsync(data);
+            return await base.ListEntitiesAsync(data, requestOptions);
         }
 
-        public async Task<TrialPolicy> CreateAsync(CreateTrialPolicyData data)
+        public async Task<TrialPolicy> CreateAsync(CreateTrialPolicyData data, RequestOptions? requestOptions = null)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync(data, requestOptions);
         }
 
-        public async Task<TrialPolicy> GetAsync(string id)
+        public async Task<TrialPolicy> GetAsync(string id, RequestOptions? requestOptions = null)
         {
-            return await base.GetEntityAsync(id);
+            return await base.GetEntityAsync(id, requestOptions);
         }
 
-        public async Task<TrialPolicy> UpdateAsync(string id, UpdateTrialPolicyData data)
+        public async Task<TrialPolicy> UpdateAsync(string id, UpdateTrialPolicyData data, RequestOptions? requestOptions = null)
         {
-            return await base.UpdateEntityAsync(id, data);
+            return await base.UpdateEntityAsync(id, data, requestOptions);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, RequestOptions? requestOptions = null)
         {
-            await base.DeleteEntityAsync(id);
+            await base.DeleteEntityAsync(id, requestOptions);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Cryptlex.Net.Core;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace ConsoleAppExample
@@ -10,9 +12,19 @@ namespace ConsoleAppExample
             try
             {
                 var builder = Host.CreateDefaultBuilder(args)
+                    .ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        config.AddUserSecrets<Program>(false);
+                    })
                     .ConfigureServices((hostContext, services) =>
                     {
-                        services.AddCryptlexClient(options => options.AccessToken = "YOUR_TOKEN");
+                        var config = hostContext.Configuration;
+
+                        //services.AddCryptlexClient(options => options.AccessToken = "YOUR_TOKEN");
+                        services.AddCryptlexClient(cfg =>
+                        {
+                            cfg.WithSettings(options => options.AccessToken = config["CryptlexPersonalAccessToken"]);
+                        });
 
                         services.AddSingleton<HostedMain>();
                         services.AddHostedService(provider => provider.GetService<HostedMain>());

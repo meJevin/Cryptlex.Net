@@ -22,32 +22,33 @@ public static class CryptlexClientFactory
 
         var httpClientFactory = new HttpClientFactory();
         var options = Options.Create(cryptlexClientSettings);
+        var defaultFactory = new DefaultCryptlexAccessTokenFactory(options);
 
-        var currentUser = new CurrentUserService(httpClientFactory, options);
-        var users = new UsersService(httpClientFactory, options, currentUser);
-        var roles = new RolesService(httpClientFactory, options);
+        var currentUser = new CurrentUserService(httpClientFactory, defaultFactory);
+        var users = new UsersService(httpClientFactory, defaultFactory, currentUser);
+        var roles = new RolesService(httpClientFactory, defaultFactory);
 
-        var accounts = new AccountsService(httpClientFactory, options);
+        var accounts = new AccountsService(httpClientFactory, defaultFactory);
 
-        var accessTokens = new AccessTokensService(httpClientFactory, options);
+        var accessTokens = new AccessTokensService(httpClientFactory, defaultFactory);
 
-        var licensePolicies = new LicensePoliciesService(httpClientFactory, options);
-        var trialPolicies = new TrialPoliciesService(httpClientFactory, options);
+        var licensePolicies = new LicensePoliciesService(httpClientFactory, defaultFactory);
+        var trialPolicies = new TrialPoliciesService(httpClientFactory, defaultFactory);
 
-        var products = new ProductsService(httpClientFactory, options);
-        var featureFlags = new FeatureFlagsService(httpClientFactory, options);
-        var productVersions = new ProductVersionsService(httpClientFactory, options);
+        var products = new ProductsService(httpClientFactory, defaultFactory);
+        var featureFlags = new FeatureFlagsService(httpClientFactory, defaultFactory);
+        var productVersions = new ProductVersionsService(httpClientFactory, defaultFactory);
 
-        var releases = new ReleasesService(httpClientFactory, options);
-        var releaseFiles = new ReleaseFilesService(httpClientFactory, options);
+        var releases = new ReleasesService(httpClientFactory, defaultFactory);
+        var releaseFiles = new ReleaseFilesService(httpClientFactory, defaultFactory);
 
-        var licenses = new LicensesService(httpClientFactory, options);
-        var activations = new ActivationsService(httpClientFactory, options);
-        var tags = new TagsService(httpClientFactory, options);
+        var licenses = new LicensesService(httpClientFactory, defaultFactory);
+        var activations = new ActivationsService(httpClientFactory, defaultFactory);
+        var tags = new TagsService(httpClientFactory, defaultFactory);
 
-        var trialActivations = new TrialActivationsService(httpClientFactory, options);
+        var trialActivations = new TrialActivationsService(httpClientFactory, defaultFactory);
         
-        var webhooks = new WebhooksService(httpClientFactory, options);
+        var webhooks = new WebhooksService(httpClientFactory, defaultFactory);
 
         var client = new CryptlexClient(
             users, roles, accounts, accessTokens, licensePolicies,
