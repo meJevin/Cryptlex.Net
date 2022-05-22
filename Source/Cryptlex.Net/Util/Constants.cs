@@ -47,6 +47,9 @@ namespace Cryptlex.Net.Util
             // Trials
             public static string TrialActivations => "trial-activations";
 
+            // Email templates
+            public static string EmailTemplates = "email-templates";
+
             // Webhooks
             public static string Webhooks => "webhooks";
 
