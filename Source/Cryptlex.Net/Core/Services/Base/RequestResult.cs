@@ -1,6 +1,7 @@
 ﻿using Cryptlex.Net.Entities;
 using Cryptlex.Net.Exceptions;
 using Cryptlex.Net.Util;
+using System.Net;
 using System.Text.Json;
 
 namespace Cryptlex.Net.Core.Services
@@ -52,9 +53,11 @@ namespace Cryptlex.Net.Core.Services
             return String.Join("\n", errors);
         }
 
-        public void ThrowIfFailed(string? errorStartMsg)
+        public void ThrowIfFailed(string? errorStartMsg, Predicate<HttpStatusCode>? checkStatusCode = null)
         {
-            if (IsSuccessStatusCode) return;
+            var requestFailed = checkStatusCode is null ? IsSuccessStatusCode : checkStatusCode(ResponseMessage.StatusCode);
+
+            if (!requestFailed) return;
 
             if (CryptlexError is not null)
             {

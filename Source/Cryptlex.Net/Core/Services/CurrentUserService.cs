@@ -23,6 +23,8 @@ namespace Cryptlex.Net.Core.Services
         Task<Activation> GetActivationAsync(string id);
         Task<IEnumerable<Activation>> ListActivateionsAsync(ListCurrentUserActivationsData data);
         Task<IEnumerable<Release>> ListReleasesAsync(ListCurrentUserReleasesData data);
+        Task<TwoFactorAuthenticationSecretResponse> GetTwoFactorAuthenticationSecretAsync();
+        Task<TwoFactorAuthenticationRecoveryCodeResponse> GetTwoFactorAuthenticationRecoveryCodeAsync();
     }
 
 
@@ -37,6 +39,8 @@ namespace Cryptlex.Net.Core.Services
             public static string Activation = "activation";
             public static string Activations = "activations";
             public static string Releases = "releases";
+            public static string GenerateTwoFactorAuthenticationSecret = "2fa-secret";
+            public static string GenerateTwoFactorAuthenticationRecoveryCode = "2fa-recovery-codes";
         }
 
         public CurrentUserService(
@@ -106,6 +110,32 @@ namespace Cryptlex.Net.Core.Services
             result.ThrowIfFailed($"Get from self for {uri} failed.");
 
             var resultData = await result.ExtractDataAsync<T>();
+
+            return resultData;
+        }
+
+        public async Task<TwoFactorAuthenticationSecretResponse> GetTwoFactorAuthenticationSecretAsync()
+        {
+            var uri = Utils.CombinePaths(BasePath, Actions.GenerateTwoFactorAuthenticationSecret);
+
+            var result = await RequestAsync(uri, HttpMethod.Post);
+
+            result.ThrowIfFailed("Could not generate 2FA secret.");
+
+            var resultData = await result.ExtractDataAsync<TwoFactorAuthenticationSecretResponse>();
+
+            return resultData;
+        }
+
+        public async Task<TwoFactorAuthenticationRecoveryCodeResponse> GetTwoFactorAuthenticationRecoveryCodeAsync()
+        {
+            var uri = Utils.CombinePaths(BasePath, Actions.GenerateTwoFactorAuthenticationRecoveryCode);
+
+            var result = await RequestAsync(uri, HttpMethod.Post);
+
+            result.ThrowIfFailed("Could not generate 2FA recovery codes.");
+
+            var resultData = await result.ExtractDataAsync<TwoFactorAuthenticationRecoveryCodeResponse>();
 
             return resultData;
         }

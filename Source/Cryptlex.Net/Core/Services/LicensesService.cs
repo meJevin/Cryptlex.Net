@@ -20,7 +20,7 @@ namespace Cryptlex.Net.Core.Services
         IUpdatable<License, UpdateLicenseData>,
         IDeletable<License>
     {
-        Task ExportAllAsync(ExportAllLicensesData data);
+        Task<Stream> ExportAllAsync(ExportAllLicensesData data);
         Task<License> RenewAsync(string id);
         Task<License> ExtendAsync(string id, TimeSpan extendFor);
         Task<License> ResetMeterAttribute(string id);
@@ -74,7 +74,7 @@ namespace Cryptlex.Net.Core.Services
             await base.DeleteEntityAsync(id);
         }
 
-        public async Task ExportAllAsync(ExportAllLicensesData data)
+        public async Task<Stream> ExportAllAsync(ExportAllLicensesData data)
         {
             using var client = GetCryptlexClient();
 
@@ -83,6 +83,8 @@ namespace Cryptlex.Net.Core.Services
             var result = await RequestAsync(uri, HttpMethod.Get, data);
 
             result.ThrowIfFailed($"Could not export all licenses.");
+
+            return await result.ResponseMessage.Content.ReadAsStreamAsync();
         }
 
         public async Task<License> RenewAsync(string id)
