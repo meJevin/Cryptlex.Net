@@ -55,7 +55,9 @@ namespace Cryptlex.Net.Core.Services
 
         public void ThrowIfFailed(string? errorStartMsg, Predicate<HttpStatusCode>? checkStatusCode = null)
         {
-            var requestFailed = checkStatusCode is null ? IsSuccessStatusCode : checkStatusCode(ResponseMessage.StatusCode);
+            var requestFailed = checkStatusCode is null ? 
+                !IsSuccessStatusCode : 
+                !checkStatusCode(ResponseMessage.StatusCode);
 
             if (!requestFailed) return;
 
