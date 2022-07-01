@@ -21,14 +21,13 @@ namespace Cryptlex.Net.Core.Services
             _cryptlexSettings = cryptlexSettings.Value;
         }
 
-        #region HTTP REQUESTS
         private async Task<RequestResult> QueryStringRequest(string uri, object? data = null!)
         {
             using var client = GetCryptlexClient();
 
             if (data is not null)
             {
-                Utils.AppendQueryString(uri, data.ToQueryString());
+                uri = Utils.AppendQueryString(uri, data.ToQueryString());
             }
 
             var httpRes = await client.GetAsync(uri);
@@ -37,6 +36,7 @@ namespace Cryptlex.Net.Core.Services
 
             return requestRes;
         }
+
         private async Task<RequestResult> RequestBodyRequest(string uri, HttpMethod method, object? data = null!)
         {
             using var client = GetCryptlexClient();
@@ -86,9 +86,7 @@ namespace Cryptlex.Net.Core.Services
 
             return await RequestBodyRequest(uri, method, data);
         }
-        #endregion
 
-        #region CRUD
         protected virtual async Task<IEnumerable<T>> ListEntitiesAsync(object? data = null!)
         {
             var uri = BasePath;
@@ -155,7 +153,6 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Delete for {uri} failed.");
         }
-        #endregion
 
         protected virtual HttpClient GetCryptlexClient()
         {
