@@ -28,7 +28,7 @@ namespace Cryptlex.Net.Core.Services
 
             if (data is not null)
             {
-                Utils.AppendQueryString(uri, data.ToQueryString());
+                uri = Utils.AppendQueryString(uri, data.ToQueryString());
             }
 
             var httpRes = await client.GetAsync(uri);
@@ -37,6 +37,7 @@ namespace Cryptlex.Net.Core.Services
 
             return requestRes;
         }
+
         private async Task<RequestResult> RequestBodyRequest(string uri, HttpMethod method, object? data = null!)
         {
             using var client = GetCryptlexClient();
