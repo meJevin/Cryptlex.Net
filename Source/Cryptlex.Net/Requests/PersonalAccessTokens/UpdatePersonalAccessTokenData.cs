@@ -1,4 +1,5 @@
-﻿using Cryptlex.Net.Entities;
+using System.Text.Json.Serialization;
+using Cryptlex.Net.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,12 @@ namespace Cryptlex.Net.PersonalAccessTokens
 {
     public class UpdatePersonalAccessTokenData
     {
-        public bool revoked { get; set; }
+		[JsonPropertyName("revoked")]
+        public bool Revoked { get; set; }
 
         public UpdatePersonalAccessTokenData(bool revoked)
         {
-            this.revoked = revoked;
+            this.Revoked = revoked;
         }
     }
 }

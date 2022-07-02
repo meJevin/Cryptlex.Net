@@ -1,12 +1,14 @@
-﻿namespace Cryptlex.Net.Accounts
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Accounts
 {
     public class AccountInitiateSSOLoginData
     {
-        public string returnUrl { get; set; }
+		[JsonPropertyName("returnUrl")]
+        public string ReturnUrl { get; set; }
 
         public AccountInitiateSSOLoginData(string returnUrl)
         {
-            this.returnUrl = returnUrl;
+            this.ReturnUrl = returnUrl;
         }
     }
 }

@@ -87,7 +87,7 @@ namespace Cryptlex.Net.Core.Services
 
             var result = await RequestAsync(uri, HttpMethod.Get, data);
 
-            result.ThrowIfFailed($"Could not get latest release for product wth id {data.productId}.");
+            result.ThrowIfFailed($"Could not get latest release for product wth id {data.ProductId}.");
 
             var resultData = await result.ExtractDataAsync<Release>();
 

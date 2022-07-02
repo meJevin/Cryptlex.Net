@@ -1,14 +1,17 @@
-﻿namespace Cryptlex.Net.Users
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Users
 {
     public class UpdateUserPasswordData
     {
-        public string oldPassword { get; set; }
-        public string newPassword { get; set; }
+		[JsonPropertyName("oldPassword")]
+        public string OldPassword { get; set; }
+		[JsonPropertyName("newPassword")]
+        public string NewPassword { get; set; }
 
         public UpdateUserPasswordData(string oldPassword, string newPassword)
         {
-            this.oldPassword = oldPassword;
-            this.newPassword = newPassword;
+            this.OldPassword = oldPassword;
+            this.NewPassword = newPassword;
         }
     }
 }

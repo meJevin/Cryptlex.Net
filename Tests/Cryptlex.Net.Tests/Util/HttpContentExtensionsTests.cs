@@ -17,7 +17,7 @@ namespace Cryptlex.Net.Tests.Util
         public async Task ReadCryptlexErrorAsync_Parses_Error()
         {
             // Arrange
-            var expectedError = new Error() { code = "123", message = "some message" };
+            var expectedError = new Error() { Code = "123", Message = "some message" };
             var stringContent = new StringContent(JsonSerializer.Serialize(expectedError));
 
             // Act
@@ -25,8 +25,8 @@ namespace Cryptlex.Net.Tests.Util
 
             // Assert
             Assert.NotNull(actualError);
-            Assert.Equal(expectedError.message, actualError!.message);
-            Assert.Equal(expectedError.code, actualError!.code);
+            Assert.Equal(expectedError.Message, actualError!.Message);
+            Assert.Equal(expectedError.Code, actualError!.Code);
         }
 
         [Fact]

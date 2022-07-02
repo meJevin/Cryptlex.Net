@@ -1,21 +1,27 @@
-﻿namespace Cryptlex.Net.Releases
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Releases
 {
     public class CheckForUpdateReleaseData
     {
-        public string platform { get; set; }
-        public string productId { get; set; }
-        public string? channel { get; set; }
-        public string version { get; set; }
-        public string key { get; set; }
+		[JsonPropertyName("platform")]
+        public string Platform { get; set; }
+		[JsonPropertyName("productId")]
+        public string ProductId { get; set; }
+		[JsonPropertyName("channel")]
+        public string? Channel { get; set; }
+		[JsonPropertyName("version")]
+        public string Version { get; set; }
+		[JsonPropertyName("key")]
+        public string Key { get; set; }
 
         public CheckForUpdateReleaseData(
             string platform, string productId, 
             string version, string key)
         {
-            this.platform = platform;
-            this.productId = productId;
-            this.version = version;
-            this.key = key;
+            this.Platform = platform;
+            this.ProductId = productId;
+            this.Version = version;
+            this.Key = key;
         }
     }
 }

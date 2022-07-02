@@ -1,7 +1,9 @@
-﻿namespace Cryptlex.Net.Users.Current
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Users.Current
 {
     public class TwoFactorAuthenticationRecoveryCodeResponse
     {
-        public List<string>? recoveryCodes { get; set; }
+		[JsonPropertyName("recoveryCodes")]
+        public List<string>? RecoveryCodes { get; set; }
     }
 }

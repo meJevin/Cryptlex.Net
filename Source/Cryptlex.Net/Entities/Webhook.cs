@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +8,13 @@ namespace Cryptlex.Net.Entities
 {
     public class Webhook
     {
-        public string? id { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
-        public string? name { get; set; }
-        public string? url { get; set; }
-        public string? token { get; set; }
-        public bool active { get; set; }
-        public List<string>? events { get; set; }
+        public string? Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string? Name { get; set; }
+        public string? Url { get; set; }
+        public string? Token { get; set; }
+        public bool Active { get; set; }
+        public List<string>? Events { get; set; }
     }
 }

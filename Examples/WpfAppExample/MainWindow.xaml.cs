@@ -25,12 +25,12 @@ namespace WpfAppExample
             FetchLicensesButton.IsEnabled = false;
             FetchLicensesButton.Content = "Loading...";
 
-            var licenses = await cryptlexClient.Licenses.ListAsync(new ListLicensesData() { page = 1 });
+            var licenses = await cryptlexClient.Licenses.ListAsync(new ListLicensesData() { Page = 1 });
 
             FetchLicensesButton.IsEnabled = true;
             FetchLicensesButton.Content = "Fetch Licenses";
 
-            LicensesListView.ItemsSource = licenses.Select(a => a.id!);
+            LicensesListView.ItemsSource = licenses.Select(a => a.Id!);
         }
     }
 }

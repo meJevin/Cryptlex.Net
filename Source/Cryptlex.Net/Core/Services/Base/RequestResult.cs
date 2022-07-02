@@ -42,7 +42,7 @@ namespace Cryptlex.Net.Core.Services
 
             if (CryptlexError is not null)
             {
-                errors.Add($"Cryptlex error: {CryptlexError.message}");
+                errors.Add($"Cryptlex error: {CryptlexError.Message}");
             }
 
             if (ReasonPhrase is not null)

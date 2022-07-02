@@ -1,8 +1,11 @@
-﻿namespace Cryptlex.Net.Tags
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Tags
 {
     public class UpdateTagData
     {
-        public string? name { get; set; }
-        public string? description { get; set; }
+		[JsonPropertyName("name")]
+        public string? Name { get; set; }
+		[JsonPropertyName("description")]
+        public string? Description { get; set; }
     }
 }

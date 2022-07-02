@@ -1,23 +1,31 @@
-﻿namespace Cryptlex.Net.Products
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Products
 {
     public class CreateProductData
     {
-        public string name { get; set; }
-        public string displayName { get; set; }
-        public string description { get; set; }
-        public List<string>? emailTemplates { get; set; }
-        public string licensePolicyId { get; set; }
-        public string? trialPolicyId { get; set; }
-        public List<ProductMetadataRequestModel>? metadata { get; set; }
+		[JsonPropertyName("name")]
+        public string Name { get; set; }
+		[JsonPropertyName("displayName")]
+        public string DisplayName { get; set; }
+		[JsonPropertyName("description")]
+        public string Description { get; set; }
+		[JsonPropertyName("emailTemplates")]
+        public List<string>? EmailTemplates { get; set; }
+		[JsonPropertyName("licensePolicyId")]
+        public string LicensePolicyId { get; set; }
+		[JsonPropertyName("trialPolicyId")]
+        public string? TrialPolicyId { get; set; }
+		[JsonPropertyName("metadata")]
+        public List<ProductMetadataRequestModel>? Metadata { get; set; }
 
         public CreateProductData(
             string name, string displayName,
             string description, string licensePolicyId)
         {
-            this.name = name;
-            this.displayName = displayName;
-            this.description = description;
-            this.licensePolicyId = licensePolicyId;
+            this.Name = name;
+            this.DisplayName = displayName;
+            this.Description = description;
+            this.LicensePolicyId = licensePolicyId;
         }
     }
 }

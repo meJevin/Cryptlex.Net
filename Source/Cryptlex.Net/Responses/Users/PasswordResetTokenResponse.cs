@@ -1,7 +1,9 @@
-﻿namespace Cryptlex.Net.Users
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Users
 {
     public class PasswordResetTokenResponse
     {
-        public string? resetPasswordToken { get; set; }
+		[JsonPropertyName("resetPasswordToken")]
+        public string? ResetPasswordToken { get; set; }
     }
 }

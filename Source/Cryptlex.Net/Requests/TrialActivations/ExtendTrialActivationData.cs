@@ -1,12 +1,14 @@
-﻿namespace Cryptlex.Net.TrialActivations
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.TrialActivations
 {
     public class ExtendTrialActivationData
     {
-        public int extensionLength { get; set; }
+		[JsonPropertyName("extensionLength")]
+        public int ExtensionLength { get; set; }
 
         public ExtendTrialActivationData(int extensionLength)
         {
-            this.extensionLength = extensionLength;
+            this.ExtensionLength = extensionLength;
         }
     }
 }

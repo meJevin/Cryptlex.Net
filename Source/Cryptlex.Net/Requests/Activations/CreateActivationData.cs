@@ -1,4 +1,5 @@
-﻿using Cryptlex.Net.Entities;
+using System.Text.Json.Serialization;
+using Cryptlex.Net.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,36 @@ namespace Cryptlex.Net.Activations
 {
     public class CreateActivationData
     {
-        public string os { get; set; }
-        public string? osVersion { get; set; }
-        public string fingerprint { get; set; }
-        public string? vmName { get; set; }
-        public bool? container { get; set; }
-        public string hostname { get; set; }
-        public string appVersion { get; set; }
-        public string userHash { get; set; }
-        public string productId { get; set; }
-        public string key { get; set; }
-        public string? email { get; set; }
-        public string? password { get; set; }
-        public int? leaseDuration { get; set; }
-        public List<ActivationMetadataRequestModel>? metadata { get; set; }
-        public List<ActivationMeterAttributeRequestModel>? meterAttributes { get; set; }
+		[JsonPropertyName("os")]
+        public string Os { get; set; }
+		[JsonPropertyName("osVersion")]
+        public string? OsVersion { get; set; }
+		[JsonPropertyName("fingerprint")]
+        public string Fingerprint { get; set; }
+		[JsonPropertyName("vmName")]
+        public string? VmName { get; set; }
+		[JsonPropertyName("container")]
+        public bool? Container { get; set; }
+		[JsonPropertyName("hostname")]
+        public string Hostname { get; set; }
+		[JsonPropertyName("appVersion")]
+        public string AppVersion { get; set; }
+		[JsonPropertyName("userHash")]
+        public string UserHash { get; set; }
+		[JsonPropertyName("productId")]
+        public string ProductId { get; set; }
+		[JsonPropertyName("key")]
+        public string Key { get; set; }
+		[JsonPropertyName("email")]
+        public string? Email { get; set; }
+		[JsonPropertyName("password")]
+        public string? Password { get; set; }
+		[JsonPropertyName("leaseDuration")]
+        public int? LeaseDuration { get; set; }
+		[JsonPropertyName("metadata")]
+        public List<ActivationMetadataRequestModel>? Metadata { get; set; }
+		[JsonPropertyName("meterAttributes")]
+        public List<ActivationMeterAttributeRequestModel>? MeterAttributes { get; set; }
 
         public CreateActivationData(
             string os, string fingerprint, 
@@ -31,13 +47,13 @@ namespace Cryptlex.Net.Activations
             string userHash, string productId, 
             string key)
         {
-            this.os = os;
-            this.fingerprint = fingerprint;
-            this.hostname = hostname;
-            this.appVersion = appVersion;
-            this.userHash = userHash;
-            this.productId = productId;
-            this.key = key;
+            this.Os = os;
+            this.Fingerprint = fingerprint;
+            this.Hostname = hostname;
+            this.AppVersion = appVersion;
+            this.UserHash = userHash;
+            this.ProductId = productId;
+            this.Key = key;
         }
     }
 }

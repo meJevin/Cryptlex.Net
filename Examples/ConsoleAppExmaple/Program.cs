@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Common;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace ConsoleAppExample
@@ -12,7 +13,10 @@ namespace ConsoleAppExample
                 var builder = Host.CreateDefaultBuilder(args)
                     .ConfigureServices((hostContext, services) =>
                     {
-                        services.AddCryptlexClient(options => options.AccessToken = "YOUR_TOKEN");
+                        var cfg = Utils.BuildConfiguration();
+                        var token = cfg[Secrets.CryptlexTestTokenKeySecretName];
+
+                        services.AddCryptlexClient(options => options.AccessToken = token ?? "YOUR_TOKEN");
 
                         services.AddSingleton<HostedMain>();
                         services.AddHostedService(provider => provider.GetService<HostedMain>());
