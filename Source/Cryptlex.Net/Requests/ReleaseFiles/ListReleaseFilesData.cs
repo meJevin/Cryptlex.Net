@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 namespace Cryptlex.Net.ReleaseFiles
 {
-    public class ListReleaseFilesData
+    public class ListReleaseFilesData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

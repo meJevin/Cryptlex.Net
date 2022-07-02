@@ -62,6 +62,14 @@ namespace Cryptlex.Net.Core.Services
             return await base.ListEntitiesAsync(data);
         }
 
+        public async IAsyncEnumerable<TrialActivation> ListAutoPagingAsync(ListTrialActivationsData data)
+        {
+            await foreach (var item in base.ListEntitiesAsyncEnumerator(data))
+            {
+                yield return item;
+            }
+        }
+
         public async Task<Stream> ExportAll(ExportTrialActivationsData data)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Export);

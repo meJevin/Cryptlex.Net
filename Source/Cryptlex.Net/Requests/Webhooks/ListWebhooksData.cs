@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 namespace Cryptlex.Net.Webhooks
 {
-    public class ListWebhooksData
+    public class ListWebhooksData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 namespace Cryptlex.Net.Tags
 {
-    public class ListTagsData
+    public class ListTagsData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

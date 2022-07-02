@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 namespace Cryptlex.Net.EmailTemplates
 {
-    public class ListEmailTemplatesData
+    public class ListEmailTemplatesData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

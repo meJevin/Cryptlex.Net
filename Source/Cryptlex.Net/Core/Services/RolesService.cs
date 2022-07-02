@@ -44,6 +44,14 @@ namespace Cryptlex.Net.Core.Services
             return await base.ListEntitiesAsync(data);
         }
 
+        public async IAsyncEnumerable<Role> ListAutoPagingAsync(ListRolesData data)
+        {
+            await foreach (var item in base.ListEntitiesAsyncEnumerator(data))
+            {
+                yield return item;
+            }
+        }
+
         public async Task<IEnumerable<string>> ListClaims(ListRoleClaimsData data)
         {
             var uri = BasePath;
