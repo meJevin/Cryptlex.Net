@@ -1,8 +1,11 @@
-﻿namespace Cryptlex.Net.Users.Current
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Users.Current
 {
     public class TwoFactorAuthenticationSecretResponse
     {
-        public string? email { get; set; }
-        public string? url { get; set; }
+		[JsonPropertyName("email")]
+        public string? Email { get; set; }
+		[JsonPropertyName("url")]
+        public string? Url { get; set; }
     }
 }
