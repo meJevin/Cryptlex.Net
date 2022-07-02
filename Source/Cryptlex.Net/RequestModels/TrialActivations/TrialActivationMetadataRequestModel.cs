@@ -8,13 +8,13 @@ namespace Cryptlex.Net.TrialActivations
 {
     public class TrialActivationMetadataRequestModel
     {
-        public string key { get; set; }
-        public string value { get; set; }
+        public string Key { get; set; }
+        public string Value { get; set; }
 
         public TrialActivationMetadataRequestModel(string key, string value)
         {
-            this.key = key;
-            this.value = value;
+            this.Key = key;
+            this.Value = value;
         }
     }
 }

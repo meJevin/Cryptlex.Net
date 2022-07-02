@@ -8,15 +8,15 @@ namespace Cryptlex.Net.Licenses
 {
     public class LicenseMeterAttributeRequestModel
     {
-        public string name { get; set; }
-        public int allowedUses { get; set; }
-        public bool? visible { get; set; }
-        public bool? floating { get; set; }
+        public string Name { get; set; }
+        public int AllowedUses { get; set; }
+        public bool? Visible { get; set; }
+        public bool? Floating { get; set; }
 
         public LicenseMeterAttributeRequestModel(string name, int allowedUses)
         {
-            this.name = name;
-            this.allowedUses = allowedUses;
+            this.Name = name;
+            this.AllowedUses = allowedUses;
         }
     }
 }

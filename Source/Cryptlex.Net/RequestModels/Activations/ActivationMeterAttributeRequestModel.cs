@@ -8,8 +8,8 @@ namespace Cryptlex.Net.Activations
 {
     public class ActivationMeterAttributeRequestModel
     {
-        public string name { get; set; }
-        public int usesIncrement { get; set; }
+        public string Name { get; set; }
+        public int UsesIncrement { get; set; }
 
         protected ActivationMeterAttributeRequestModel()
         {
@@ -18,8 +18,8 @@ namespace Cryptlex.Net.Activations
 
         public ActivationMeterAttributeRequestModel(string name, int usesIncrement)
         {
-            this.name = name;
-            this.usesIncrement = usesIncrement;
+            this.Name = name;
+            this.UsesIncrement = usesIncrement;
         }
     }
 }

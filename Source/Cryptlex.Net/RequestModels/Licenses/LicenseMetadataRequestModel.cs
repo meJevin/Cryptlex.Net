@@ -8,9 +8,9 @@ namespace Cryptlex.Net.Licenses
 {
     public class LicenseMetadataRequestModel
     {
-        public string key { get; set; }
-        public string value { get; set; }
-        public bool visible { get; set; }
+        public string Key { get; set; }
+        public string Value { get; set; }
+        public bool Visible { get; set; }
 
         protected LicenseMetadataRequestModel()
         {
@@ -19,9 +19,9 @@ namespace Cryptlex.Net.Licenses
 
         public LicenseMetadataRequestModel(string key, string value, bool visible)
         {
-            this.key = key;
-            this.value = value;
-            this.visible = visible;
+            this.Key = key;
+            this.Value = value;
+            this.Visible = visible;
         }
     }
 }
