@@ -1,4 +1,5 @@
-﻿using System;
+using System.Text.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,12 @@ namespace Cryptlex.Net.Licenses
 {
     public class ExtendLicenseData
     {
-        public int extensionLength { get; set; }
+		[JsonPropertyName("extensionLength")]
+        public int ExtensionLength { get; set; }
 
         public ExtendLicenseData(int extensionLength)
         {
-            this.extensionLength = extensionLength;
+            this.ExtensionLength = extensionLength;
         }
     }
 }

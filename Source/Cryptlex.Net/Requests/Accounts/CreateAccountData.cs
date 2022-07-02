@@ -1,4 +1,5 @@
-﻿using Cryptlex.Net.Entities;
+using System.Text.Json.Serialization;
+using Cryptlex.Net.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +10,29 @@ namespace Cryptlex.Net.Accounts
 {
     public class CreateAccountData
     {
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string company { get; set; }
-        public string companyId { get; set; }
+		[JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+		[JsonPropertyName("lastName")]
+        public string LastName { get; set; }
+		[JsonPropertyName("email")]
+        public string Email { get; set; }
+		[JsonPropertyName("password")]
+        public string Password { get; set; }
+		[JsonPropertyName("company")]
+        public string Company { get; set; }
+		[JsonPropertyName("companyId")]
+        public string CompanyId { get; set; }
 
         public CreateAccountData(
             string firstName, string lastName, string email,
             string password, string company, string companyId)
         {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.password = password;
-            this.company = company;
-            this.companyId = companyId;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+            this.Password = password;
+            this.Company = company;
+            this.CompanyId = companyId;
         }
     }
 }

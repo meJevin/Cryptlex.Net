@@ -1,4 +1,5 @@
-﻿using System;
+using System.Text.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,15 @@ namespace Cryptlex.Net.Activations
 {
     public class IncrementActivationUsageData
     {
-        public long increment { get; set; }
-        public string activationId { get; set; }
+		[JsonPropertyName("increment")]
+        public long Increment { get; set; }
+		[JsonPropertyName("activationId")]
+        public string ActivationId { get; set; }
 
         public IncrementActivationUsageData(long increment, string activationId)
         {
-            this.increment = increment;
-            this.activationId = activationId;
+            this.Increment = increment;
+            this.ActivationId = activationId;
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace Cryptlex.Net.TrialActivations
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.TrialActivations
 {
     public class ExportTrialActivationsData
     {
-        public string? productId { get; set; }
+		[JsonPropertyName("productId")]
+        public string? ProductId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+using System.Text.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,30 +9,55 @@ namespace Cryptlex.Net.Licenses
 {
     public class ListLicensesData
     {
-        public int? page { get; set; }
-        public int? limit { get; set; }
-        public string? sort { get; set; }
-        public string? productId { get; set; }
-        public string? userId { get; set; }
-        public string? resellerId { get; set; }
-        public string? userEmail { get; set; }
-        public string? userCompany { get; set; }
-        public string? key { get; set; }
-        public bool? revoked { get; set; }
-        public bool? suspended { get; set; }
-        public string? type { get; set; }
-        public int? validity { get; set; }
-        public int? allowedActivations { get; set; }
-        public int? allowedDeactivations { get; set; }
-        public int? totalActivations { get; set; }
-        public int? totalDeactivations { get; set; }
-        public bool? allowVmActivation { get; set; }
-        public bool? userLocked { get; set; }
-        public bool? expired { get; set; }
-        public DateTime? createdAt { get; set; }
-        public string? tag { get; set; }
-        public string? metadataKey { get; set; } 
-        public string? metadataValue { get; set; }
-        public string? query { get; set; }                                                               
+		[JsonPropertyName("page")]
+        public int? Page { get; set; }
+		[JsonPropertyName("limit")]
+        public int? Limit { get; set; }
+		[JsonPropertyName("sort")]
+        public string? Sort { get; set; }
+		[JsonPropertyName("productId")]
+        public string? ProductId { get; set; }
+		[JsonPropertyName("userId")]
+        public string? UserId { get; set; }
+		[JsonPropertyName("resellerId")]
+        public string? ResellerId { get; set; }
+		[JsonPropertyName("userEmail")]
+        public string? UserEmail { get; set; }
+		[JsonPropertyName("userCompany")]
+        public string? UserCompany { get; set; }
+		[JsonPropertyName("key")]
+        public string? Key { get; set; }
+		[JsonPropertyName("revoked")]
+        public bool? Revoked { get; set; }
+		[JsonPropertyName("suspended")]
+        public bool? Suspended { get; set; }
+		[JsonPropertyName("type")]
+        public string? Type { get; set; }
+		[JsonPropertyName("validity")]
+        public int? Validity { get; set; }
+		[JsonPropertyName("allowedActivations")]
+        public int? AllowedActivations { get; set; }
+		[JsonPropertyName("allowedDeactivations")]
+        public int? AllowedDeactivations { get; set; }
+		[JsonPropertyName("totalActivations")]
+        public int? TotalActivations { get; set; }
+		[JsonPropertyName("totalDeactivations")]
+        public int? TotalDeactivations { get; set; }
+		[JsonPropertyName("allowVmActivation")]
+        public bool? AllowVmActivation { get; set; }
+		[JsonPropertyName("userLocked")]
+        public bool? UserLocked { get; set; }
+		[JsonPropertyName("expired")]
+        public bool? Expired { get; set; }
+		[JsonPropertyName("createdAt")]
+        public DateTime? CreatedAt { get; set; }
+		[JsonPropertyName("tag")]
+        public string? Tag { get; set; }
+		[JsonPropertyName("metadataKey")]
+        public string? MetadataKey { get; set; } 
+		[JsonPropertyName("metadataValue")]
+        public string? MetadataValue { get; set; }
+		[JsonPropertyName("query")]
+        public string? Query { get; set; }                                                               
     }
 }

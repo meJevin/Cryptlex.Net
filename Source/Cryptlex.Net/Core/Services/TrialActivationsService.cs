@@ -94,7 +94,7 @@ namespace Cryptlex.Net.Core.Services
 
             var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            result.ThrowIfFailed($"Could not create an offline trial activation for product with id {data.productId}");
+            result.ThrowIfFailed($"Could not create an offline trial activation for product with id {data.ProductId}");
 
             var resultData = await result.ExtractDataAsync<OfflineActivateResponse>();
 

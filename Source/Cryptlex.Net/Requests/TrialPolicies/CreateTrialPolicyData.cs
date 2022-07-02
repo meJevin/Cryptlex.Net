@@ -1,33 +1,47 @@
-﻿namespace Cryptlex.Net.TrialPolicies
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.TrialPolicies
 {
     public class CreateTrialPolicyData
     {
-        public string name { get; set; }
-        public string fingerprintMatchingStrategy { get; set; }
-        public bool allowVmActivation { get; set; }
-        public bool allowContainerActivation { get; set; }
-        public bool userLocked { get; set; }
-        public bool disableGeoLocation { get; set; }
-        public string? allowedIpRange { get; set; }
-        public List<string>? allowedIpRanges { get; set; }
-        public List<string>? allowedCountries { get; set; }
-        public List<string>? disallowedCountries { get; set; }
-        public List<string>? allowedIpAddresses { get; set; }
-        public List<string>? disallowedIpAddresses { get; set; }
-        public int trialLength { get; set; }
+		[JsonPropertyName("name")]
+        public string Name { get; set; }
+		[JsonPropertyName("fingerprintMatchingStrategy")]
+        public string FingerprintMatchingStrategy { get; set; }
+		[JsonPropertyName("allowVmActivation")]
+        public bool AllowVmActivation { get; set; }
+		[JsonPropertyName("allowContainerActivation")]
+        public bool AllowContainerActivation { get; set; }
+		[JsonPropertyName("userLocked")]
+        public bool UserLocked { get; set; }
+		[JsonPropertyName("disableGeoLocation")]
+        public bool DisableGeoLocation { get; set; }
+		[JsonPropertyName("allowedIpRange")]
+        public string? AllowedIpRange { get; set; }
+		[JsonPropertyName("allowedIpRanges")]
+        public List<string>? AllowedIpRanges { get; set; }
+		[JsonPropertyName("allowedCountries")]
+        public List<string>? AllowedCountries { get; set; }
+		[JsonPropertyName("disallowedCountries")]
+        public List<string>? DisallowedCountries { get; set; }
+		[JsonPropertyName("allowedIpAddresses")]
+        public List<string>? AllowedIpAddresses { get; set; }
+		[JsonPropertyName("disallowedIpAddresses")]
+        public List<string>? DisallowedIpAddresses { get; set; }
+		[JsonPropertyName("trialLength")]
+        public int TrialLength { get; set; }
 
         public CreateTrialPolicyData(
             string name, string fingerprintMatchingStrategy, bool allowVmActivation, 
             bool allowContainerActivation, bool userLocked, bool disableGeoLocation, 
             int trialLength)
         {
-            this.name = name;
-            this.fingerprintMatchingStrategy = fingerprintMatchingStrategy;
-            this.allowVmActivation = allowVmActivation;
-            this.allowContainerActivation = allowContainerActivation;
-            this.userLocked = userLocked;
-            this.disableGeoLocation = disableGeoLocation;
-            this.trialLength = trialLength;
+            this.Name = name;
+            this.FingerprintMatchingStrategy = fingerprintMatchingStrategy;
+            this.AllowVmActivation = allowVmActivation;
+            this.AllowContainerActivation = allowContainerActivation;
+            this.UserLocked = userLocked;
+            this.DisableGeoLocation = disableGeoLocation;
+            this.TrialLength = trialLength;
         }
     }
 }

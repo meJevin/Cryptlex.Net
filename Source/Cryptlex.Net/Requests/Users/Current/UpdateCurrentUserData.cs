@@ -1,4 +1,5 @@
-﻿using Cryptlex.Net.Users;
+using System.Text.Json.Serialization;
+using Cryptlex.Net.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,22 +10,32 @@ namespace Cryptlex.Net.Users.Current
 {
     public class UpdateCurrentUserData
     {
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string email { get; set; }
-        public string? company { get; set; }
-        public bool? allowCustomerPortalAccess { get; set; }
-        public List<UserMetadataRequestModel>? metadata { get; set; }
-        public List<string>? tags { get; set; }
-        public bool? googleSsoEnabled { get; set; }
-        public bool? twoFactorEnabled { get; set; }
-        public string? twoFactorCode { get; set; }
+		[JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+		[JsonPropertyName("lastName")]
+        public string LastName { get; set; }
+		[JsonPropertyName("email")]
+        public string Email { get; set; }
+		[JsonPropertyName("company")]
+        public string? Company { get; set; }
+		[JsonPropertyName("allowCustomerPortalAccess")]
+        public bool? AllowCustomerPortalAccess { get; set; }
+		[JsonPropertyName("metadata")]
+        public List<UserMetadataRequestModel>? Metadata { get; set; }
+		[JsonPropertyName("tags")]
+        public List<string>? Tags { get; set; }
+		[JsonPropertyName("googleSsoEnabled")]
+        public bool? GoogleSsoEnabled { get; set; }
+		[JsonPropertyName("twoFactorEnabled")]
+        public bool? TwoFactorEnabled { get; set; }
+		[JsonPropertyName("twoFactorCode")]
+        public string? TwoFactorCode { get; set; }
 
         public UpdateCurrentUserData(string firstName, string lastName, string email)
         {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
         }
     }
 }

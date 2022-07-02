@@ -1,15 +1,19 @@
-﻿namespace Cryptlex.Net.Accounts
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Accounts
 {
     public class AccountLoginGoogleData
     {
-        public string? companyId { get; set; }
-        public string email { get; set; }
-        public string idToken { get; set; }
+		[JsonPropertyName("companyId")]
+        public string? CompanyId { get; set; }
+		[JsonPropertyName("email")]
+        public string Email { get; set; }
+		[JsonPropertyName("idToken")]
+        public string IdToken { get; set; }
 
         public AccountLoginGoogleData(string email, string idToken)
         {
-            this.email = email;
-            this.idToken = idToken;
+            this.Email = email;
+            this.IdToken = idToken;
         }
     }
 }

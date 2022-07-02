@@ -1,13 +1,16 @@
-﻿namespace Cryptlex.Net.Accounts
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Accounts
 {
     public class AccountResetPasswordData
     {
-        public string? companyId { get; set; }
-        public string email { get; set; }
+		[JsonPropertyName("companyId")]
+        public string? CompanyId { get; set; }
+		[JsonPropertyName("email")]
+        public string Email { get; set; }
 
         public AccountResetPasswordData(string email)
         {
-            this.email = email;
+            this.Email = email;
         }
     }
 }

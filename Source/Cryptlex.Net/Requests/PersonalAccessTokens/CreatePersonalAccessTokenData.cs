@@ -1,4 +1,5 @@
-﻿using Cryptlex.Net.Entities;
+using System.Text.Json.Serialization;
+using Cryptlex.Net.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,19 @@ namespace Cryptlex.Net.PersonalAccessTokens
 {
     public class CreatePersonalAccessTokenData
     {
-        public string name { get; set; }
-        public bool? revoked { get; set; }
-        public DateTime? expiresAt { get; set; }
-        public List<string> scopes { get; set; }
+		[JsonPropertyName("name")]
+        public string Name { get; set; }
+		[JsonPropertyName("revoked")]
+        public bool? Revoked { get; set; }
+		[JsonPropertyName("expiresAt")]
+        public DateTime? ExpiresAt { get; set; }
+		[JsonPropertyName("scopes")]
+        public List<string> Scopes { get; set; }
 
         public CreatePersonalAccessTokenData(string name, List<string> scopes)
         {
-            this.name = name;
-            this.scopes = scopes;
+            this.Name = name;
+            this.Scopes = scopes;
         }
     }
 }

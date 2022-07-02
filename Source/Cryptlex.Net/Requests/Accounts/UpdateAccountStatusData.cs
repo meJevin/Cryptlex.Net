@@ -1,12 +1,14 @@
-﻿namespace Cryptlex.Net.Accounts
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Accounts
 {
     public class UpdateAccountStatusData
     {
-        public string status { get; set; }
+		[JsonPropertyName("status")]
+        public string Status { get; set; }
 
         public UpdateAccountStatusData(string status)
         {
-            this.status = status;
+            this.Status = status;
         }
     }
 }

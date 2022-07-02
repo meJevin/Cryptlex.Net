@@ -1,12 +1,14 @@
-﻿namespace Cryptlex.Net.Accounts
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Accounts
 {
     public class UpdateAccountPlanData
     {
-        public string planId { get; set; }
+		[JsonPropertyName("planId")]
+        public string PlanId { get; set; }
 
         public UpdateAccountPlanData(string planId)
         {
-            this.planId = planId;
+            this.PlanId = planId;
         }
     }
 }

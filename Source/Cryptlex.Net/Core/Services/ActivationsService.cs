@@ -74,7 +74,7 @@ namespace Cryptlex.Net.Core.Services
 
             var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            result.ThrowIfFailed($"Could not perform offline activation for {data.licenseId}.");
+            result.ThrowIfFailed($"Could not perform offline activation for {data.LicenseId}.");
 
             var resultData = await result.ExtractDataAsync<OfflineActivationResponse>();
 
@@ -87,7 +87,7 @@ namespace Cryptlex.Net.Core.Services
 
             var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            result.ThrowIfFailed($"Could not perform offline deactivation for {data.licenseId}.");
+            result.ThrowIfFailed($"Could not perform offline deactivation for {data.LicenseId}.");
         }
 
         public async Task<IncrementActivationUsageResponse> IncrementUsage(string id, IncrementActivationUsageData data)

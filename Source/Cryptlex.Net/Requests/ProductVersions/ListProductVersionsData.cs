@@ -1,12 +1,19 @@
-﻿namespace Cryptlex.Net.ProductVersions
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.ProductVersions
 {
     public class ListProductVersionsData
     {
-        public int? page { get; set; }
-        public int? limit { get; set; }
-        public string? sort { get; set; }
-        public string? productId { get; set; }
-        public string? name { get; set; }
-        public string? query { get; set; }
+		[JsonPropertyName("page")]
+        public int? Page { get; set; }
+		[JsonPropertyName("limit")]
+        public int? Limit { get; set; }
+		[JsonPropertyName("sort")]
+        public string? Sort { get; set; }
+		[JsonPropertyName("productId")]
+        public string? ProductId { get; set; }
+		[JsonPropertyName("name")]
+        public string? Name { get; set; }
+		[JsonPropertyName("query")]
+        public string? Query { get; set; }
     }
 }

@@ -1,12 +1,14 @@
-﻿namespace Cryptlex.Net.Accounts
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Accounts
 {
     public class AccountCheckSSOEnabledData
     {
-        public string comapnyId { get; set; }
+		[JsonPropertyName("comapnyId")]
+        public string ComapnyId { get; set; }
 
         public AccountCheckSSOEnabledData(string comapnyId)
         {
-            this.comapnyId = comapnyId;
+            this.ComapnyId = comapnyId;
         }
     }
 }

@@ -1,22 +1,28 @@
-﻿namespace Cryptlex.Net.Webhooks
+using System.Text.Json.Serialization;
+namespace Cryptlex.Net.Webhooks
 {
     public class CreateWebhookData
     {
-        public string name { get; set; }
-        public string url { get; set; }
-        public string token { get; set; }
-        public bool active { get; set; }
-        public List<string> events { get; set; }
+		[JsonPropertyName("name")]
+        public string Name { get; set; }
+		[JsonPropertyName("url")]
+        public string Url { get; set; }
+		[JsonPropertyName("token")]
+        public string Token { get; set; }
+		[JsonPropertyName("active")]
+        public bool Active { get; set; }
+		[JsonPropertyName("events")]
+        public List<string> Events { get; set; }
 
         public CreateWebhookData(
             string name, string url, string token,
             bool active, List<string> events)
         {
-            this.name = name;
-            this.url = url;
-            this.token = token;
-            this.active = active;
-            this.events = events;
+            this.Name = name;
+            this.Url = url;
+            this.Token = token;
+            this.Active = active;
+            this.Events = events;
         }
     }
 }

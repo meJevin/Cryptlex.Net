@@ -1,4 +1,5 @@
-﻿using System;
+using System.Text.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,15 @@ namespace Cryptlex.Net.Activations
 {
     public class OfflineDeactivateData
     {
-        public string offlineRequest { get; set; }
-        public string licenseId { get; set; }
+		[JsonPropertyName("offlineRequest")]
+        public string OfflineRequest { get; set; }
+		[JsonPropertyName("licenseId")]
+        public string LicenseId { get; set; }
 
         public OfflineDeactivateData(string offlineRequest, string licenseId)
         {
-            this.offlineRequest = offlineRequest;
-            this.licenseId = licenseId;
+            this.OfflineRequest = offlineRequest;
+            this.LicenseId = licenseId;
         }
     }
 }

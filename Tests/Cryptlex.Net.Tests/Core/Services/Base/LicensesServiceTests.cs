@@ -61,7 +61,7 @@ namespace Cryptlex.Net.Tests.Core.Services.Base
                 });
 
             // Act
-            var answer = await _licenseService.ListAsync(new ListLicensesData { page = pageNumber });
+            var answer = await _licenseService.ListAsync(new ListLicensesData { Page = pageNumber });
 
             // Assert
             _mocks.HttpMessageHandler.Protected()

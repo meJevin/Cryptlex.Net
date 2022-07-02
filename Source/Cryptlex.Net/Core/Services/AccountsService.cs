@@ -70,7 +70,7 @@ namespace Cryptlex.Net.Core.Services
 
             var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            result.ThrowIfFailed($"Could not login into account with email {data.email}.");
+            result.ThrowIfFailed($"Could not login into account with email {data.Email}.");
 
             var resultData = await result.ExtractDataAsync<AccountLoginResponse>();
 
@@ -83,7 +83,7 @@ namespace Cryptlex.Net.Core.Services
 
             var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            result.ThrowIfFailed($"Could not login into account with email {data.email}.");
+            result.ThrowIfFailed($"Could not login into account with email {data.Email}.");
 
             var resultData = await result.ExtractDataAsync<AccountLoginGoogleResponse>();
 
@@ -133,7 +133,7 @@ namespace Cryptlex.Net.Core.Services
 
             var result = await RequestAsync(uri, HttpMethod.Post, data);
 
-            result.ThrowIfFailed($"Could not reset password for account with email {data.email}.");
+            result.ThrowIfFailed($"Could not reset password for account with email {data.Email}.");
         }
 
         public async Task<Account> UpdateStatus(string id, UpdateAccountStatusData data)
