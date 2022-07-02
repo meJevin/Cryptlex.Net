@@ -28,7 +28,11 @@ namespace Cryptlex.Net.Activations
         public string UserHash { get; set; }
 		[JsonPropertyName("productId")]
         public string ProductId { get; set; }
-		[JsonPropertyName("key")]
+        [JsonPropertyName("accountId")]
+        public string? AccountId { get; set; }
+        [JsonPropertyName("releaseVersion")]
+        public string? ReleaseVersion { get; set; }
+        [JsonPropertyName("key")]
         public string Key { get; set; }
 		[JsonPropertyName("email")]
         public string? Email { get; set; }
