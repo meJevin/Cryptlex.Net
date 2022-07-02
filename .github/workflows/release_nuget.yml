@@ -25,7 +25,7 @@ jobs:
       run: dotnet build --no-restore --configuration Release ./Source/Cryptlex.Net/Cryptlex.Net.csproj
       
     - name: Pack nugets
-      run: dotnet pack --output ./nupkgs --no-build --no-restore --configuration Release ./Source/Cryptlex.Net/Cryptlex.Net.csproj -p:PackageVersion=${{ github.ref }}
+      run: dotnet pack --output ./nupkgs --no-build --no-restore --configuration Release ./Source/Cryptlex.Net/Cryptlex.Net.csproj -p:PackageVersion=${{ github.ref_name }}
       
     - name: Push to NuGet
       run: dotnet nuget push "./nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
