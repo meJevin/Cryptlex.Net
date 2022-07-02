@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 namespace Cryptlex.Net.LicensePolicies 
 {
-    public class ListLicensePoliciesData
+    public class ListLicensePoliciesData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

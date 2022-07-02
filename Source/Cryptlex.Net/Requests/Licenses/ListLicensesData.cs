@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cryptlex.Net.Licenses
 {
-    public class ListLicensesData
+    public class ListLicensesData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

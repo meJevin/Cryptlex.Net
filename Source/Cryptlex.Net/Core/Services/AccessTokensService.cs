@@ -33,6 +33,14 @@ namespace Cryptlex.Net.Core.Services
             return await base.ListEntitiesAsync(data);
         }
 
+        public async IAsyncEnumerable<PersonalAccessToken> ListAutoPagingAsync(ListPersonalAccessTokensData data)
+        {
+            await foreach (var item in base.ListEntitiesAsyncEnumerator(data))
+            {
+                yield return item;
+            }
+        }
+
         public async Task<PersonalAccessToken> CreateAsync(CreatePersonalAccessTokenData data)
         {
             return await base.CreateEntityAsync(data);

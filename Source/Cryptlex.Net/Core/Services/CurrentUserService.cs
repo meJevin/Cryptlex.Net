@@ -14,15 +14,15 @@ using System.Threading.Tasks;
 
 namespace Cryptlex.Net.Core.Services
 {
-    public interface ICurrentUserService
+    public interface ICurrentUserService : 
+        IListable<License, ListCurrentUserLicensesData>, 
+        IListable<Activation, ListCurrentUserActivationsData>, 
+        IListable<Release, ListCurrentUserReleasesData>
     {
         Task<User> GetAsync();
         Task<User> UpdateAsync(UpdateCurrentUserData data);
         Task<License> GetLicenseAsync(string id);
-        Task<IEnumerable<License>> ListLicensesAsync(ListCurrentUserLicensesData data);
         Task<Activation> GetActivationAsync(string id);
-        Task<IEnumerable<Activation>> ListActivateionsAsync(ListCurrentUserActivationsData data);
-        Task<IEnumerable<Release>> ListReleasesAsync(ListCurrentUserReleasesData data);
         Task<TwoFactorAuthenticationSecretResponse> GetTwoFactorAuthenticationSecretAsync();
         Task<TwoFactorAuthenticationRecoveryCodeResponse> GetTwoFactorAuthenticationRecoveryCodeAsync();
     }
@@ -50,6 +50,54 @@ namespace Cryptlex.Net.Core.Services
         {
         }
 
+        public async Task<IEnumerable<License>> ListAsync(ListCurrentUserLicensesData data)
+        {
+            var uri = Utils.CombinePaths(BasePath, Actions.Licenses);
+            return await base.ListEntitiesAsync<License>(data, uri);
+        }
+
+        public async IAsyncEnumerable<License> ListAutoPagingAsync(ListCurrentUserLicensesData data)
+        {
+            var uri = Utils.CombinePaths(BasePath, Actions.Licenses);
+
+            await foreach (var item in base.ListEntitiesAsyncEnumerator<License>(data, uri))
+            {
+                yield return item;
+            }
+        }
+
+        public async Task<IEnumerable<Activation>> ListAsync(ListCurrentUserActivationsData data)
+        {
+            var uri = Utils.CombinePaths(BasePath, Actions.Activations);
+            return await base.ListEntitiesAsync<Activation>(data, uri);
+        }
+
+        public async IAsyncEnumerable<Activation> ListAutoPagingAsync(ListCurrentUserActivationsData data)
+        {
+            var uri = Utils.CombinePaths(BasePath, Actions.Activations);
+
+            await foreach (var item in base.ListEntitiesAsyncEnumerator<Activation>(data, uri))
+            {
+                yield return item;
+            }
+        }
+
+        public async Task<IEnumerable<Release>> ListAsync(ListCurrentUserReleasesData data)
+        {
+            var uri = Utils.CombinePaths(BasePath, Actions.Releases);
+            return await base.ListEntitiesAsync<Release>(data, uri);
+        }
+
+        public async IAsyncEnumerable<Release> ListAutoPagingAsync(ListCurrentUserReleasesData data)
+        {
+            var uri = Utils.CombinePaths(BasePath, Actions.Releases);
+
+            await foreach (var item in base.ListEntitiesAsyncEnumerator<Release>(data, uri))
+            {
+                yield return item;
+            }
+        }
+
         public async Task<User> GetAsync()
         {
             return await GetFromSelfAsync<User>(BasePath);
@@ -75,32 +123,11 @@ namespace Cryptlex.Net.Core.Services
             return await GetFromSelfAsync<License>(uri);
         }
 
-        public async Task<IEnumerable<License>> ListLicensesAsync(ListCurrentUserLicensesData data)
-        {
-            var uri = Utils.CombinePaths(BasePath, Actions.Licenses);
-
-            return await GetFromSelfAsync<IEnumerable<License>>(uri, data);
-        }
-
         public async Task<Activation> GetActivationAsync(string id)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.Activation, id);
 
             return await GetFromSelfAsync<Activation>(uri);
-        }
-
-        public async Task<IEnumerable<Activation>> ListActivateionsAsync(ListCurrentUserActivationsData data)
-        {
-            var uri = Utils.CombinePaths(BasePath, Actions.Activations);
-
-            return await GetFromSelfAsync<IEnumerable<Activation>>(uri, data);
-        }
-
-        public async Task<IEnumerable<Release>> ListReleasesAsync(ListCurrentUserReleasesData data)
-        {
-            var uri = Utils.CombinePaths(BasePath, Actions.Releases);
-
-            return await GetFromSelfAsync<IEnumerable<Release>>(uri, data);
         }
 
         protected virtual async Task<T> GetFromSelfAsync<T>(string uri, object? data = null) where T : class

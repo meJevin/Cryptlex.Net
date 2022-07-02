@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 namespace Cryptlex.Net.TrialActivations
 {
-    public class ListTrialActivationsData
+    public class ListTrialActivationsData : IListRequest
     {
 		[JsonPropertyName("productId")]
         public int? ProductId { get; set; }

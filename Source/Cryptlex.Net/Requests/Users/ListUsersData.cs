@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 namespace Cryptlex.Net.Users
 {
-    public class ListUsersData
+    public class ListUsersData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

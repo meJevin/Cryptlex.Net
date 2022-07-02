@@ -59,6 +59,14 @@ namespace Cryptlex.Net.Core.Services
             return await base.ListEntitiesAsync(data);
         }
 
+        public async IAsyncEnumerable<Webhook> ListAutoPagingAsync(ListWebhooksData data)
+        {
+            await foreach (var item in base.ListEntitiesAsyncEnumerator(data))
+            {
+                yield return item;
+            }
+        }
+
         public async Task<Webhook> UpdateAsync(string id, UpdateWebhookData data)
         {
             return await base.UpdateEntityAsync(id, data);

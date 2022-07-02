@@ -53,6 +53,14 @@ namespace Cryptlex.Net.Core.Services
             return await base.ListEntitiesAsync(data);
         }
 
+        public async IAsyncEnumerable<FeatureFlag> ListAutoPagingAsync(ListFeatureFlagsData data)
+        {
+            await foreach (var item in base.ListEntitiesAsyncEnumerator(data))
+            {
+                yield return item;
+            }
+        }
+
         public async Task<FeatureFlag> UpdateAsync(string id, UpdateFeatureFlagData data)
         {
             return await base.UpdateEntityAsync(id, data);

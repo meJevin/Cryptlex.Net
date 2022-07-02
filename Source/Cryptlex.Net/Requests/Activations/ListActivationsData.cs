@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cryptlex.Net.Activations
 {
-    public class ListActivationsData
+    public class ListActivationsData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

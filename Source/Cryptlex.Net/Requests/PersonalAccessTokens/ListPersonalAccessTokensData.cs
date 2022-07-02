@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cryptlex.Net.PersonalAccessTokens
 {
-    public class ListPersonalAccessTokensData
+    public class ListPersonalAccessTokensData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

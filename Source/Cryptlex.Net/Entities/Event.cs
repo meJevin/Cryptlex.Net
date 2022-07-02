@@ -8,15 +8,12 @@ namespace Cryptlex.Net.Entities
     public class Event
     {
         [JsonPropertyName("event")]
-		[JsonPropertyName("type")]
         public string Type { get; set; }
 
         [JsonPropertyName("data")]
-		[JsonPropertyName("data")]
         public object Data { get; set; }
 
         [JsonPropertyName("triggeredAt")]
-		[JsonPropertyName("triggeredAt")]
         public DateTime? TriggeredAt { get; set; }
 
         public T DataAs<T>()

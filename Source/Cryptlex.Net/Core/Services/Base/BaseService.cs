@@ -90,17 +90,52 @@ namespace Cryptlex.Net.Core.Services
         #endregion
 
         #region CRUD
-        protected virtual async Task<IEnumerable<T>> ListEntitiesAsync(object? data = null!)
+        protected virtual async Task<IEnumerable<TEntity>> ListEntitiesAsync<TEntity>(IListRequest? data = null!, string? customUri = null!)
         {
-            var uri = BasePath;
+            var uri = customUri ?? BasePath;
 
             var result = await RequestAsync(uri, HttpMethod.Get, data);
 
             result.ThrowIfFailed($"List for {uri} failed.");
 
-            var resultData = await result.ExtractDataAsync<IEnumerable<T>>();
+            var resultData = await result.ExtractDataAsync<IEnumerable<TEntity>>();
 
             return resultData;
+        }
+
+        protected virtual async Task<IEnumerable<T>> ListEntitiesAsync(IListRequest? data = null!, string? customUri = null!)
+        {
+            return await ListEntitiesAsync<T>(data, customUri);
+        }
+
+        protected virtual async IAsyncEnumerable<TEntity> ListEntitiesAsyncEnumerator<TEntity>(IListRequest? data = null, string? customUri = null!)
+        {
+            data = data ?? new DefaultListRequest();
+
+            var currentPage = 1;
+            IEnumerable<TEntity> items;
+            do
+            {
+                data.Page = currentPage;
+
+                items = await ListEntitiesAsync<TEntity>(data, customUri);
+
+                foreach (var item in items)
+                {
+                    yield return item;
+                }
+
+                currentPage++;
+            }
+            while (items.Count() is > 0);
+        }
+
+        protected virtual async IAsyncEnumerable<T> ListEntitiesAsyncEnumerator(IListRequest? data = null!, string? customUri = null!)
+        {
+            await foreach (var item in ListEntitiesAsyncEnumerator<T>(data, customUri))
+            {
+                yield return item;
+            }
         }
 
         protected virtual async Task<T> CreateEntityAsync(object data)

@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 namespace Cryptlex.Net.FeatureFlags
 {
-    public class ListFeatureFlagsData
+    public class ListFeatureFlagsData : IListRequest
     {
 		[JsonPropertyName("page")]
         public int? Page { get; set; }

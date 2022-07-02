@@ -38,6 +38,14 @@ namespace Cryptlex.Net.Core.Services
             return await base.ListEntitiesAsync(data);
         }
 
+        public async IAsyncEnumerable<TrialPolicy> ListAutoPagingAsync(ListTrialPoliciesData data)
+        {
+            await foreach (var item in base.ListEntitiesAsyncEnumerator(data))
+            {
+                yield return item;
+            }
+        }
+
         public async Task<TrialPolicy> CreateAsync(CreateTrialPolicyData data)
         {
             return await base.CreateEntityAsync(data);

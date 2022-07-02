@@ -50,6 +50,14 @@ namespace Cryptlex.Net.Core.Services
             return await base.ListEntitiesAsync(data);
         }
 
+        public async IAsyncEnumerable<Product> ListAutoPagingAsync(ListProductsData data)
+        {
+            await foreach (var item in base.ListEntitiesAsyncEnumerator(data))
+            {
+                yield return item;
+            }
+        }
+
         public async Task<Product> CreateAsync(CreateProductData data)
         {
             return await base.CreateEntityAsync(data);
