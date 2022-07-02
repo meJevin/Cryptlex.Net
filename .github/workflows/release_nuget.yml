@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Get latest release
+      id: release
+      uses: thebritican/fetch-latest-release@v1.0.3
+      with:
+        github_token: ${{ secrets.GITHUB>TOKEN }}
+    
     - name: Checkout
       uses: actions/checkout@v3
       
@@ -25,7 +31,7 @@ jobs:
       run: dotnet build --no-restore --configuration Release ./Source/Cryptlex.Net/Cryptlex.Net.csproj
       
     - name: Pack nugets
-      run: dotnet pack --output ./nupkgs --no-build --no-restore --configuration Release ./Source/Cryptlex.Net/Cryptlex.Net.csproj -p:PackageVersion=${{ github.ref_name }}
+      run: dotnet pack --output ./nupkgs --no-build --no-restore --configuration Release ./Source/Cryptlex.Net/Cryptlex.Net.csproj -p:PackageVersion=${{ steps.latest.outputs.tag_name }}
       
     - name: Push to NuGet
       run: dotnet nuget push "./nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
