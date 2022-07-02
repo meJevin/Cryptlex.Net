@@ -14,7 +14,7 @@ jobs:
       id: release
       uses: thebritican/fetch-latest-release@v1.0.3
       with:
-        github_token: ${{ secrets.GITHUB-TOKEN }}
+        github_token: ${{ secrets.TOKEN_GITHUB }}
     
     - name: Checkout
       uses: actions/checkout@v3
