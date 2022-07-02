@@ -22,7 +22,7 @@ namespace ConsoleAppExample
             var licenses = await _cryptlexClient.Licenses.ListAsync(new ListLicensesData() { page = 1 });
 
             Console.WriteLine($"\nDone! Got {licenses.Count()} licenses from cryptlex: ");
-            foreach (var license in licenses) Console.WriteLine(license.id);
+            foreach (var license in licenses) Console.WriteLine(license.Id);
             Console.WriteLine();
 
             Console.ReadKey();

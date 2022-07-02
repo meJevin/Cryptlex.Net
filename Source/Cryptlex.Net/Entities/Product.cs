@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +8,21 @@ namespace Cryptlex.Net.Entities
 {
     public class Product
     {
-        public string? id { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
-        public string? name { get; set; }
-        public string? displayName { get; set; }
-        public string? description { get; set; }
-        public string? publicKey { get; set; }
-        public int totalLicenses { get; set; }
-        public int totalTrialActivations { get; set; }
-        public int totalReleases { get; set; }
-        public int totalProductVersions { get; set; }
-        public int totalFeatureFlags { get; set; }
-        public List<string>? emailTemplates { get; set; }
-        public LicensePolicy licensePolicy { get; set; }
-        public TrialPolicy trialPolicy { get; set; }
-        public List<Metadata>? metadata { get; set; }
+        public string? Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string? Name { get; set; }
+        public string? DisplayName { get; set; }
+        public string? Description { get; set; }
+        public string? PublicKey { get; set; }
+        public int TotalLicenses { get; set; }
+        public int TotalTrialActivations { get; set; }
+        public int TotalReleases { get; set; }
+        public int TotalProductVersions { get; set; }
+        public int TotalFeatureFlags { get; set; }
+        public List<string>? EmailTemplates { get; set; }
+        public LicensePolicy LicensePolicy { get; set; }
+        public TrialPolicy TrialPolicy { get; set; }
+        public List<Metadata>? Metadata { get; set; }
     }
 }

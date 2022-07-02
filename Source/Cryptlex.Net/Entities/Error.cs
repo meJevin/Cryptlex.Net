@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ namespace Cryptlex.Net.Entities
 {
     public class Error
     {
-        public string message { get; set; }
-        public string code { get; set; }
+        public string Message { get; set; }
+        public string Code { get; set; }
     }
 }

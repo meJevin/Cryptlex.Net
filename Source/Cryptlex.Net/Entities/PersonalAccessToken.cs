@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +8,12 @@ namespace Cryptlex.Net.Entities
 {
     public class PersonalAccessToken
     {
-        public string? id { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
-        public string? name { get; set; }
-        public DateTime? expiresAt { get; set; }
-        public bool revoked { get; set; }
-        public List<string>? scopes { get; set; }
+        public string? Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string? Name { get; set; }
+        public DateTime? ExpiresAt { get; set; }
+        public bool Revoked { get; set; }
+        public List<string>? Scopes { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +8,10 @@ namespace Cryptlex.Net.Entities
 {
     public class ActivationMetadata
     {
-        public string? id { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
-        public string? key { get; set; }
-        public string? value { get; set; }
+        public string? Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string? Key { get; set; }
+        public string? Value { get; set; }
     }
 }

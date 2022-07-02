@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +8,16 @@ namespace Cryptlex.Net.Entities
 {
     public class ReleaseFile
     {
-        public string? id { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
-        public string? name { get; set; }
-        public string? url { get; set; }
-        public int size { get; set; }
-        public int downloads { get; set; }
-        public string? extension { get; set; }
-        public string? checksum { get; set; }
-        public bool secured { get; set; }
-        public string? releaseId { get; set; }
+        public string? Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string? Name { get; set; }
+        public string? Url { get; set; }
+        public int Size { get; set; }
+        public int Downloads { get; set; }
+        public string? Extension { get; set; }
+        public string? Checksum { get; set; }
+        public bool Secured { get; set; }
+        public string? ReleaseId { get; set; }
     }
 }

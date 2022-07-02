@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +8,20 @@ namespace Cryptlex.Net.Entities
 {
     public class EmailTemplate
     {
-        public string? id { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
-        public string? name { get; set; }
-        public string? fromName { get; set; }
-        public string? fromEmail { get; set; }
-        public string? cc { get; set; }
-        public string? bcc { get; set; }
-        public string? subject { get; set; }
-        public string? body { get; set; }
-        public string? replyTo { get; set; }
-        public string? @event { get; set; }
-        public bool enabled { get; set; }
-        public bool custom { get; set; }
-        public int sent { get; set; }
+        public string? Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string? Name { get; set; }
+        public string? FromName { get; set; }
+        public string? FromEmail { get; set; }
+        public string? Cc { get; set; }
+        public string? Bcc { get; set; }
+        public string? Subject { get; set; }
+        public string? Body { get; set; }
+        public string? ReplyTo { get; set; }
+        public string? Event { get; set; }
+        public bool Enabled { get; set; }
+        public bool Custom { get; set; }
+        public int Sent { get; set; }
     }
 }

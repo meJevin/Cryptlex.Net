@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,38 +8,50 @@ namespace Cryptlex.Net.Entities
 {
     public class LicensePolicy
     {
-        public string? id { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
-        public string? name { get; set; }
-        public bool allowVmActivation { get; set; }
-        public bool allowContainerActivation { get; set; }
-        public bool userLocked { get; set; }
-        public bool disableGeoLocation { get; set; }
-        public string? allowedIpRange { get; set; }
-        public List<string>? allowedIpRanges { get; set; }
-        public List<string>? allowedCountries { get; set; }
-        public List<string>? disallowedCountries { get; set; }
-        public List<string>? allowedIpAddresses { get; set; }
-        public List<string>? disallowedIpAddresses { get; set; }
-        public int validity { get; set; }
-        public string? expirationStrategy { get; set; } // "immediate" "delayed" "rolling"
-        public string? fingerprintMatchingStrategy { get; set; } // "fuzzy" "exact" "loose"
-        public int allowedActivations { get; set; }
-        public int allowedDeactivations { get; set; }
-        public string? type { get; set; } // "node-locked" "hosted-floating" "on-premise-floating"
-        public string? keyPattern { get; set; }
-        public int leaseDuration { get; set; }
-        public bool allowClientLeaseDuration { get; set; }
-        public string? leasingStrategy { get; set; } // "per-machine" "per-instance"
-        public int allowedFloatingClients { get; set; }
-        public int serverSyncGracePeriod { get; set; }
-        public int serverSyncInterval { get; set; }
-        public int allowedClockOffset { get; set; }
-        public bool disableClockValidation { get; set; }
-        public int expiringSoonEventOffset { get; set; }
-        public bool requireAuthentication { get; set; }
-        public List<string>? requiredMetadataKeys { get; set; }
-        public List<string>? requiredMeterAttributes { get; set; }
+        public string? Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string? Name { get; set; }
+        public bool AllowVmActivation { get; set; }
+        public bool AllowContainerActivation { get; set; }
+        public bool UserLocked { get; set; }
+        public bool DisableGeoLocation { get; set; }
+        public string? AllowedIpRange { get; set; }
+        public List<string>? AllowedIpRanges { get; set; }
+        public List<string>? AllowedCountries { get; set; }
+        public List<string>? DisallowedCountries { get; set; }
+        public List<string>? AllowedIpAddresses { get; set; }
+        public List<string>? DisallowedIpAddresses { get; set; }
+        public int Validity { get; set; }
+        /// <summary>
+        /// "immediate" "delayed" "rolling"
+        /// </summary>
+        public string? ExpirationStrategy { get; set; }
+        /// <summary>
+        /// "fuzzy" "exact" "loose"
+        /// </summary>
+        public string? FingerprintMatchingStrategy { get; set; }
+        public int AllowedActivations { get; set; }
+        public int AllowedDeactivations { get; set; }
+        /// <summary>
+        /// "node-locked" "hosted-floating" "on-premise-floating"
+        /// </summary>
+        public string? Type { get; set; }
+        public string? KeyPattern { get; set; }
+        public int LeaseDuration { get; set; }
+        public bool AllowClientLeaseDuration { get; set; }
+        /// <summary>
+        /// "per-machine" "per-instance"
+        /// </summary>
+        public string? LeasingStrategy { get; set; }
+        public int AllowedFloatingClients { get; set; }
+        public int ServerSyncGracePeriod { get; set; }
+        public int ServerSyncInterval { get; set; }
+        public int AllowedClockOffset { get; set; }
+        public bool DisableClockValidation { get; set; }
+        public int ExpiringSoonEventOffset { get; set; }
+        public bool RequireAuthentication { get; set; }
+        public List<string>? RequiredMetadataKeys { get; set; }
+        public List<string>? RequiredMeterAttributes { get; set; }
     }
 }

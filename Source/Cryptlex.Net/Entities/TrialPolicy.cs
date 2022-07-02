@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +8,24 @@ namespace Cryptlex.Net.Entities
 {
     public class TrialPolicy
     {
-        public string? id { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
-        public string? name { get; set; }
-        public bool allowVmActivation { get; set; }
-        public bool allowContainerActivation { get; set; }
-        public bool userLocked { get; set; }
-        public bool disableGeoLocation { get; set; }
-        public string? allowedIpRange { get; set; }
-        public List<string>? allowedIpRanges { get; set; }
-        public List<string>? allowedCountries { get; set; }
-        public List<string>? disallowedCountries { get; set; }
-        public List<string>? allowedIpAddresses { get; set; }
-        public List<string>? disallowedIpAddresses { get; set; }
-        public int trialLength { get; set; }
-        public string? fingerprintMatchingStrategy { get; set; } // "fuzzy" "exact" "loose"
+        public string? Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string? Name { get; set; }
+        public bool AllowVmActivation { get; set; }
+        public bool AllowContainerActivation { get; set; }
+        public bool UserLocked { get; set; }
+        public bool DisableGeoLocation { get; set; }
+        public string? AllowedIpRange { get; set; }
+        public List<string>? AllowedIpRanges { get; set; }
+        public List<string>? AllowedCountries { get; set; }
+        public List<string>? DisallowedCountries { get; set; }
+        public List<string>? AllowedIpAddresses { get; set; }
+        public List<string>? DisallowedIpAddresses { get; set; }
+        public int TrialLength { get; set; }
+        /// <summary>
+        /// "fuzzy" "exact" "loose"
+        /// </summary>
+        public string? FingerprintMatchingStrategy { get; set; }
     }
 }

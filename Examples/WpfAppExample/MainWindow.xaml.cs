@@ -30,7 +30,7 @@ namespace WpfAppExample
             FetchLicensesButton.IsEnabled = true;
             FetchLicensesButton.Content = "Fetch Licenses";
 
-            LicensesListView.ItemsSource = licenses.Select(a => a.id!);
+            LicensesListView.ItemsSource = licenses.Select(a => a.Id!);
         }
     }
 }
