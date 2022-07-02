@@ -15,7 +15,7 @@ namespace Cryptlex.Net.Core.Services
 {
     public interface IActivationsService :
         IListable<Activation, ListActivationsData>,
-        ICreatable<Activation, CreateActivationData>,
+        ICreatable<CreateActivationResponse, CreateActivationData>,
         IRetrievable<Activation>,
         IUpdatable<UpdateActivationResponse, UpdateActivationData>,
         IDeletable<Activation>
@@ -56,9 +56,9 @@ namespace Cryptlex.Net.Core.Services
             }
         }
 
-        public async Task<Activation> CreateAsync(CreateActivationData data)
+        public async Task<CreateActivationResponse> CreateAsync(CreateActivationData data)
         {
-            return await base.CreateEntityAsync(data);
+            return await base.CreateEntityAsync<CreateActivationResponse>(data);
         }
 
         public async Task<Activation> GetAsync(string id)

@@ -138,7 +138,7 @@ namespace Cryptlex.Net.Core.Services
             }
         }
 
-        protected virtual async Task<T> CreateEntityAsync(object data)
+        protected virtual async Task<TEntity> CreateEntityAsync<TEntity>(object data)
         {
             var uri = BasePath;
 
@@ -146,9 +146,14 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"Create for ${uri} failed.");
 
-            var resultData = await result.ExtractDataAsync<T>();
+            var resultData = await result.ExtractDataAsync<TEntity>();
 
             return resultData;
+        }
+
+        protected virtual async Task<T> CreateEntityAsync(object data)
+        {
+            return await CreateEntityAsync<T>(data);
         }
 
         protected virtual async Task<T> GetEntityAsync(string id)

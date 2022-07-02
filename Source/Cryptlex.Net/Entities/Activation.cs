@@ -35,7 +35,9 @@ namespace Cryptlex.Net.Entities
         public string? ProductId { get; set; }
 		[JsonPropertyName("expiresAt")]
         public DateTime? ExpiresAt { get; set; }
-		[JsonPropertyName("metadata")]
+        [JsonPropertyName("releaseVersion")]
+        public string? ReleaseVersion { get; set; }
+        [JsonPropertyName("metadata")]
         public List<ActivationMetadata>? Metadata { get; set; }
 		[JsonPropertyName("licenseId")]
         public string? LicenseId { get; set; }
