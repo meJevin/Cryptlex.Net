@@ -13,7 +13,7 @@ namespace Cryptlex.Net.Entities
 		[JsonPropertyName("updatedAt")]
         public DateTime? UpdatedAt { get; set; }
         /// <summary>
-        /// "windows" "linux" "macOs" "android" "iOs"
+        /// "windows" "linux" "macos" "android" "ios"
         /// </summary>
 		[JsonPropertyName("os")]
         public string? Os { get; set; }

@@ -32,8 +32,8 @@ namespace Cryptlex.Net.Entities
         public List<ReleaseFile>? Files { get; set; }
 		[JsonPropertyName("published")]
         public bool Published { get; set; }
-		[JsonPropertyName("@private")]
-        public bool @private { get; set; }
+		[JsonPropertyName("private")]
+        public bool Private { get; set; }
 		[JsonPropertyName("productId")]
         public string? ProductId { get; set; }
 		[JsonPropertyName("tenantId")]

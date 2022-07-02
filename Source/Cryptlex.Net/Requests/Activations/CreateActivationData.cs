@@ -10,6 +10,10 @@ namespace Cryptlex.Net.Activations
 {
     public class CreateActivationData
     {
+        /// <summary>
+        /// Name of the operating sistem
+        /// Enum: "windows" "linux" "macos" "android" "ios" 
+        /// </summary>
 		[JsonPropertyName("os")]
         public string Os { get; set; }
 		[JsonPropertyName("osVersion")]

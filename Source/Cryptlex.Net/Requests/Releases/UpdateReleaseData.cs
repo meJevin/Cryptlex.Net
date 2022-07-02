@@ -11,8 +11,8 @@ namespace Cryptlex.Net.Releases
         public string? Channel { get; set; }
 		[JsonPropertyName("platform")]
         public string? Platform { get; set; }
-		[JsonPropertyName("@private")]
-        public bool? @private { get; set; }
+		[JsonPropertyName("private")]
+        public bool? Private { get; set; }
 		[JsonPropertyName("notes")]
         public string? Notes { get; set; }
 		[JsonPropertyName("productId")]

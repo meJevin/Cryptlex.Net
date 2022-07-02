@@ -19,8 +19,8 @@ namespace Cryptlex.Net.EmailTemplates
         public string? Body { get; set; }
 		[JsonPropertyName("replyTo")]
         public string? ReplyTo { get; set; }
-		[JsonPropertyName("@event")]
-        public string? @event { get; set; }
+		[JsonPropertyName("event")]
+        public string? Event { get; set; }
 		[JsonPropertyName("enabled")]
         public bool Enabled { get; set; }
 		[JsonPropertyName("custom")]

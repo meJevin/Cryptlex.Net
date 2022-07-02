@@ -17,9 +17,9 @@ namespace Cryptlex.Net.Core.Services
     {
         Task<AccountLoginResponse> Login(AccountLoginData data);
         Task<AccountLoginGoogleResponse> LoginGoogle(AccountLoginGoogleData data);
-        Task<bool> CheckSSOEnabled(string CompanyId);
-        Task<Uri> InitiateSSOLogin(string CompanyId, string ReturnUrl);
-        Task<Uri> GetSSOReturnUrl(string CompanyId);
+        Task<bool> CheckSSOEnabled(string companyId);
+        Task<Uri> InitiateSSOLogin(string companyId, string returnUrl);
+        Task<Uri> GetSSOReturnUrl(string companyId);
         Task ResetPassowrd(AccountResetPasswordData data);
         Task<Account> UpdateStatus(string id, UpdateAccountStatusData data);
         Task<Account> UpdatePlan(string id, UpdateAccountPlanData data);
@@ -90,37 +90,37 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        public async Task<bool> CheckSSOEnabled(string CompanyId)
+        public async Task<bool> CheckSSOEnabled(string companyId)
         {
             var uri = Utils.CombinePaths(BasePath, Actions.CheckSSOEnabled);
 
-            var result = await RequestAsync(uri, HttpMethod.Post, new AccountCheckSSOEnabledData(CompanyId));
+            var result = await RequestAsync(uri, HttpMethod.Post, new AccountCheckSSOEnabledData(companyId));
 
-            result.ThrowIfFailed($"Could not check if SSO is enabled for company id {CompanyId}.");
+            result.ThrowIfFailed($"Could not check if SSO is enabled for company id {companyId}.");
 
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<Uri> InitiateSSOLogin(string CompanyId, string ReturnUrl)
+        public async Task<Uri> InitiateSSOLogin(string companyId, string returnUrl)
         {
-            var uri = Utils.CombinePaths(BasePath, Actions.InitiateSSOLogin, CompanyId);
+            var uri = Utils.CombinePaths(BasePath, Actions.InitiateSSOLogin, companyId);
 
-            var result = await RequestAsync(uri, HttpMethod.Get, new AccountInitiateSSOLoginData(ReturnUrl));
+            var result = await RequestAsync(uri, HttpMethod.Get, new AccountInitiateSSOLoginData(returnUrl));
 
-            result.ThrowIfFailed($"Could not initiate SSO login for company id {CompanyId} with return URL {ReturnUrl}.", (code) => code == HttpStatusCode.Redirect);
+            result.ThrowIfFailed($"Could not initiate SSO login for company id {companyId} with return URL {returnUrl}.", (code) => code == HttpStatusCode.Redirect);
 
             var redirectUri = result.ResponseMessage.Headers.Location!;
 
             return redirectUri;
         }
 
-        public async Task<Uri> GetSSOReturnUrl(string CompanyId)
+        public async Task<Uri> GetSSOReturnUrl(string companyId)
         {
-            var uri = Utils.CombinePaths(BasePath, Actions.GetSSOReturnUrl).Replace("{CompanyId}", CompanyId);
+            var uri = Utils.CombinePaths(BasePath, Actions.GetSSOReturnUrl).Replace("{CompanyId}", companyId);
 
             var result = await RequestAsync(uri, HttpMethod.Get, null);
 
-            result.ThrowIfFailed($"Could not get SSO return URL for company id {CompanyId}.", (code) => code == HttpStatusCode.Redirect);
+            result.ThrowIfFailed($"Could not get SSO return URL for company id {companyId}.", (code) => code == HttpStatusCode.Redirect);
 
             var redirectUri = result.ResponseMessage.Headers.Location!;
 

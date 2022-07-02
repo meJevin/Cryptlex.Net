@@ -19,8 +19,8 @@ namespace Cryptlex.Net.EmailTemplates
         public string Body { get; set; }
 		[JsonPropertyName("replyTo")]
         public string? ReplyTo { get; set; }
-		[JsonPropertyName("@event")]
-        public string @event { get; set; }
+		[JsonPropertyName("event")]
+        public string Event { get; set; }
 		[JsonPropertyName("enabled")]
         public bool Enabled { get; set; }
 		[JsonPropertyName("custom")]
@@ -28,7 +28,7 @@ namespace Cryptlex.Net.EmailTemplates
 
         public CreateEmailTemplateData(
             string name, string fromName, string fromEmail, 
-            string subject, string body, string @event, 
+            string subject, string body, string evnt, 
             bool enabled, bool custom)
         {
             this.Name = name;
@@ -36,7 +36,7 @@ namespace Cryptlex.Net.EmailTemplates
             this.FromEmail = fromEmail;
             this.Subject = subject;
             this.Body = body;
-            this.@event = @event;
+            this.Event = evnt;
             this.Enabled = enabled;
             this.Custom = custom;
         }

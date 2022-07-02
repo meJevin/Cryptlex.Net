@@ -79,7 +79,7 @@ namespace Cryptlex.Net.Core.Services
             return requestRes;
         }
 
-        protected virtual async Task<RequestResult> RequestAsync(string uri, HttpMethod method, object? data = null!)
+        public virtual async Task<RequestResult> RequestAsync(string uri, HttpMethod method, object? data = null!)
         {
             if (method == HttpMethod.Get)
             {
@@ -91,7 +91,29 @@ namespace Cryptlex.Net.Core.Services
         #endregion
 
         #region CRUD
-        protected virtual async Task<IEnumerable<TEntity>> ListEntitiesAsync<TEntity>(IListRequest? data = null!, string? customUri = null!)
+
+        #region CREATE
+        public virtual async Task<TResponse> CreateEntityAsync<TResponse>(object data)
+        {
+            var uri = BasePath;
+
+            var result = await RequestAsync(uri, HttpMethod.Post, data);
+
+            result.ThrowIfFailed($"Create for ${uri} failed.");
+
+            var resultData = await result.ExtractDataAsync<TResponse>();
+
+            return resultData;
+        }
+
+        public virtual async Task<T> CreateEntityAsync(object data)
+        {
+            return await CreateEntityAsync<T>(data);
+        }
+        #endregion
+
+        #region READ
+        public virtual async Task<IEnumerable<TResponse>> ListEntitiesAsync<TResponse>(IListRequest? data = null!, string? customUri = null!)
         {
             var uri = customUri ?? BasePath;
 
@@ -99,27 +121,27 @@ namespace Cryptlex.Net.Core.Services
 
             result.ThrowIfFailed($"List for {uri} failed.");
 
-            var resultData = await result.ExtractDataAsync<IEnumerable<TEntity>>();
+            var resultData = await result.ExtractDataAsync<IEnumerable<TResponse>>();
 
             return resultData;
         }
 
-        protected virtual async Task<IEnumerable<T>> ListEntitiesAsync(IListRequest? data = null!, string? customUri = null!)
+        public virtual async Task<IEnumerable<T>> ListEntitiesAsync(IListRequest? data = null!, string? customUri = null!)
         {
             return await ListEntitiesAsync<T>(data, customUri);
         }
 
-        protected virtual async IAsyncEnumerable<TEntity> ListEntitiesAsyncEnumerator<TEntity>(IListRequest? data = null, string? customUri = null!)
+        public virtual async IAsyncEnumerable<TResponse> ListEntitiesAsyncEnumerator<TResponse>(IListRequest? data = null, string? customUri = null!)
         {
             data = data ?? new DefaultListRequest();
 
             var currentPage = 1;
-            IEnumerable<TEntity> items;
+            IEnumerable<TResponse> items;
             do
             {
                 data.Page = currentPage;
 
-                items = await ListEntitiesAsync<TEntity>(data, customUri);
+                items = await ListEntitiesAsync<TResponse>(data, customUri);
 
                 foreach (var item in items)
                 {
@@ -131,7 +153,7 @@ namespace Cryptlex.Net.Core.Services
             while (items.Count() is > 0);
         }
 
-        protected virtual async IAsyncEnumerable<T> ListEntitiesAsyncEnumerator(IListRequest? data = null!, string? customUri = null!)
+        public virtual async IAsyncEnumerable<T> ListEntitiesAsyncEnumerator(IListRequest? data = null!, string? customUri = null!)
         {
             await foreach (var item in ListEntitiesAsyncEnumerator<T>(data, customUri))
             {
@@ -139,25 +161,7 @@ namespace Cryptlex.Net.Core.Services
             }
         }
 
-        protected virtual async Task<TEntity> CreateEntityAsync<TEntity>(object data)
-        {
-            var uri = BasePath;
-
-            var result = await RequestAsync(uri, HttpMethod.Post, data);
-
-            result.ThrowIfFailed($"Create for ${uri} failed.");
-
-            var resultData = await result.ExtractDataAsync<TEntity>();
-
-            return resultData;
-        }
-
-        protected virtual async Task<T> CreateEntityAsync(object data)
-        {
-            return await CreateEntityAsync<T>(data);
-        }
-
-        protected virtual async Task<T> GetEntityAsync(string id)
+        public virtual async Task<T> GetEntityAsync(string id)
         {
             var uri = Utils.CombinePaths(BasePath, id);
 
@@ -169,14 +173,10 @@ namespace Cryptlex.Net.Core.Services
 
             return resultData;
         }
+        #endregion
 
-        protected virtual async Task<T> UpdateEntityAsync(string id, object? data = null!)
-        {
-            return await UpdateEntityAsync<T>(id, data);
-        }
-
-        // Yup, in some cases Cryptlex returns something other than the entity after update ¯\_(ツ)_/¯
-        protected virtual async Task<TResponse> UpdateEntityAsync<TResponse>(string id, object? data = null!)
+        #region UPDATE
+        public virtual async Task<TResponse> UpdateEntityAsync<TResponse>(string id, object? data = null!)
         {
             var uri = Utils.CombinePaths(BasePath, id);
 
@@ -189,7 +189,14 @@ namespace Cryptlex.Net.Core.Services
             return resultData;
         }
 
-        protected virtual async Task DeleteEntityAsync(string id)
+        public virtual async Task<T> UpdateEntityAsync(string id, object? data = null!)
+        {
+            return await UpdateEntityAsync<T>(id, data);
+        }
+        #endregion
+
+        #region DELETE
+        public virtual async Task DeleteEntityAsync(string id)
         {
             var uri = Utils.CombinePaths(BasePath, id);
 
@@ -198,8 +205,9 @@ namespace Cryptlex.Net.Core.Services
             result.ThrowIfFailed($"Delete for {uri} failed.");
         }
         #endregion
+        #endregion
 
-        protected virtual async Task<HttpClient> GetCryptlexClient()
+        public virtual async Task<HttpClient> GetCryptlexClient()
         {
             var client = _httpClientFactory.CreateClient();
             var token = await _tokenFactory.GetAccessTokenAsync();
