@@ -34,8 +34,8 @@ namespace Cryptlex.Net.Core.Services
 
         public WebhooksService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory cryptlexAccessTokenFactory)
+            : base(httpClientFactory, cryptlexAccessTokenFactory)
         {
         }
 

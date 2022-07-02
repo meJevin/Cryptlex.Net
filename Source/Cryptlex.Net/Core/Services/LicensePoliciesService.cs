@@ -27,9 +27,9 @@ namespace Cryptlex.Net.Core.Services
         protected override string BasePath => Utils.CombinePaths(API.Version, API.Paths.LicensePolicies);
 
         public LicensePoliciesService(
-            IHttpClientFactory httpClientFactory, 
-            IOptions<CryptlexClientSettings> cryptlexSettings) 
-            : base(httpClientFactory, cryptlexSettings)
+            IHttpClientFactory httpClientFactory,
+            ICryptlexAccessTokenFactory cryptlexAccessTokenFactory)
+            : base(httpClientFactory, cryptlexAccessTokenFactory)
         {
         }
 

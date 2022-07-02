@@ -1,4 +1,5 @@
-﻿using Cryptlex.Net.Util;
+﻿using Cryptlex.Net.Core;
+using Cryptlex.Net.Util;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text;
@@ -9,22 +10,22 @@ namespace Cryptlex.Net.Core.Services
     public abstract class BaseService<T> where T : class
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly CryptlexClientSettings _cryptlexSettings;
+        private readonly ICryptlexAccessTokenFactory _tokenFactory;
 
         protected abstract string BasePath { get; }
 
         public BaseService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
+            ICryptlexAccessTokenFactory tokenFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _cryptlexSettings = cryptlexSettings.Value;
+            _tokenFactory = tokenFactory;
         }
 
         #region HTTP REQUESTS
         private async Task<RequestResult> QueryStringRequest(string uri, object? data = null!)
         {
-            using var client = GetCryptlexClient();
+            using var client = await GetCryptlexClient();
 
             if (data is not null)
             {
@@ -40,7 +41,7 @@ namespace Cryptlex.Net.Core.Services
 
         private async Task<RequestResult> RequestBodyRequest(string uri, HttpMethod method, object? data = null!)
         {
-            using var client = GetCryptlexClient();
+            using var client = await GetCryptlexClient();
 
             StringContent? content = null!;
 
@@ -198,13 +199,14 @@ namespace Cryptlex.Net.Core.Services
         }
         #endregion
 
-        protected virtual HttpClient GetCryptlexClient()
+        protected virtual async Task<HttpClient> GetCryptlexClient()
         {
             var client = _httpClientFactory.CreateClient();
+            var token = await _tokenFactory.GetAccessTokenAsync();
 
             client.BaseAddress = new Uri(API.Address);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-                API.AuthenticationScheme, _cryptlexSettings.AccessToken);
+                API.AuthenticationScheme, token);
 
             return client;
         }

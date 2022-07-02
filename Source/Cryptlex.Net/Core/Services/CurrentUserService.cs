@@ -45,8 +45,8 @@ namespace Cryptlex.Net.Core.Services
 
         public CurrentUserService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory cryptlexAccessTokenFactory)
+            : base(httpClientFactory, cryptlexAccessTokenFactory)
         {
         }
 

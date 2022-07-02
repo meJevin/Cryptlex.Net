@@ -1,5 +1,4 @@
 ﻿using Cryptlex.Net.Core;
-using Cryptlex.Net.Factories;
 using Cryptlex.Net.Licenses;
 using System.Linq;
 using System.Windows;

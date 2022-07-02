@@ -20,7 +20,7 @@ namespace Cryptlex.Net.Tests.Core.Services.Base
         private class Mocks
         {
             public readonly Mock<IHttpClientFactory> HttpClientFactory = new();
-            public readonly Mock<IOptions<CryptlexClientSettings>> CryptlexSettings = new();
+            public readonly Mock<ICryptlexAccessTokenFactory> AccessTokenFactory = new();
             public readonly Mock<HttpMessageHandler> HttpMessageHandler = new();
 
             public Mocks()
@@ -28,7 +28,7 @@ namespace Cryptlex.Net.Tests.Core.Services.Base
                 var httpClient = new HttpClient(HttpMessageHandler.Object);
                 HttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
-                CryptlexSettings.SetupGet(_ => _.Value).Returns(new CryptlexClientSettings { AccessToken = AccessToken });
+                AccessTokenFactory.Setup(_ => _.GetAccessTokenAsync()).ReturnsAsync(AccessToken);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Cryptlex.Net.Tests.Core.Services.Base
 
         public LicensesServiceTests(ITestOutputHelper output)
         {
-            _licenseService = new(_mocks.HttpClientFactory.Object, _mocks.CryptlexSettings.Object);
+            _licenseService = new(_mocks.HttpClientFactory.Object, _mocks.AccessTokenFactory.Object);
             _output = output;
         }
 

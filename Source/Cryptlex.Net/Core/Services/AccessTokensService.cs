@@ -22,8 +22,8 @@ namespace Cryptlex.Net.Core.Services
 
         public AccessTokensService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory cryptlexAccessTokenFactory)
+            : base(httpClientFactory, cryptlexAccessTokenFactory)
         {
 
         }

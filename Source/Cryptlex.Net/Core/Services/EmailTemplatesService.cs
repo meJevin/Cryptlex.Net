@@ -28,8 +28,8 @@ namespace Cryptlex.Net.Core.Services
 
         public EmailTemplatesService(
             IHttpClientFactory httpClientFactory,
-            IOptions<CryptlexClientSettings> cryptlexSettings)
-            : base(httpClientFactory, cryptlexSettings)
+            ICryptlexAccessTokenFactory cryptlexAccessTokenFactory)
+            : base(httpClientFactory, cryptlexAccessTokenFactory)
         {
         }
 

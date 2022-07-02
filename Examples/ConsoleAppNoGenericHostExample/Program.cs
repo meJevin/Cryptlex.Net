@@ -1,5 +1,4 @@
 ﻿using Cryptlex.Net.Core;
-using Cryptlex.Net.Factories;
 using Cryptlex.Net.Licenses;
 
 var cryptlexClientSettings = new CryptlexClientSettings() { AccessToken = "YOUR_TOKEN" };

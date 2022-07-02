@@ -1,4 +1,5 @@
-﻿using Cryptlex.Net.Core;
+﻿using Cryptlex.Net.Configuration;
+using Cryptlex.Net.Core;
 using Cryptlex.Net.Core.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -6,15 +7,47 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class IServiceCollectionExtentions
     {
         public static IServiceCollection AddCryptlexClient(
-            this IServiceCollection services, 
+            this IServiceCollection services,
             Action<CryptlexClientSettings> configureOptions)
         {
-            services.AddOptions();
+            services.AddCommon();
+
+            services.AddEntityServices();
 
             services.Configure(configureOptions);
 
+            return services;
+        }
+
+        public static IServiceCollection AddCryptlexClient(this IServiceCollection services,
+            Action<ICryptlexClientConfigurator> configure)
+        {
+            services.AddCommon();
+
+            services.AddEntityServices();
+
+            var configurator = new CryptlexClientConfigurator(services);
+
+            configure?.Invoke(configurator);
+
+            configurator.Finish();
+
+            return services;
+        }
+
+        private static IServiceCollection AddCommon(this IServiceCollection services)
+        {
+            services.AddOptions();
+
             services.AddHttpClient();
 
+            services.AddSingleton<ICryptlexAccessTokenFactory, DefaultCryptlexAccessTokenFactory>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddEntityServices(this IServiceCollection services)
+        {
             // General client
             services.AddScoped<ICryptlexClient, CryptlexClient>();
 
