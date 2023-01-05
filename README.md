@@ -1,6 +1,6 @@
 # Cryptlex.Net
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/meJevin/Cryptlex.Net/Release%20to%20NuGet?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/meJevin/Cryptlex.Net/.github/workflows/release_nuget.yml?branch=main?style=flat-square)
 [![NuGet](https://img.shields.io/nuget/v/Cryptlex.Net.svg?style=flat-square)](https://www.nuget.org/packages/Cryptlex.Net/)
 ![License](https://img.shields.io/github/license/meJevin/Cryptlex.Net?style=flat-square)
 
